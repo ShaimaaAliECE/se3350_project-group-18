@@ -1,0 +1,22 @@
+{
+  "name": "3350",
+  "version": "1.0.0",
+  "description": "\"# se3350_project-group-18\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShaimaaAliECE/se3350_project-group-18.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ShaimaaAliECE/se3350_project-group-18/issues"
+  },
+  "homepage": "https://github.com/ShaimaaAliECE/se3350_project-group-18#readme",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
