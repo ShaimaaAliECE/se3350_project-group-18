@@ -2,15 +2,17 @@ const express = require('express');
 
 const app = express();
 
-app.use(express.static('JSAV'));
+app.use(express.static('static'));
+app.use(express.static('jsav'));
 
 let arr = [];
 
-function getDisplay(instructionText, array){
+function getDisplay(instructionText, ...array){
     //console.log(instructionText);
     //console.log(array);
     arr.push(instructionText);
     arr.push(array);
+    console.log(array)
 }
 
 const _mergeArrays = (a, b) => {
@@ -19,17 +21,17 @@ const _mergeArrays = (a, b) => {
     // If both a and b both have values left, push the smaller of indicies 0 to c
     while (a.length && b.length) {
         c.push(a[0] > b[0] ? b.shift() : a.shift()) // OUTPUT each 'choice' as it's made
-        getDisplay("If both a and b both have values left, push the smaller of indicies 0 to c", c.toString())
+        getDisplay("If both a and b both have values left, push the smaller of indicies 0 to c", JSON.stringify(c))
     }
     
     //if we still have values, let's add them at the end of `c` (OUTPUT that when one array is empty, just put the other ones back in order)
     while (a.length) {
         c.push(a.shift())
-        getDisplay("if we still have values, let's add them at the end of `c`", c.toString())
+        getDisplay("if we still have values, let's add them at the end of `c`", JSON.stringify(c))
     }
     while (b.length) {
         c.push(b.shift())
-        getDisplay("if we still have values, let's add them at the end of `c`", c.toString())
+        getDisplay("if we still have values, let's add them at the end of `c`", JSON.stringify(c))
     }
 
   return c // final OUTPUT as a culmination of 'choices'
@@ -45,7 +47,7 @@ const mergeSort = (a) => {
     // split the arrays into two equal lengths, these are the two split sets (OUTPUT - show the split subarrays)
     const a_l = a.slice(0, middle)
     const a_r = a.slice(middle, a.length)
-    getDisplay("split the arrays into two equal lengths, these are the two split sets (OUTPUT - show the split subarrays)", a_l + " /// " + a_r)
+    getDisplay("split the arrays into two equal lengths, these are the two split sets (OUTPUT - show the split subarrays)", a_l, a_r)
 
     // recursively merge sort on the left and right subarrays
     const sorted_l = mergeSort(a_l)
@@ -100,4 +102,5 @@ app.get('/array2', (req, res) => {
     res.send(JSON.stringify(arr));
 })
 
+// setting local host listen to 2005
 app.listen(2005);
