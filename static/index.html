@@ -13,7 +13,7 @@
         }
 
         .jsavlabel {
-            font-size: 200%;
+            font-size: 100%;
             text-align: center;
             margin: 30px 0 10px 0;
         }
@@ -37,11 +37,7 @@
             <button id='sortBtn' onclick=getArray2()>Sort</button>
             <button id='nextBtn'> Next </button>
 
-            <div id='displayArrayDiv'></div>
-            <div id='stepDiv'></div>
-            <div id='stepDiv2'></div>
-
-            <div id='av'></div>
+            <div id='av' hidden></div>
 
         </div>
 
@@ -54,7 +50,15 @@
     <script src='/build/jsav.js'></script>
 
     <script>
-        let originalArr, stepArr;
+        let originalArr = [];
+        let stepLists = [];
+
+        let jsav = new JSAV("av");
+        let instructionLabel;
+
+        // originalList.highlight(2);
+        // originalList.css(4, { "background-color": "aqua", "color": "rgb(150, 55, 50)" });
+        // originalList.layout();
 
         //displays unsorted array 
         function getArray() {
@@ -67,13 +71,15 @@
 
         function displayArray() {
             if (this.readyState == 4 && this.status == 200) {
-                let prodDiv = document.getElementById('displayArrayDiv');
                 document.getElementById('startbtn').style.visibility = "hidden";
-                // originalArr = this.responseText.split(',').forEach(element => {
-                //     parseInt(element)
-                // });;
-                console.log(originalArr)
-                displayArrayDiv.innerHTML = originalArr;
+
+                this.responseText.split(',').forEach(element => {
+                    originalArr.push(parseInt(element))
+                });
+
+                let originalList = jsav.ds.array(originalArr);
+                instructionLabel = jsav.label('Starting Array');
+                $('#av').show();
             }
         }
 
@@ -88,7 +94,6 @@
         }
 
         function displayArray2() {
-
             if (this.readyState == 4 && this.status == 200) {
                 let instructions = JSON.parse(this.responseText);
                 let instruct = [];
@@ -102,13 +107,8 @@
                     }
                 }
 
-                console.log(instruct)
-                console.log(step)
-
                 let content = '';
                 let content2 = '';
-
-
 
                 ///////////////////////////////////////////////////////////////////////////////////
                 let waitForPressResolve;
@@ -131,11 +131,24 @@
                         content = step[p];
                         console.log(content)
 
+                        instructionLabel.text(content2)
 
-                        let prodDiv = document.getElementById('stepDiv');
-                        stepDiv.innerHTML = content2;
-                        let prodDiv2 = document.getElementById('stepDiv2');
-                        stepDiv2.innerHTML = content;
+                        for (let arr of stepLists) {
+                            arr.clear();
+                        }
+                        for (let arr of content) {
+                            console.log(arr)
+                            let stepArr = [];
+                            try {
+                                arr.split(',').forEach(element => {
+                                    stepArr.push(parseInt(element))
+                                });
+                            }
+                            catch {
+                                arr.forEach(element => { stepArr.push(element) });
+                            }
+                            stepLists.push(jsav.ds.array(stepArr));
+                        }
 
                     }
                     btn.removeEventListener('click', btnResolver);
@@ -146,16 +159,6 @@
         }
 
 
-    </script>
-
-    <script>
-        let jsav = new JSAV("av");
-
-        let originalList = jsav.ds.array([1,2,3,4,5,6]);
-        originalList.highlight(2);
-        originalList.css(4, { "background-color": "aqua", "color": "rgb(150, 55, 50)" });
-        originalList.layout();
-        jsav.label("Normal Array");
     </script>
 </body>
 

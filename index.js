@@ -21,17 +21,17 @@ const _mergeArrays = (a, b) => {
     // If both a and b both have values left, push the smaller of indicies 0 to c
     while (a.length && b.length) {
         c.push(a[0] > b[0] ? b.shift() : a.shift()) // OUTPUT each 'choice' as it's made
-        getDisplay("If both a and b both have values left, push the smaller of indicies 0 to c", JSON.stringify(c))
+        getDisplay("If both a and b both have values left, push the smaller of indicies 0 to c", c.toString())
     }
     
     //if we still have values, let's add them at the end of `c` (OUTPUT that when one array is empty, just put the other ones back in order)
     while (a.length) {
         c.push(a.shift())
-        getDisplay("if we still have values, let's add them at the end of `c`", JSON.stringify(c))
+        getDisplay("if we still have values, let's add them at the end of `c`", c.toString())
     }
     while (b.length) {
         c.push(b.shift())
-        getDisplay("if we still have values, let's add them at the end of `c`", JSON.stringify(c))
+        getDisplay("if we still have values, let's add them at the end of `c`", c.toString())
     }
 
   return c // final OUTPUT as a culmination of 'choices'
@@ -47,7 +47,7 @@ const mergeSort = (a) => {
     // split the arrays into two equal lengths, these are the two split sets (OUTPUT - show the split subarrays)
     const a_l = a.slice(0, middle)
     const a_r = a.slice(middle, a.length)
-    getDisplay("split the arrays into two equal lengths, these are the two split sets (OUTPUT - show the split subarrays)", a_l, a_r)
+    getDisplay("split the arrays into two equal lengths, these are the two split sets", a_l.toString(), a_r.toString())
 
     // recursively merge sort on the left and right subarrays
     const sorted_l = mergeSort(a_l)
@@ -99,6 +99,7 @@ app.get('/array', (req, res) => {
 })
 
 app.get('/array2', (req, res) => {
+    console.log(arr)
     res.send(JSON.stringify(arr));
 })
 
