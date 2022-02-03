@@ -4,34 +4,35 @@ const app = express();
 
 app.use(express.static('static'));
 
-const arr = [];
+let arr = [];
 
 function getDisplay(instructionText, array){
     //console.log(instructionText);
     //console.log(array);
     arr.push(instructionText);
     arr.push(array);
+    console.log(instructionText)
+    console.log(array)
 
 }
-
 
 const _mergeArrays = (a, b) => {
     const c = []
 
     // If both a and b both have values left, push the smaller of indicies 0 to c
     while (a.length && b.length) {
-        getDisplay("If both a and b both have values left, push the smaller of indicies 0 to c", c)
         c.push(a[0] > b[0] ? b.shift() : a.shift()) // OUTPUT each 'choice' as it's made
+        getDisplay("If both a and b both have values left, push the smaller of indicies 0 to c", c)
     }
     
     //if we still have values, let's add them at the end of `c` (OUTPUT that when one array is empty, just put the other ones back in order)
     while (a.length) {
-        getDisplay("if we still have values, let's add them at the end of `c`", c)
         c.push(a.shift())
+        getDisplay("if we still have values, let's add them at the end of `c`", c)
     }
     while (b.length) {
-        getDisplay("if we still have values, let's add them at the end of `c`", c)
         c.push(b.shift())
+        getDisplay("if we still have values, let's add them at the end of `c`", c)
     }
 
   return c // final OUTPUT as a culmination of 'choices'
@@ -39,9 +40,9 @@ const _mergeArrays = (a, b) => {
 
 // a is the first set of numbers we show to the user (OUTPUT)
 const mergeSort = (a) => {
-    getDisplay("a is the first set of numbers we show to the user", a)
     // base case for recursion - if the array only has 1 value, it cannot be split further (OUTPUt that it cannot be split further)
     if (a.length < 2) return a
+    getDisplay("a is the first set of numbers we show to the user", a)
     // determining where the middle point would be in the array, which is how the two equal lengths will be separated
     const middle = Math.floor(a.length / 2)
     // split the arrays into two equal lengths, these are the two split sets (OUTPUT - show the split subarrays)
@@ -53,8 +54,6 @@ const mergeSort = (a) => {
     const sorted_l = mergeSort(a_l)
     const sorted_r = mergeSort(a_r)
     // when the recursive calls are returned (i.e. array has been split as far as possible), merge the subarrays in sorted order
-
-    
     return _mergeArrays(sorted_l, sorted_r)
 }
 
@@ -89,7 +88,7 @@ function runAlgo(list, size, range){
 
 
 app.get('/array', (req, res) => {
-
+    arr = [];
     let content= '';
 
     let list = [];
@@ -101,7 +100,6 @@ app.get('/array', (req, res) => {
 })
 
 app.get('/array2', (req, res) => {
-
     res.send(JSON.stringify(arr));
 })
 
