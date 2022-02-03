@@ -70,6 +70,7 @@
         }
 
         function displayArray() {
+            // ensures ready state is met before running
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById('startbtn').style.visibility = "hidden";
 

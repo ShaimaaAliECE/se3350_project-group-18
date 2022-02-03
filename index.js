@@ -103,4 +103,5 @@ app.get('/array2', (req, res) => {
     res.send(JSON.stringify(arr));
 })
 
+// setting local host listen to 2005
 app.listen(2005);
