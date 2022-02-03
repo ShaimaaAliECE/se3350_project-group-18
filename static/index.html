@@ -1,135 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <title>Merge Sort Level 1</title>
-        <!-- <link rel="stylesheet" href="style.css"> -->
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <title>Merge Sort Level 1</title>
+    <link rel="stylesheet" href="/css/JSAV.css" type="text/css" media="screen" title="no title" charset="utf-8" />
+    <style>
+        #av {
+            margin-top: 5%;
+            width: 80%;
+            position: relative;
+        }
 
-    <body style="background-color:DodgerBlue;">
-        
-        <center>
+        .jsavlabel {
+            font-size: 200%;
+            text-align: center;
+            margin: 30px 0 10px 0;
+        }
+
+        .jsavedgelabel {
+            font-size: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body style="background-color:DodgerBlue;">
+
+    <center>
         <h1 style="color:white;">Learn Merge Sort</h1>
         <div style="width: 600px; height: 600px;border-radius: 25px; background: white;margin:0 auto;">
-        <button id= 'startbtn' onclick='javascript:getArray()'>Start</button>
+            <button id='startbtn' onclick='javascript:getArray()'>Start</button>
 
-        <div></div>
+            <div></div>
 
-        <button id = 'sortBtn' onclick=getArray2()>Sort</button>
-        <button id= 'nextBtn'> Next </button>
-        
-        
-        <div id='instructionDiv'>
+            <button id='sortBtn' onclick=getArray2()>Sort</button>
+            <button id='nextBtn'> Next </button>
+
+            <div id='displayArrayDiv'></div>
+            <div id='stepDiv'></div>
+            <div id='stepDiv2'></div>
+
+            <div id='av'></div>
 
         </div>
 
-        <div id='displayArrayDiv'></div>
-        
-        <div id='stepDiv'></div>
-        <div id='stepDiv2'></div>
-        </div>
-        </div>
-        </center>
+    </center>
 
-        <script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src='/lib/jquery.transit.js'></script>
+    <script src='/lib/raphael.js'></script>
+    <script src='/build/jsav.js'></script>
 
-            //displays unsorted array 
-            function getArray()
-            {
-                let xReq = new XMLHttpRequest();
-                xReq.onreadystatechange = displayArray;
+    <script>
+        let originalArr, stepArr;
 
-                xReq.open('GET', '/array', true);
-                xReq.send();
+        //displays unsorted array 
+        function getArray() {
+            let xReq = new XMLHttpRequest();
+            xReq.onreadystatechange = displayArray;
+
+            xReq.open('GET', '/array', true);
+            xReq.send();
+        }
+
+        function displayArray() {
+            if (this.readyState == 4 && this.status == 200) {
+                let prodDiv = document.getElementById('displayArrayDiv');
+                document.getElementById('startbtn').style.visibility = "hidden";
+                console.log(typeof this.responseText)
+                originalArr = JSON.parse(this.responseText);
+                displayArrayDiv.innerHTML = originalArr;
             }
+        }
 
-            function displayArray(){
+        //displays steps when the sort button is pressed 
+        function getArray2() {
+            let xReq = new XMLHttpRequest();
+            xReq.onreadystatechange = displayArray2;
 
-                if(this.readyState == 4 && this.status == 200)
-                {
-                    let prodDiv = document.getElementById('displayArrayDiv');
-                    document.getElementById('startbtn').style.visibility = "hidden";
-                    displayArrayDiv.innerHTML = this.responseText;
+            xReq.open('GET', '/array2', true);
+            xReq.send();
+            document.getElementById('sortBtn').style.visibility = "hidden";
+        }
 
-                }
-            }
+        function displayArray2() {
 
-            //displays steps when the sort button is pressed 
-            function getArray2()
-            {
-                let xReq = new XMLHttpRequest();
-                xReq.onreadystatechange = displayArray2;
+            if (this.readyState == 4 && this.status == 200) {
+                let instructions = JSON.parse(this.responseText);
+                let instruct = [];
+                let step = [];
 
-                xReq.open('GET', '/array2', true);
-                xReq.send();
-                document.getElementById('sortBtn').style.visibility = "hidden";
-            }
-
-            function displayArray2(){
-
-                if(this.readyState == 4 && this.status == 200)
-                {
-                    let instructions = JSON.parse(this.responseText);
-                    let instruct = [];
-                    let step = [];
-
-                    for (i in instructions){
-                        if (i%2 == 0){
-                            instruct.push(instructions[i]);
-                        }else{
-                            step.push(instructions[i])
-                        }
+                for (i in instructions) {
+                    if (i % 2 == 0) {
+                        instruct.push(instructions[i]);
+                    } else {
+                        step.push(instructions[i])
                     }
-
-                    console.log(instruct)
-                    console.log(step)
-
-                    let content = '';
-                    let content2 = '';
-                    
-
-                    
-        ///////////////////////////////////////////////////////////////////////////////////
-        let waitForPressResolve;
-        function waitForPress() {
-            return new Promise(resolve => waitForPressResolve = resolve);
-        }
-
-        const btn = document.getElementById('nextBtn');
-
-        function btnResolver() {
-        if (waitForPressResolve) waitForPressResolve();
-        }
-
-        async function doIt() {
-        btn.addEventListener('click', btnResolver);
-        
-        for (p in step) {
-            await waitForPress();
-            content2 = instruct[p];
-            content = step[p];
-
-
-            let prodDiv = document.getElementById('stepDiv');
-            stepDiv.innerHTML = content2;
-            let prodDiv2 = document.getElementById('stepDiv2');
-            stepDiv2.innerHTML = content;
-            
-        }
-        btn.removeEventListener('click', btnResolver);
-        alert('Finished');
-        }
-
-
-        doIt();     
-
                 }
+
+                console.log(instruct)
+                console.log(step)
+
+                let content = '';
+                let content2 = '';
+
+
+
+                ///////////////////////////////////////////////////////////////////////////////////
+                let waitForPressResolve;
+                function waitForPress() {
+                    return new Promise(resolve => waitForPressResolve = resolve);
+                }
+
+                const btn = document.getElementById('nextBtn');
+
+                function btnResolver() {
+                    if (waitForPressResolve) waitForPressResolve();
+                }
+
+                async function doIt() {
+                    btn.addEventListener('click', btnResolver);
+
+                    for (p in step) {
+                        await waitForPress();
+                        content2 = instruct[p];
+                        content = step[p];
+                        console.log(content)
+
+
+                        let prodDiv = document.getElementById('stepDiv');
+                        stepDiv.innerHTML = content2;
+                        let prodDiv2 = document.getElementById('stepDiv2');
+                        stepDiv2.innerHTML = content;
+
+                    }
+                    btn.removeEventListener('click', btnResolver);
+                    alert('Finished');
+                }
+                doIt();
             }
+        }
 
 
-        </script>
-    </body>
+    </script>
+
+    <script>
+        let jsav = new JSAV("av");
+
+        let originalList = jsav.ds.array(arr1);
+        originalList.highlight(2);
+        originalList.css(4, { "background-color": "aqua", "color": "rgb(150, 55, 50)" });
+        originalList.layout();
+        jsav.label("Normal Array");
+    </script>
+</body>
 
 </html>
-
