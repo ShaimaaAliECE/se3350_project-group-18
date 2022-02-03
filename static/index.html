@@ -66,6 +66,7 @@
         }
 
         function displayArray() {
+            // ensures ready state is met before running
             if (this.readyState == 4 && this.status == 200) {
                 let prodDiv = document.getElementById('displayArrayDiv');
                 document.getElementById('startbtn').style.visibility = "hidden";
