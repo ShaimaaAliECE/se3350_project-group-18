@@ -3,20 +3,21 @@
 
     <head>
         <meta charset="UTF-8">
-        <title>Merge Sort</title>
+        <title>Merge Sort Level 1</title>
         <!-- <link rel="stylesheet" href="style.css"> -->
     </head>
 
     <body>
         
-     
-        <button onclick='javascript:getArray()'>Start</button>
+        <center>
+        <button id= 'startbtn' onclick='javascript:getArray()'>Start</button>
 
         <div></div>
 
-        <button id= 'nextBtn' onclick=getArray2()>Sort</button>
+        <button id = 'sortBtn' onclick=getArray2()>Sort</button>
+        <button id= 'nextBtn'> Next </button>
         
-
+        
         <div id='instructionDiv'>
 
         </div>
@@ -24,11 +25,14 @@
         <div id='displayArrayDiv'></div>
         
         <div id='stepDiv'></div>
+        <div id='stepDiv2'></div>
 
         </div>
+        </center>
 
         <script>
 
+            //displays unsorted array 
             function getArray()
             {
                 let xReq = new XMLHttpRequest();
@@ -43,11 +47,13 @@
                 if(this.readyState == 4 && this.status == 200)
                 {
                     let prodDiv = document.getElementById('displayArrayDiv');
+                    document.getElementById('startbtn').style.visibility = "hidden";
                     displayArrayDiv.innerHTML = this.responseText;
 
                 }
             }
 
+            //displays steps when the sort button is pressed 
             function getArray2()
             {
                 let xReq = new XMLHttpRequest();
@@ -55,22 +61,67 @@
 
                 xReq.open('GET', '/array2', true);
                 xReq.send();
+                document.getElementById('sortBtn').style.visibility = "hidden";
             }
 
             function displayArray2(){
 
                 if(this.readyState == 4 && this.status == 200)
                 {
-                    
-                    let prodDiv = document.getElementById('stepDiv');
-                    stepDiv.innerHTML = this.responseText;
+                    let instructions = JSON.parse(this.responseText);
+                    let instruct = [];
+                    let step = [];
 
-                 
+                    for (i in instructions){
+                        if (i%2 == 0){
+                            instruct.push(instructions[i]);
+                        }else{
+                            step.push(instructions[i])
+                        }
+                    }
+
+                    let content = '';
+                    let content2 = '';
+                    
+
+                    
+        ///////////////////////////////////////////////////////////////////////////////////
+        let waitForPressResolve;
+        function waitForPress() {
+            return new Promise(resolve => waitForPressResolve = resolve);
+        }
+
+        const btn = document.getElementById('nextBtn');
+
+        function btnResolver() {
+        if (waitForPressResolve) waitForPressResolve();
+        }
+
+        async function doIt() {
+        btn.addEventListener('click', btnResolver);
+        
+        for (p in step) {
+            await waitForPress();
+            content2 = instruct[p];
+            content = step[p];
+
+
+            let prodDiv = document.getElementById('stepDiv');
+            stepDiv.innerHTML = content2;
+            let prodDiv2 = document.getElementById('stepDiv2');
+            stepDiv2.innerHTML = content;
+            
+        }
+        btn.removeEventListener('click', btnResolver);
+        alert('Finished');
+        }
+
+
+        doIt();     
 
                 }
             }
 
-            
 
         </script>
     </body>

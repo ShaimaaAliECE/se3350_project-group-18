@@ -9,11 +9,8 @@ const arr = [];
 function getDisplay(instructionText, array){
     //console.log(instructionText);
     //console.log(array);
-
+    arr.push(instructionText);
     arr.push(array);
-
-    ///IDEA: push onto an array each step through the rotation
-    ///use a button to move through a loop that just prints each step in the array 
 
 }
 
@@ -50,7 +47,7 @@ const mergeSort = (a) => {
     // split the arrays into two equal lengths, these are the two split sets (OUTPUT - show the split subarrays)
     const a_l = a.slice(0, middle)
     const a_r = a.slice(middle, a.length)
-    getDisplay("split the arrays into two equal lengths, these are the two split sets (OUTPUT - show the split subarrays)", a_l + "///" + a_r)
+    getDisplay("split the arrays into two equal lengths, these are the two split sets (OUTPUT - show the split subarrays)", a_l + " /// " + a_r)
 
     // recursively merge sort on the left and right subarrays
     const sorted_l = mergeSort(a_l)
@@ -99,22 +96,13 @@ app.get('/array', (req, res) => {
     runAlgo(list, 10, 20);
 
     content += list;
-    //console.log(arr);
-    //content += '<div>';
-    //content += arr[1];
+   
     res.send(content);
 })
 
 app.get('/array2', (req, res) => {
 
-    let content= '';
-
-    for (let i = 1; i < arr.length; i += 1) {
-        content += arr[i];
-        content += '<div>';
-    }
-    
-    res.send(content);
+    res.send(JSON.stringify(arr));
 })
 
 app.listen(2005);
