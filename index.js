@@ -11,9 +11,6 @@ function getDisplay(instructionText, array){
     //console.log(array);
     arr.push(instructionText);
     arr.push(array);
-    console.log(instructionText)
-    console.log(array)
-
 }
 
 const _mergeArrays = (a, b) => {
