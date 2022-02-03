@@ -21,17 +21,17 @@ const _mergeArrays = (a, b) => {
     // If both a and b both have values left, push the smaller of indicies 0 to c
     while (a.length && b.length) {
         c.push(a[0] > b[0] ? b.shift() : a.shift()) // OUTPUT each 'choice' as it's made
-        getDisplay("If both a and b both have values left, push the smaller of indicies 0 to c", c.toString())
+        getDisplay("If both a and b both have values left, push the smaller of indicies 0 to c", JSON.stringify(c))
     }
     
     //if we still have values, let's add them at the end of `c` (OUTPUT that when one array is empty, just put the other ones back in order)
     while (a.length) {
         c.push(a.shift())
-        getDisplay("if we still have values, let's add them at the end of `c`", c.toString())
+        getDisplay("if we still have values, let's add them at the end of `c`", JSON.stringify(c))
     }
     while (b.length) {
         c.push(b.shift())
-        getDisplay("if we still have values, let's add them at the end of `c`", c.toString())
+        getDisplay("if we still have values, let's add them at the end of `c`", JSON.stringify(c))
     }
 
   return c // final OUTPUT as a culmination of 'choices'
