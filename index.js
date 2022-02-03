@@ -2,7 +2,7 @@ const express = require('express');
 
 const app = express();
 
-app.use(express.static('static'));
+app.use(express.static('JSAV'));
 
 let arr = [];
 
@@ -40,7 +40,7 @@ const mergeSort = (a) => {
     // base case for recursion - if the array only has 1 value, it cannot be split further (OUTPUt that it cannot be split further)
     if (a.length < 2) return a
     getDisplay("a is the first set of numbers we show to the user", a)
-    // determining where the middle point would be in the array, which is how the two equal lengths will be separated
+    // determining where the middle point would be in tndehe array, which is how the two equal lengths will be separated
     const middle = Math.floor(a.length / 2)
     // split the arrays into two equal lengths, these are the two split sets (OUTPUT - show the split subarrays)
     const a_l = a.slice(0, middle)
