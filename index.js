@@ -1,7 +1,20 @@
+const express = require('express');
+
+const app = express();
+
+app.use(express.static('static'));
+
+const arr = [];
 
 function getDisplay(instructionText, array){
-    console.log(instructionText);
-    console.log(array);
+    //console.log(instructionText);
+    //console.log(array);
+
+    arr.push(array);
+
+    ///IDEA: push onto an array each step through the rotation
+    ///use a button to move through a loop that just prints each step in the array 
+
 }
 
 
@@ -49,9 +62,9 @@ const mergeSort = (a) => {
 }
 
 // function to create array of random numbers with specified length and number range and run mergesort algorithm
-function runAlgo(size, range){
+function runAlgo(list, size, range){
     // declare variable to hold array to be sorted
-    let list = [];
+    //let list = [];
     // loop to fill array of specified length
     for(let i = 0; i < size; i++){
         // store random number in range in variable "num"
@@ -67,9 +80,41 @@ function runAlgo(size, range){
         }
     }
     // call the merge sort algorithm for the generated list and print it to console
-    console.log(mergeSort(list));
+    //console.log(mergeSort(list));
+    mergeSort(list);
+    
 }
 
-let length = 10;
-let max = 20;
-runAlgo(length, max);
+//let length = 10;
+//let max = 20;
+//runAlgo(length, max);
+
+
+
+app.get('/array', (req, res) => {
+
+    let content= '';
+
+    let list = [];
+    runAlgo(list, 10, 20);
+
+    content += list;
+    //console.log(arr);
+    //content += '<div>';
+    //content += arr[1];
+    res.send(content);
+})
+
+app.get('/array2', (req, res) => {
+
+    let content= '';
+
+    for (let i = 1; i < arr.length; i += 1) {
+        content += arr[i];
+        content += '<div>';
+    }
+    
+    res.send(content);
+})
+
+app.listen(2005);

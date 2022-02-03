@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Merge Sort</title>
+        <!-- <link rel="stylesheet" href="style.css"> -->
+    </head>
+
+    <body>
+        
+     
+        <button onclick='javascript:getArray()'>Start</button>
+
+        <div></div>
+
+        <button id= 'nextBtn' onclick=getArray2()>Sort</button>
+        
+
+        <div id='instructionDiv'>
+
+        </div>
+
+        <div id='displayArrayDiv'></div>
+        
+        <div id='stepDiv'></div>
+
+        </div>
+
+        <script>
+
+            function getArray()
+            {
+                let xReq = new XMLHttpRequest();
+                xReq.onreadystatechange = displayArray;
+
+                xReq.open('GET', '/array', true);
+                xReq.send();
+            }
+
+            function displayArray(){
+
+                if(this.readyState == 4 && this.status == 200)
+                {
+                    let prodDiv = document.getElementById('displayArrayDiv');
+                    displayArrayDiv.innerHTML = this.responseText;
+
+                }
+            }
+
+            function getArray2()
+            {
+                let xReq = new XMLHttpRequest();
+                xReq.onreadystatechange = displayArray2;
+
+                xReq.open('GET', '/array2', true);
+                xReq.send();
+            }
+
+            function displayArray2(){
+
+                if(this.readyState == 4 && this.status == 200)
+                {
+                    
+                    let prodDiv = document.getElementById('stepDiv');
+                    stepDiv.innerHTML = this.responseText;
+
+                 
+
+                }
+            }
+
+            
+
+        </script>
+    </body>
+
+</html>
+
