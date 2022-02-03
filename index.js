@@ -3,14 +3,16 @@ const express = require('express');
 const app = express();
 
 app.use(express.static('static'));
+app.use(express.static('jsav'));
 
 let arr = [];
 
-function getDisplay(instructionText, array){
+function getDisplay(instructionText, ...array){
     //console.log(instructionText);
     //console.log(array);
     arr.push(instructionText);
     arr.push(array);
+    console.log(array)
 }
 
 const _mergeArrays = (a, b) => {
@@ -45,7 +47,7 @@ const mergeSort = (a) => {
     // split the arrays into two equal lengths, these are the two split sets (OUTPUT - show the split subarrays)
     const a_l = a.slice(0, middle)
     const a_r = a.slice(middle, a.length)
-    getDisplay("split the arrays into two equal lengths, these are the two split sets (OUTPUT - show the split subarrays)", a_l + " /// " + a_r)
+    getDisplay("split the arrays into two equal lengths, these are the two split sets (OUTPUT - show the split subarrays)", a_l, a_r)
 
     // recursively merge sort on the left and right subarrays
     const sorted_l = mergeSort(a_l)
