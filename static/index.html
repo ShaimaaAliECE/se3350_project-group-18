@@ -130,7 +130,6 @@
                         await waitForPress();
                         content2 = instruct[p];
                         content = step[p];
-                        console.log(content)
 
                         instructionLabel.text(content2)
 
@@ -138,7 +137,6 @@
                             arr.clear();
                         }
                         for (let arr of content) {
-                            console.log(arr)
                             let stepArr = [];
                             try {
                                 arr.split(',').forEach(element => {
@@ -161,6 +159,5 @@
 
 
     </script>
-</body>
 
 </html>
