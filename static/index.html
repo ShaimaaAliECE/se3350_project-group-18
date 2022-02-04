@@ -76,6 +76,8 @@
 
             <div></div>
             <button id='restart' class='restart-button'> Restart</button>
+            <!-- use this button instead for part of restart functionality -->
+            <!-- <button id='restart' class='restart-button' onclick='javascript:getArray(); getArray2();'> Restart</button> -->
 
         </div>
 
@@ -194,8 +196,13 @@
 
                     }
                     btn.removeEventListener('click', btnResolver);
-                    alert('Finished');
+                    // alert('Finished');
                     $("#restart").show();
+                    // uncomment code below for part of the reset functionality
+                    /*
+                    originalArr = [];
+                    stepLists = [];
+                    */
                 }
                 doIt();
             }
