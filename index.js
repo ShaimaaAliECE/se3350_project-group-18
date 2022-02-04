@@ -8,11 +8,8 @@ app.use(express.static('jsav'));
 let arr = [];
 
 function getDisplay(instructionText, ...array){
-    //console.log(instructionText);
-    //console.log(array);
     arr.push(instructionText);
     arr.push(array);
-    console.log(array)
 }
 
 const _mergeArrays = (a, b) => {
@@ -74,8 +71,7 @@ function runAlgo(list, size, range){
             list.push(num);   
         }
     }
-    // call the merge sort algorithm for the generated list and print it to console
-    //console.log(mergeSort(list));
+    // call the merge sort algorithm for the generated list
     mergeSort(list);
     
 }
@@ -99,7 +95,6 @@ app.get('/array', (req, res) => {
 })
 
 app.get('/array2', (req, res) => {
-    console.log(arr)
     res.send(JSON.stringify(arr));
 })
 
