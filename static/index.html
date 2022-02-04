@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
     <meta charset="UTF-8">
     <title>Merge Sort Level 1</title>
     <link rel="stylesheet" href="/css/JSAV.css" type="text/css" media="screen" title="no title" charset="utf-8" />
@@ -22,22 +23,59 @@
             font-size: 100%;
             margin: 0;
         }
+
+        .button {
+            background-color: dodgerblue;
+            border: 2px solid dodgerblue;
+            color: white;
+            font-size: 24px;
+            border-radius: 6px;
+            margin: 5px;
+            font-family: 'Open Sans';
+        }
+        .button:hover{
+            background-color: white;
+            color: dodgerblue;
+            border:2px solid DodgerBlue;
+        }
+
+        .restart-button {
+            background-color: dodgerblue;
+            border: 2px solid dodgerblue;
+            color: white;
+            font-size: 24px;
+            border-radius: 6px;
+            margin: 5px;
+            font-family: 'Open Sans';
+            position: relative;
+            left: 230px;
+            top: 190px;
+
+        }
+        .restart-button:hover{
+            background-color: white;
+            color: dodgerblue;
+            border:2px solid DodgerBlue;
+        }
     </style>
 </head>
 
 <body style="background-color:DodgerBlue;">
 
     <center>
-        <h1 style="color:white;">Learn Merge Sort</h1>
+        <h1 style="color:white; font-family: 'Open Sans';">Learn Merge Sort</h1>
         <div style="width: 600px; height: 600px;border-radius: 25px; background: white;margin:0 auto;">
-            <button id='startbtn' onclick='javascript:getArray()'>Start</button>
+            <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2();'>Start</button>
 
             <div></div>
 
-            <button id='sortBtn' onclick=getArray2()>Sort</button>
-            <button id='nextBtn'> Next </button>
+            <!-- <button id='sortBtn' onclick=getArray2()>Sort</button> -->
+            <button id='nextBtn' class='button'> Next </button>
 
             <div id='av' hidden></div>
+
+            <div></div>
+            <button id='restart' class='restart-button'> Restart</button>
 
         </div>
 
@@ -55,6 +93,10 @@
 
         let jsav = new JSAV("av");
         let instructionLabel;
+
+        $(document).ready(function(){
+            $("#restart").hide();
+        });
 
         // originalList.highlight(2);
         // originalList.css(4, { "background-color": "aqua", "color": "rgb(150, 55, 50)" });
@@ -152,6 +194,7 @@
                     }
                     btn.removeEventListener('click', btnResolver);
                     alert('Finished');
+                    $("#restart").show();
                 }
                 doIt();
             }
