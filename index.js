@@ -40,24 +40,24 @@ const _mergeArrays = (a, b) => {
 const mergeSort = (a) => {
     // base case for recursion - if the array only has 1 value, it cannot be split further (OUTPUt that it cannot be split further)
     if (a.length < 2) return a
-    getDisplay("a is the first set of numbers we show to the user", a)
+    getDisplay("a is the first set of numbers we show to the user", a.toString())
     // determining where the middle point would be in the array, which is how the two equal lengths will be separated
     const middle = Math.floor(a.length / 2)
     // split the arrays into two equal lengths, these are the two split sets (OUTPUT - show the split subarrays)
     const a_l = a.slice(0, middle)
     const a_r = a.slice(middle, a.length)
-    getDisplay("split the arrays into two equal lengths, these are the two split sets", a_l.toString(), a_r.toString())
+    getDisplay("split the arrays into two equal lengths, these are the two split sets", a.toString(), a_l.toString(), a_r.toString())
     
     // recursively merge sort on the left and right subarrays
-    getDisplay("Now select the left array", a_l.toString(), a_r.toString())
-    if (a_l.length === 1) getDisplay("This array is fully broken down, so it is ready to merge", a_l.toString());
+    getDisplay("Now select the left array", a.toString(), a_l.toString(), a_r.toString())
+    if (a_l.length === 1) getDisplay("This array is fully broken down, so it is ready to merge", a.toString(), a_l.toString());
     const sorted_l = mergeSort(a_l)
-    getDisplay("Now select the right array", sorted_l.toString(), a_r.toString())
-    if (a_r.length === 1) getDisplay("This array is fully broken down, so it is ready to merge", a_r.toString());
+    getDisplay("Now select the right array", a.toString(), sorted_l.toString(), a_r.toString())
+    if (a_r.length === 1) getDisplay("This array is fully broken down, so it is ready to merge", a.toString(), a_r.toString());
     const sorted_r = mergeSort(a_r)
     // when the recursive calls are returned (i.e. array has been split as far as possible), merge the subarrays in sorted order
 
-    getDisplay("Now we have two fully sorted subarrays", sorted_l.toString(), sorted_r.toString())
+    getDisplay("Now we have two fully sorted subarrays", a.toString(), sorted_l.toString(), sorted_r.toString())
     return _mergeArrays(sorted_l, sorted_r)
 }
 
