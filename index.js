@@ -26,11 +26,11 @@ const _mergeArrays = (a, b) => {
     //if we still have values, let's add them at the end of `c` (OUTPUT that when one array is empty, just put the other ones back in order)
     while (a.length) {
         c[i++] = a.shift();
-        getDisplay("if we still have values, let's add them at the end of `c`", c.toString(), a.toString(), b.toString())
+        getDisplay("If we still have values, let's add them at the end of `c`", c.toString(), a.toString(), b.toString())
     }
     while (b.length) {
         c[i++] = b.shift();
-        getDisplay("if we still have values, let's add them at the end of `c`", c.toString(), a.toString(), b.toString())
+        getDisplay("If we still have values, let's add them at the end of `c`", c.toString(), a.toString(), b.toString())
     }
 
     return c // final OUTPUT as a culmination of 'choices'

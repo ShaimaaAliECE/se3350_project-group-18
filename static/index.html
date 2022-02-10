@@ -75,10 +75,8 @@
             <div id='av' hidden></div>
 
             <div></div>
-            <button id='restart' class='restart-button'> Restart</button>
             <!-- use this button instead for part of restart functionality -->
-            <!-- <button id='restart' class='restart-button' onclick='javascript:getArray(); getArray2();'> Restart</button> -->
-
+            <button id='restart' class='restart-button' onclick='javascript:restart();'>Restart</button>
         </div>
 
     </center>
@@ -95,9 +93,10 @@
 
         let jsav = new JSAV("av");
         let instructionLabel;
+        let originalList;
 
         $(document).ready(function(){
-            // $("#restart").hide();
+            $("#restart").hide();
         });
 
         // originalList.highlight(2);
@@ -116,13 +115,15 @@
         function displayArray() {
             // ensures ready state is met before running
             if (this.readyState == 4 && this.status == 200) {
+                originalArr = [];
+                stepLists = [];
                 document.getElementById('startbtn').style.visibility = "hidden";
 
                 this.responseText.split(',').forEach(element => {
                     originalArr.push(parseInt(element))
                 });
 
-                let originalList = jsav.ds.array(originalArr);
+                originalList = jsav.ds.array(originalArr);
                 instructionLabel = jsav.label('Starting Array');
                 $('#av').show();
             }
@@ -135,7 +136,6 @@
 
             xReq.open('GET', '/array2', true);
             xReq.send();
-            document.getElementById('sortBtn').style.visibility = "hidden";
         }
 
         function displayArray2() {
@@ -198,14 +198,21 @@
                     btn.removeEventListener('click', btnResolver);
                     // alert('Finished');
                     $("#restart").show();
-                    // uncomment code below for part of the reset functionality
-                    /*
-                    originalArr = [];
-                    stepLists = [];
-                    */
                 }
                 doIt();
             }
+        }
+
+        function restart(){
+            $('.jsavarray').remove();
+            $('.jsavlabel').remove();
+            $('#restart').hide();
+            for (let arr of stepLists) {
+                arr.clear();
+            }
+
+            getArray(); 
+            getArray2();
         }
 
 
