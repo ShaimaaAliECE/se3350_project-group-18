@@ -116,5 +116,16 @@ app.get('/level2', (req, res) => {
 
 })
 
+app.get('/level3', (req, res) => {
+    res.redirect('/level3.html')
+
+})
+
+app.get('/menu', (req, res) => {
+    res.redirect('/menu.html')
+
+})
+
+
 // setting local host listen to 2005
 app.listen(2005);
