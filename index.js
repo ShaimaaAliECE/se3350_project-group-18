@@ -106,5 +106,15 @@ app.get('/array2', (req, res) => {
     res.send(JSON.stringify(arr));
 })
 
+app.get('/level1', (req, res) => {
+    res.redirect('/index.html')
+
+})
+
+app.get('/level2', (req, res) => {
+    res.redirect('/level2.html')
+
+})
+
 // setting local host listen to 2005
 app.listen(2005);
