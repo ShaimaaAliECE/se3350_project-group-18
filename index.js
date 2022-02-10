@@ -107,7 +107,7 @@ app.get('/array2', (req, res) => {
 })
 
 app.get('/level1', (req, res) => {
-    res.redirect('/index.html')
+    res.redirect('/level1.html')
 
 })
 
@@ -122,7 +122,7 @@ app.get('/level3', (req, res) => {
 })
 
 app.get('/menu', (req, res) => {
-    res.redirect('/menu.html')
+    res.redirect('/index.html')
 
 })
 
