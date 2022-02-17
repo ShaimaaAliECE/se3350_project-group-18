@@ -5,6 +5,26 @@ const app = express();
 app.use(express.static('static'));
 app.use(express.static('jsav'));
 
+
+class Instruction {
+    static step0 = new Instruction('Starting Array', 0)
+    static step1 = new Instruction('This is our initial, unsorted array', 1)
+    static step2 = new Instruction('Split the arrays into two equal lengths, these are the two subarrays', 2)
+    static step3 = new Instruction('Now select the left subarray', 3)
+    static step4 = new Instruction('Now select the right subarray', 4)
+    static step5 = new Instruction('This subrray is fully broken down, so it is ready to merge', 5)
+    static step6 = new Instruction('Now we have two fully sorted subarrays', 6)
+    static step7 = new Instruction('Now that we have sorted the two subarrays, we will merge them into a larger one', 7)
+    static step8 = new Instruction('If both subarrays have values left, push the smallest of the two subarrays first index to merged array', 8)
+    static step9 = new Instruction('If there is only one subarray left, push its remaining values to the merged array', 9)
+
+    constructor(instruction, stepNo){
+        this.instruction = instruction;
+        this.stepNo = stepNo;
+    }
+}
+
+
 let arr = [];
 
 function getDisplay(instructionText, ...array) {
@@ -15,22 +35,22 @@ function getDisplay(instructionText, ...array) {
 const _mergeArrays = (a, b) => {
     const c = Array(a.length + b.length);
     let i = 0;
-    getDisplay("Now that we have sorted the two subarrays, we will merge them into a larger one", c.toString(), a.toString(), b.toString())
+    getDisplay(Instruction.step7, c.toString(), a.toString(), b.toString())
 
     // If both a and b both have values left, push the smaller of indicies 0 to c
     while (a.length && b.length) {
         c[i++] = a[0] > b[0] ? b.shift() : a.shift();
-        getDisplay("If both subarrays have values left, push the smallest of the two subarrays' first index to the merged array", c.toString(), a.toString(), b.toString())
+        getDisplay(Instruction.step8, c.toString(), a.toString(), b.toString())
     }
 
     //if we still have values, let's add them at the end of `c` (OUTPUT that when one array is empty, just put the other ones back in order)
     while (a.length) {
         c[i++] = a.shift();
-        getDisplay("If there is only one subarray left, push its remaining values to the merged array", c.toString(), a.toString(), b.toString())
+        getDisplay(Instruction.step9, c.toString(), a.toString(), b.toString())
     }
     while (b.length) {
         c[i++] = b.shift();
-        getDisplay("If there is only one subarray left, push its remaining values to the merged array", c.toString(), a.toString(), b.toString())
+        getDisplay(Instruction.step9, c.toString(), a.toString(), b.toString())
     }
 
     return c // final OUTPUT as a culmination of 'choices'
@@ -40,24 +60,24 @@ const _mergeArrays = (a, b) => {
 const mergeSort = (a) => {
     // base case for recursion - if the array only has 1 value, it cannot be split further (OUTPUt that it cannot be split further)
     if (a.length < 2) return a
-    getDisplay("This is our initial, unsorted array", a.toString())
+    getDisplay(Instruction.step1, a.toString())
     // determining where the middle point would be in the array, which is how the two equal lengths will be separated
     const middle = Math.floor(a.length / 2)
     // split the arrays into two equal lengths, these are the two split sets (OUTPUT - show the split subarrays)
     const a_l = a.slice(0, middle)
     const a_r = a.slice(middle, a.length)
-    getDisplay("Split the arrays into two equal lengths, these are the two subarrays", a.toString(), a_l.toString(), a_r.toString())
+    getDisplay(Instruction.step2, a.toString(), a_l.toString(), a_r.toString())
     
     // recursively merge sort on the left and right subarrays
-    getDisplay("Now select the left subarray", a.toString(), a_l.toString(), a_r.toString())
+    getDisplay(Instruction.step3, a.toString(), a_l.toString(), a_r.toString())
     if (a_l.length === 1) getDisplay("This subarray is fully broken down, so it is ready to merge", a.toString(), a_l.toString());
     const sorted_l = mergeSort(a_l)
-    getDisplay("Now select the right subarray", a.toString(), sorted_l.toString(), a_r.toString())
-    if (a_r.length === 1) getDisplay("This asubrray is fully broken down, so it is ready to merge", a.toString(), a_r.toString());
+    getDisplay(Instruction.step4, a.toString(), sorted_l.toString(), a_r.toString())
+    if (a_r.length === 1) getDisplay(Instruction.step5, a.toString(), a_r.toString());
     const sorted_r = mergeSort(a_r)
     // when the recursive calls are returned (i.e. array has been split as far as possible), merge the subarrays in sorted order
 
-    getDisplay("Now we have two fully sorted subarrays", a.toString(), sorted_l.toString(), sorted_r.toString())
+    getDisplay(Instruction.step6, a.toString(), sorted_l.toString(), sorted_r.toString())
     return _mergeArrays(sorted_l, sorted_r)
 }
 
