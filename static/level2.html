@@ -25,6 +25,7 @@
         }
 
         .button {
+            display: block;
             background-color: dodgerblue;
             border: 2px solid dodgerblue;
             color: white;
@@ -50,7 +51,7 @@
             font-family: 'Open Sans';
             position: relative;
             left: 230px;
-            top: 70px;
+            top: auto;
 
         }
 
@@ -66,7 +67,9 @@
 
     <center>
         <h1 style="color:white; font-family: 'Open Sans';">Learn Merge Sort</h1>
-        <div style="width: 600px; height: 600px;border-radius: 25px; background: white;margin:0 auto;">
+        <div style="width: 600px; height: auto;border-radius: 25px; background: white;margin:0 auto;">
+            <br />
+            <button id="menu" class="button" onclick="location.href = '/mergesort.html'">Menu</button>
             <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2();'>Start</button>
 
             <div></div>
@@ -79,6 +82,7 @@
             <div></div>
             <!-- use this button instead for part of restart functionality -->
             <button id='restart' class='restart-button' onclick='javascript:restart();'>Restart</button>
+            <br /><br />
         </div>
 
     </center>
@@ -241,17 +245,7 @@
             getArray();
             getArray2();
         }
-
-        function handleValidation(isCorrect) {
-            if (isCorrect) {
-                // TO DO: advance to the next step
-                handleCorrect();
-            }
-            else {
-                handleIncorrect();
-            }
-        }
-
+        
         function handleSplitClicked() {
             handleValidation(nextStepNo === 2);
         }
