@@ -33,10 +33,11 @@
             margin: 5px;
             font-family: 'Open Sans';
         }
-        .button:hover{
+
+        .button:hover {
             background-color: white;
             color: dodgerblue;
-            border:2px solid DodgerBlue;
+            border: 2px solid DodgerBlue;
         }
 
         .restart-button {
@@ -52,10 +53,11 @@
             top: 70px;
 
         }
-        .restart-button:hover{
+
+        .restart-button:hover {
             background-color: white;
             color: dodgerblue;
-            border:2px solid DodgerBlue;
+            border: 2px solid DodgerBlue;
         }
     </style>
 </head>
@@ -93,9 +95,23 @@
 
         let jsav = new JSAV("av");
         let instructionLabel;
+        let nextInstructionLabel;
         let originalList;
 
-        $(document).ready(function(){
+
+        let curStepArr = '';
+        let curInstruction = '';
+        let curStepNo = 0;
+
+        let nextStepArr = '';
+        let nextInstruction = '';
+        let nextStepNo = 1;
+
+        let instruct = [];
+        let stepNo = [];
+        let stepArr = [];
+
+        $(document).ready(function () {
             $("#restart").hide();
         });
 
@@ -125,6 +141,7 @@
 
                 originalList = jsav.ds.array(originalArr);
                 instructionLabel = jsav.label('Starting Array');
+                nextInstructionLabel = jsav.label('Next: ');
                 $('#av').show();
             }
         }
@@ -141,19 +158,15 @@
         function displayArray2() {
             if (this.readyState == 4 && this.status == 200) {
                 let instructions = JSON.parse(this.responseText);
-                let instruct = [];
-                let step = [];
 
                 for (i in instructions) {
                     if (i % 2 == 0) {
-                        instruct.push(instructions[i]);
+                        instruct.push(instructions[i].instruction);
+                        stepNo.push(instructions[i].stepNo);
                     } else {
-                        step.push(instructions[i])
+                        stepArr.push(instructions[i]);
                     }
                 }
-
-                let content = '';
-                let content2 = '';
 
                 ///////////////////////////////////////////////////////////////////////////////////
                 let waitForPressResolve;
@@ -170,17 +183,31 @@
                 async function doIt() {
                     btn.addEventListener('click', btnResolver);
 
-                    for (p in step) {
+                    for (p in stepArr) {
+                        p = parseInt(p)
                         await waitForPress();
-                        content2 = instruct[p];
-                        content = step[p];
+                        curInstruction = instruct[p];
+                        curStepArr = stepArr[p];
+                        curStepNo = stepNo[p];
 
-                        instructionLabel.text(content2)
+                        try {
+                            nextInstruction = 'Next: ' + instruct[p + 1];
+                            nextStepArr = stepArr[p + 1];
+                            nextStepNo = stepNo[p + 1];
+                        }
+                        catch {
+                            nextInstruction = ''
+                            nextStepArr = ''
+                            nextStepNo = 0
+                        }
+
+                        instructionLabel.text(curInstruction)
+                        nextInstructionLabel.text(nextInstruction)
 
                         for (let arr of stepLists) {
                             arr.clear();
                         }
-                        for (let arr of content) {
+                        for (let arr of curStepArr) {
                             let stepArr = [];
                             try {
                                 arr.split(',').forEach(element => {
@@ -203,7 +230,7 @@
             }
         }
 
-        function restart(){
+        function restart() {
             $('.jsavarray').remove();
             $('.jsavlabel').remove();
             $('#restart').hide();
@@ -211,11 +238,32 @@
                 arr.clear();
             }
 
-            getArray(); 
+            getArray();
             getArray2();
         }
 
+        function handleValidation(isCorrect) {
+            if (isCorrect) {
+                handleCorrect();
+            }
+            else {
+                handleIncorrect();
+            }
+        }
 
+        function handleSplitClicked() {
+            handleValidation(curNextStepNo === 2);
+        }
+
+        function handleMergeClicked() {
+            handleValidation(curNextStepNo === 5 || curNextStepNo === 6);
+        }
+
+        function handleUserInput(event) {
+            // check if the user inputs the next value which is supposed to be added to the array
+            lastNonNull = curNextStepArr.filter(x => x != null).slice(-1)[0];
+            handleUserInput(event.target.value === lastNonNull);
+        }
     </script>
 
 </html>
