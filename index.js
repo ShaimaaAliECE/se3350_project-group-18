@@ -7,16 +7,16 @@ app.use(express.static('jsav'));
 
 
 class Instruction {
-    static step0 = new Instruction('Starting Array', 0)
-    static step1 = new Instruction('This is our initial, unsorted array', 1)
-    static step2 = new Instruction('Split the arrays into two equal lengths, these are the two subarrays', 2)
-    static step3 = new Instruction('Now select the left subarray', 3)
-    static step4 = new Instruction('Now select the right subarray', 4)
-    static step5 = new Instruction('This subrray is fully broken down, so it is ready to merge', 5)
-    static step6 = new Instruction('Now we have two fully sorted subarrays', 6)
-    static step7 = new Instruction('Now that we have sorted the two subarrays, we will merge them into a larger one', 7)
-    static step8 = new Instruction('If both subarrays have values left, push the smallest of the two subarrays first index to merged array', 8)
-    static step9 = new Instruction('If there is only one subarray left, push its remaining values to the merged array', 9)
+    static step0 = new Instruction('Starting Array', 0);
+    static step1 = new Instruction('This is our initial, unsorted array', 1);
+    static step2 = new Instruction('Split the arrays into two equal lengths, these are the two subarrays', 2);
+    static step3 = new Instruction('Now select the left subarray', 3);
+    static step4 = new Instruction('Now select the right subarray', 4);
+    static step5 = new Instruction('This subrray is fully broken down, so it is ready to merge', 5);
+    static step6 = new Instruction('Now we have two fully sorted subarrays', 6);
+    static step7 = new Instruction('Now that we have sorted the two subarrays, we will merge them into a larger one', 7);
+    static step8 = new Instruction('If both subarrays have values left, push the smallest of the two subarrays first index to merged array', 8);
+    static step9 = new Instruction('If there is only one subarray left, push its remaining values to the merged array', 9);
 
     constructor(instruction, stepNo){
         this.instruction = instruction;
