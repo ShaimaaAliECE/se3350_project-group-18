@@ -41,6 +41,22 @@
             border: 2px solid DodgerBlue;
         }
 
+        .navButton {
+            background-color: dodgerblue;
+            border: 2px solid dodgerblue;
+            color: white;
+            font-size: 24px;
+            width: 100px;
+            border-radius: 6px;
+            margin: 5px;
+            font-family: 'Open Sans';
+        }
+
+        .navButton:hover {
+            background-color: white;
+            color: dodgerblue;
+            border: 2px solid DodgerBlue;
+        }
         .restart-button {
             background-color: dodgerblue;
             border: 2px solid dodgerblue;
@@ -60,6 +76,21 @@
             color: dodgerblue;
             border: 2px solid DodgerBlue;
         }
+
+        .text{
+            font-family: 'Open Sans';
+            color: dodgerblue;
+            font-size: 24px;
+        }
+
+        .inputBox{
+            border-color: dodgerblue;
+            border: 2px solid dodgerblue;
+            border-radius: 6px;
+            font-family: "Open Sans";
+            color: dodgerblue;
+            font-size: 24px;
+        }
     </style>
 </head>
 
@@ -76,11 +107,18 @@
 
             <!-- <button id='sortBtn' onclick=getArray2()>Sort</button> -->
             <button id='nextBtn' class='button'> Next </button>
-
+                       
             <div id='av' hidden></div>
 
             <div></div>
             <!-- use this button instead for part of restart functionality -->
+            <button id='split' class='navButton' onclick="javascript:handleSplitClicked();">Split</button>
+            <button id='merge' class='navButton' onclick="javascript:handleMergeForm();">Merge</button>
+            <form action="javascript:handleMergeClicked();" id="arrayInputForm">
+                <label for="arrayInput" id="arrayInputLabel" class="text">Merged Array:</label>
+                <input type="number" id="arrayInput" name="array" class="inputBox">
+                <input type="submit" value="Submit" id="mergeNum" class="navButton"><br/>
+            </form>
             <button id='restart' class='restart-button' onclick='javascript:restart();'>Restart</button>
             <br /><br />
         </div>
@@ -117,6 +155,9 @@
 
         $(document).ready(function () {
             $("#restart").hide();
+            $("#split").hide();
+            $("#merge").hide();
+            $("#arrayInputForm").hide();
         });
 
         // originalList.highlight(2);
@@ -147,6 +188,8 @@
                 instructionLabel = jsav.label('Starting Array');
                 nextInstructionLabel = jsav.label('Next: ');
                 $('#av').show();
+                $('#split').show();
+                $('#merge').show();
             }
         }
 
@@ -258,11 +301,19 @@
             handleValidation(nextStepNo === 2);
         }
 
+        function handleMergeForm(){
+            $("#arrayInputForm").show();
+        }
         function handleMergeClicked() {
-            handleValidation(nextStepNo === 5 || nextStepNo === 6);
+            handleValidation(nextStepNo === 5 || nextStepNo === 6); 
+            
+            let num = document.getElementById("mergeNum");
+            console.log(num);
+            handleUserInput(num);           
         }
 
         function handleUserInput(value) {
+            console.log(value);
             // check if the user inputs the next value which is supposed to be added to the array
             lastNonNull = nextStepArr[0].filter(x => x != null).slice(-1)[0];
             handleUserInput(value === lastNonNull);
