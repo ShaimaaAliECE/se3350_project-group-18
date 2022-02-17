@@ -245,6 +245,14 @@
             getArray();
             getArray2();
         }
+
+        function handleValidation(isCorrect) {
+            if(isCorrect) {
+                handleCorrect(); ///TODO: triple check for parameters
+            } else {
+                handleIncorrect();
+            }
+        }
         
         function handleSplitClicked() {
             handleValidation(nextStepNo === 2);
