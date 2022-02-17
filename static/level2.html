@@ -244,6 +244,7 @@
 
         function handleValidation(isCorrect) {
             if (isCorrect) {
+                // TO DO: advance to the next step
                 handleCorrect();
             }
             else {
@@ -252,17 +253,17 @@
         }
 
         function handleSplitClicked() {
-            handleValidation(curNextStepNo === 2);
+            handleValidation(nextStepNo === 2);
         }
 
         function handleMergeClicked() {
-            handleValidation(curNextStepNo === 5 || curNextStepNo === 6);
+            handleValidation(nextStepNo === 5 || nextStepNo === 6);
         }
 
-        function handleUserInput(event) {
+        function handleUserInput(value) {
             // check if the user inputs the next value which is supposed to be added to the array
-            lastNonNull = curNextStepArr.filter(x => x != null).slice(-1)[0];
-            handleUserInput(event.target.value === lastNonNull);
+            lastNonNull = nextStepArr[0].filter(x => x != null).slice(-1)[0];
+            handleUserInput(value === lastNonNull);
         }
     </script>
 
