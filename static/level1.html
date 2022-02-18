@@ -82,6 +82,7 @@
 
         $(document).ready(function () {
             $("#restart").hide();
+            $("#nextBtn").hide();
         });
 
         // originalList.highlight(2);
@@ -112,6 +113,8 @@
                 instructionLabel = jsav.label('Starting Array');
                 nextInstructionLabel = jsav.label('Next: ');
                 $('#av').show();
+
+                $("#nextBtn").show();
             }
         }
 
@@ -193,6 +196,7 @@
                     }
                     btn.removeEventListener('click', btnResolver);
                     // alert('Finished');
+                    $("#nextBtn").hide();
                     $("#restart").show();
                 }
                 doIt();

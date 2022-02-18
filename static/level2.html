@@ -45,7 +45,6 @@
             </div>
         </div>
 
-        <br />
         <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2();'>Start</button>
         
         <div></div>
@@ -101,6 +100,8 @@
             $("#split").hide();
             $("#merge").hide();
             $("#arrayInputForm").hide();
+            $(".visualFeedback").hide();
+            $("#nextBtn").hide();
         });
 
         // originalList.highlight(2);
@@ -121,7 +122,8 @@
             if (this.readyState == 4 && this.status == 200) {
                 originalArr = [];
                 stepLists = [];
-                document.getElementById('startbtn').style.visibility = "hidden";
+                $('#startbtn').hide();
+                // document.getElementById('startbtn').style.visibility = "hidden";
 
                 this.responseText.split(',').forEach(element => {
                     originalArr.push(parseInt(element))
@@ -133,6 +135,8 @@
                 $('#av').show();
                 $('#split').show();
                 $('#merge').show();
+                $(".visualFeedback").show();
+                $("#nextBtn").show();
             }
         }
 
@@ -215,6 +219,9 @@
                     }
                     btn.removeEventListener('click', btnResolver);
                     // alert('Finished');
+                    $('#split').hide();
+                    $('#merge').hide();
+                    $("#nextBtn").hide();
                     $("#restart").show();
                 }
                 doIt();
