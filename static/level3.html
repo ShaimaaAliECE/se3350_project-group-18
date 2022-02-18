@@ -6,89 +6,47 @@
     <meta charset="UTF-8">
     <title>Merge Sort Level 3</title>
     <link rel="stylesheet" href="/css/JSAV.css" type="text/css" media="screen" title="no title" charset="utf-8" />
-    <style>
-        #av {
-            margin-top: 5%;
-            width: 80%;
-            position: relative;
-        }
-
-        .jsavlabel {
-            font-size: 100%;
-            text-align: center;
-            margin: 30px 0 10px 0;
-        }
-
-        .jsavedgelabel {
-            font-size: 100%;
-            margin: 0;
-        }
-
-        .button {
-            display: block;
-            background-color: dodgerblue;
-            border: 2px solid dodgerblue;
-            color: white;
-            font-size: 24px;
-            border-radius: 6px;
-            margin: 5px;
-            font-family: 'Open Sans';
-        }
-
-        .button:hover {
-            background-color: white;
-            color: dodgerblue;
-            border: 2px solid DodgerBlue;
-        }
-
-        .restart-button {
-            background-color: dodgerblue;
-            border: 2px solid dodgerblue;
-            color: white;
-            font-size: 24px;
-            border-radius: 6px;
-            margin: 5px;
-            font-family: 'Open Sans';
-            position: relative;
-            left: 230px;
-            top: auto;
-
-        }
-
-        .restart-button:hover {
-            background-color: white;
-            color: dodgerblue;
-            border: 2px solid DodgerBlue;
-        }
-    </style>
+    <link rel="stylesheet" href="level.css">
+    <link rel="stylesheet" href="levelMenu.css">
 </head>
 
-<body style="background-color:DodgerBlue;">
-
-    <center>
-        <h1 style="color:white; font-family: 'Open Sans';">Learn Merge Sort</h1>
-        <div style="width: 600px; height: auto;border-radius: 25px; background: white;margin:0 auto;">
-            <br />
-            <button id="menu" class="button" onclick="location.href = '/mergesort.html'">Menu</button>
-            <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2();'>Start</button>
-
-            <div></div>
-
-            <!-- <button id='sortBtn' onclick=getArray2()>Sort</button> -->
-            <button id='nextBtn' class='button'> Next </button>
-            <button id='nextBtn2' class='button'> Next 2 </button>
-            <input type="text" placeholder="Type something..." id="myInput">
-            <!--button type="button" onclick= 'javascript: getInputValue();'>check</button-->
-
-            <div id='av' hidden></div>
-
-            <div></div>
-            <!-- use this button instead for part of restart functionality -->
-            <button id='restart' class='restart-button' onclick='javascript:restart();'>Restart</button>
-            <br /><br />
+<body>
+    <div class="menu-wrap">
+        <input type="checkbox" class="toggler">
+        <div class="hamburger"><div></div></div>
+        <div class="menu">
+            <div>
+                <div>
+                    <ul>
+                        <li onclick="javascript:restart()"><a href="#">Restart</a></li>
+                        <li><a href="mergesort.html">Menu</a></li>
+                        <li><a href="index.html">Quit</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
+    </div>
 
-    </center>
+    <h1 style="color:white; font-family: 'Open Sans'; text-align: center;">Learn Merge Sort</h1>
+    <div class="container">
+        <br />
+        <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2();'>Start</button>
+
+        <div></div>
+
+        <!-- <button id='sortBtn' onclick=getArray2()>Sort</button> -->
+        <button id='nextBtn' class='button'> Next </button>
+        <button id='nextBtn2' class='button'> Next 2 </button>
+        <input type="text" placeholder="Type something..." id="myInput">
+        <!--button type="button" onclick= 'javascript: getInputValue();'>check</button-->
+
+        <div id='av' hidden></div>
+
+        <div></div>
+        <!-- use this button instead for part of restart functionality -->
+        <button id='restart' class='restart-button' onclick='javascript:restart();'>Restart</button>
+        <br /><br />
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
