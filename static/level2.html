@@ -222,6 +222,11 @@
         }
 
         function restart() {
+            document.getElementById('CheckMarkCorrect').style.visibility = "hidden";
+            document.getElementById('XMarkIncorrect1').style.visibility = "hidden";
+            document.getElementById('XMarkIncorrect2').style.visibility = "hidden";
+            document.getElementById('XMarkIncorrect3').style.visibility = "hidden";
+
             $('.jsavarray').remove();
             $('.jsavlabel').remove();
             $('#restart').hide();
@@ -233,49 +238,55 @@
             getArray2();
         }
 
-        const soundCorrect = new Audio('audioVisual/Correct.mp3');
-        const soundIncorrect = new Audio ('audioVisual/Wrong.mp3');
+        var soundCorrect = new Audio('audioVisual/Correct.mp3');
+        var soundIncorrect = new Audio ('audioVisual/Wrong.mp3');
 
-        function display_image(src, width, height, alt) {
-            var a = document.createElement("img");
-            a.src = src;
-            a.width = width;
-            a.height = height;
-            a.alt = alt;
-            document.body.appendChild(a);
+        function isHidden(mark) {
+            var style = window.getComputedStyle(mark);
+            return (style.visibility === 'hidden')
         }
 
+        ///TODO: make sure the check mark is hidden when switching between levels, restarting levels, etc.
+        function displayFeedback(x) {
+            var checkmark = document.getElementById('CheckMarkCorrect');
+            var style = '';
+
+            if(x == 0) { // Correct step
+                checkmark.style.visibility = "visible";
+            }
+            else if(x == 1) { // Incorrect step
+                checkmark.style.visibility = "hidden";
+
+                ///TODO: there might be a more elegant way to approach this
+                if(isHidden(document.getElementById('XMarkIncorrect1'))) {
+                    document.getElementById('XMarkIncorrect1').style.visibility = "visible";
+                }
+                else if(isHidden(document.getElementById('XMarkIncorrect2'))) {
+                    document.getElementById('XMarkIncorrect2').style.visibility = "visible";
+                }
+                else if(isHidden(document.getElementById('XMarkIncorrect3'))) {
+                    document.getElementById('XMarkIncorrect3').style.visibility = "visible";
+                }
+                else {
+                    ///TODO: gameover
+                }
+            }
+        }
 
         function handleValidation(isCorrect) {
             if(isCorrect) {
-                //handleCorrect(); ///TODO: triple check for parameters
+                //handleCorrect(); ///TODO: create function and check for parameters
 
-                console.log("Got to isCorrect"); ///TODO: delete
+                displayFeedback(0);
                 soundCorrect.play();
-                soundCorrect.loop =true;
-                soundCorrect.playbackRate = 2;
-                soundCorrect.pause();
-
-                display_image('audioVisual/checkmark.png', 
-                 276, 
-                 110, 
-                 'CheckMarkCorrect'); ///TODO: make this work with the preset images
 
                 // btnResolver 
 
             } else {
-                //handleIncorrect();
+                //handleIncorrect(); ///TODO: create function and check for parameters
 
-                console.log("Got to incorrect"); ///TODO: delete
+                displayFeedback(1);
                 soundIncorrect.play();
-                soundIncorrect.loop =true;
-                soundIncorrect.playbackRate = 2;
-                soundIncorrect.pause();
-
-                display_image('audioVisual/incorrectmark.png', 
-                 276, 
-                 110, 
-                 'XMarkIncorrect');
             }
         }
 
