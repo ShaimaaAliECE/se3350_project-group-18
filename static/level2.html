@@ -29,9 +29,25 @@
 
     <h1 style="color:white; font-family: 'Open Sans'; text-align: center;">Learn Merge Sort</h1>
     <div class="container">
+        <div class="visualFeedback">
+            <img id="CheckMarkCorrect"; src="audioVisual/checkmark.png" alt="Correct selection">
+            <div class="xMarks">
+                <div class="greyXMarks">
+                    <img id="emptyXMark1"; src="audioVisual\greyX.png" alt="Try left">
+                    <img id="emptyXMark2"; src="audioVisual\greyX.png" alt="Try left">
+                    <img id="emptyXMark3"; src="audioVisual\greyX.png" alt="Try left">
+                </div>
+                <div class="redXMarks">
+                    <img id="XMarkIncorrect1"; src="audioVisual\incorrectmark.png" alt="Incorrect selection">
+                    <img id="XMarkIncorrect2"; src="audioVisual\incorrectmark.png" alt="Incorrect selection">
+                    <img id="XMarkIncorrect3"; src="audioVisual\incorrectmark.png" alt="Incorrect selection">
+                </div>
+            </div>
+        </div>
+
         <br />
         <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2();'>Start</button>
-
+        
         <div></div>
 
         <!-- <button id='sortBtn' onclick=getArray2()>Sort</button> -->
@@ -221,12 +237,12 @@
         const soundIncorrect = new Audio ('audioVisual/Wrong.mp3');
 
         function display_image(src, width, height, alt) {
-        var a = document.createElement("img");
-        a.src = src;
-        a.width = width;
-        a.height = height;
-        a.alt = alt;
-        document.body.appendChild(a);
+            var a = document.createElement("img");
+            a.src = src;
+            a.width = width;
+            a.height = height;
+            a.alt = alt;
+            document.body.appendChild(a);
         }
 
 
@@ -243,7 +259,7 @@
                 display_image('audioVisual/checkmark.png', 
                  276, 
                  110, 
-                 'CheckMarkCorrect');
+                 'CheckMarkCorrect'); ///TODO: make this work with the preset images
 
                 // btnResolver 
 

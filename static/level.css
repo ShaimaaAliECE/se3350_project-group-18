@@ -101,3 +101,38 @@ body {
     color: dodgerblue;
     font-size: 24px;
 }
+
+.visualFeedback {
+    width: 22vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    margin-left: auto;
+    margin-bottom: auto;
+}
+
+#CheckMarkCorrect,
+.redXMarks > img,
+.greyXMarks > img {
+    width: 5vw;
+    height: 5vw;
+    object-fit: cover;
+}
+
+#CheckMarkCorrect {
+    visibility: hidden;
+}
+
+.greyXMarks {
+    position: fixed;
+    z-index: 1;
+    visibility: visible;
+}
+
+.redXMarks {
+    position: relative;
+    z-index: 2;
+    visibility: hidden;
+}
