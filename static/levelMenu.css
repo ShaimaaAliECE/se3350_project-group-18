@@ -116,6 +116,10 @@
     transition: opacity 0.4s ease;
 }
 
+.menu-wrap .menu > div > div > ul {
+    padding: 0;
+}
+
 .menu-wrap .menu > div > div > ul> li {
     list-style: none;
     color: white;
