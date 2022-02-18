@@ -246,11 +246,47 @@
             getArray2();
         }
 
+        const soundCorrect = new Audio('Correct.mp3');
+        const soundIncorrect = new Audio ('Wrong.mp3');
+
+        function display_image(src, width, height, alt) {
+        var a = document.createElement("img");
+        a.src = src;
+        a.width = width;
+        a.height = height;
+        a.alt = alt;
+        document.body.appendChild(a);
+        }
+
+
         function handleValidation(isCorrect) {
             if(isCorrect) {
                 handleCorrect(); ///TODO: triple check for parameters
+
+                soundCorrect.play();
+                soundCorrect.loop =true;
+                soundCorrect.playbackRate = 2;
+                soundCorrect.pause();
+
+                display_image('checkmark.png', 
+                 276, 
+                 110, 
+                 'CheckMarkCorrect');
+
+                // btnResolver 
+
             } else {
                 handleIncorrect();
+
+                soundIncorrect.play();
+                soundIncorrect.loop =true;
+                soundIncorrect.playbackRate = 2;
+                soundIncorrect.pause();
+
+                display_image('incorrectmark.png', 
+                 276, 
+                 110, 
+                 'XMarkIncorrect');
             }
         }
         
