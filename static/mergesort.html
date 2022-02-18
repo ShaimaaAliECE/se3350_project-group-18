@@ -9,22 +9,21 @@
     <title>Menu</title>
 </head>
 <body style="background-color:DodgerBlue;">
-    <center>
-        <h1 style="color:white; font-family: 'Open Sans';">Learn Merge Sort</h1>
-        <div style="width: 600px; height: auto;border-radius: 25px; background: white;margin:0 auto;">
-            <br/><br/>
-            <button onclick="location.href = '/level1.html'" id="level1btn" class="button1">Level 1</button><br/>
-            <button onclick="location.href = '/level2.html'" id="level2btn" class="button2">Level 2</button><br/>
-            <button onclick="location.href = '/level3.html'" id="level3btn" class="button3">Level 3</button><br/>
-            <button onclick="location.href = '/level4.html'" id="level4btn" class="button4" disabled>Level 4 (Coming Soon)</button><br/>
-            <button onclick="location.href = '/level5.html'" id="level5btn" class="button5" disabled>Level 5 (Coming Soon)</button><br/>
-            <button onclick="location.href = '/levelC.html'" id="levelCbtn" class="button5" disabled>Custom (Coming Soon)</button><br/>
-            <button onclick="location.href = '/index.html'" id="algorithmsbtn" class="button">View Algorithms</button>
+        <h1 style="color:white; font-family: 'Open Sans'; text-align: center;">Learn Merge Sort</h1>
+        <div class="container">
+            <div class="levels">
+                <button onclick="location.href = '/level1.html'" id="level1btn" class="button1">Level 1</button><br/>
+                <button onclick="location.href = '/level2.html'" id="level2btn" class="button2">Level 2</button><br/>
+                <button onclick="location.href = '/level3.html'" id="level3btn" class="button3">Level 3</button><br/>
+                <button onclick="location.href = '/level4.html'" id="level4btn" class="button4" disabled>Level 4 (Coming Soon)</button><br/>
+                <button onclick="location.href = '/level5.html'" id="level5btn" class="button5" disabled>Level 5 (Coming Soon)</button><br/>
+                <button onclick="location.href = '/levelC.html'" id="levelCbtn" class="button5" disabled>Custom (Coming Soon)</button><br/>
+            </div>
             <div class="divider"></div>
-            <button onclick="location.href = '/login.html'" id="logoutbtn" class="button" disabled>Logout</button>
-            <br/><br/>
+            <div class="options">
+                <button onclick="location.href = '/index.html'" id="algorithmsbtn" class="button">View Algorithms</button>
+                <button onclick="location.href = '/login.html'" id="logoutbtn" class="button" disabled>Logout</button>
+            </div>
         </div>
-    </center>
-    
 </body>
 </html>
