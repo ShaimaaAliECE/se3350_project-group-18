@@ -163,6 +163,7 @@
                         curInstruction = instruct[p];
                         curStepArr = stepArr[p];
                         curStepNo = stepNo[p];
+                        console.log(p); ///TODO: delete
 
                         try {
                             nextInstruction = 'Next: ' + instruct[p + 1];
@@ -216,8 +217,8 @@
             getArray2();
         }
 
-        const soundCorrect = new Audio('Correct.mp3');
-        const soundIncorrect = new Audio ('Wrong.mp3');
+        const soundCorrect = new Audio('audioVisual/Correct.mp3');
+        const soundIncorrect = new Audio ('audioVisual/Wrong.mp3');
 
         function display_image(src, width, height, alt) {
         var a = document.createElement("img");
@@ -231,14 +232,15 @@
 
         function handleValidation(isCorrect) {
             if(isCorrect) {
-                handleCorrect(); ///TODO: triple check for parameters
+                //handleCorrect(); ///TODO: triple check for parameters
 
+                console.log("Got to isCorrect"); ///TODO: delete
                 soundCorrect.play();
                 soundCorrect.loop =true;
                 soundCorrect.playbackRate = 2;
                 soundCorrect.pause();
 
-                display_image('checkmark.png', 
+                display_image('audioVisual/checkmark.png', 
                  276, 
                  110, 
                  'CheckMarkCorrect');
@@ -246,14 +248,15 @@
                 // btnResolver 
 
             } else {
-                handleIncorrect();
+                //handleIncorrect();
 
+                console.log("Got to incorrect"); ///TODO: delete
                 soundIncorrect.play();
                 soundIncorrect.loop =true;
                 soundIncorrect.playbackRate = 2;
                 soundIncorrect.pause();
 
-                display_image('incorrectmark.png', 
+                display_image('audioVisual/incorrectmark.png', 
                  276, 
                  110, 
                  'XMarkIncorrect');
