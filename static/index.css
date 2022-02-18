@@ -1,3 +1,9 @@
+body {
+    background-color:DodgerBlue;
+    width: 100%;
+    height: 100%;
+}
+
 #av {
     margin-top: 5%;
     width: 80%;
