@@ -76,6 +76,9 @@
 
             <!-- <button id='sortBtn' onclick=getArray2()>Sort</button> -->
             <button id='nextBtn' class='button'> Next </button>
+            <button id='nextBtn2' class='button'> Next 2 </button>
+            <input type="text" placeholder="Type something..." id="myInput">
+            <!--button type="button" onclick= 'javascript: getInputValue();'>check</button-->
 
             <div id='av' hidden></div>
 
@@ -172,6 +175,19 @@
                     }
                 }
 
+            let btn3 = document.createElement("button");
+            btn3.innerHTML = "Check";
+            btn3.onclick = function getInputValue() {
+                var inputVal = document.getElementById("myInput").value;
+            
+            // Displaying the value
+            alert(inputVal);
+            btnResolver(inputVal);
+            
+            };
+            document.body.appendChild(btn3);
+
+
                 ///////////////////////////////////////////////////////////////////////////////////
                 let waitForPressResolve;
                 function waitForPress() {
@@ -179,14 +195,18 @@
                 }
 
                 const btn = document.getElementById('nextBtn');
+                const btn2 = document.getElementById('nextBtn2');
 
-                function btnResolver() {
+                function btnResolver(value) {
+
+                    if(value = "3"){
                     if (waitForPressResolve) waitForPressResolve();
+                    }
                 }
 
                 async function doIt() {
                     btn.addEventListener('click', btnResolver);
-
+                    btn2.addEventListener('click', btnResolver);
                     for (p in stepArr) {
                         p = parseInt(p)
                         await waitForPress();
@@ -224,6 +244,7 @@
 
                     }
                     btn.removeEventListener('click', btnResolver);
+                    btn2.removeEventListener('click', btnResolver);
                     // alert('Finished');
                     $("#restart").show();
                 }
@@ -256,6 +277,10 @@
             lastNonNull = nextStepArr[0].filter(x => x != null).slice(-1)[0];
             handleUserInput(value === lastNonNull);
         }
+
+       
+
+
     </script>
 
 </html>
