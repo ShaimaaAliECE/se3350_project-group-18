@@ -16,8 +16,16 @@ body {
     text-align: center;
 }
 
+.actions {
+    display: inline;
+    /* flex-direction: row; */
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+}
+
 #av {
-    margin-top: 5%;
+    margin: 2%;
     width: 80%;
     position: relative;
 }
