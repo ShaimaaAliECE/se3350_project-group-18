@@ -37,7 +37,7 @@
         <!-- <button id='sortBtn' onclick=getArray2()>Sort</button> -->
         <button id='nextBtn' class='button'> Next </button>
         <button id='nextBtn2' class='button'> Next 2 </button>
-        <input type="text" placeholder="Type something..." id="myInput">
+        <input type="number" placeholder="Type something..." id="myInput">
         <!--button type="button" onclick= 'javascript: getInputValue();'>check</button-->
 
         <div id='av' hidden></div>
@@ -139,8 +139,9 @@
                 var inputVal = document.getElementById("myInput").value;
             
             // Displaying the value
-            alert(typeof(inputVal));
-            btnResolver(inputVal);
+            //alert(typeof(inputVal));
+            
+            btnResolver(parseInt(inputVal));
             
             };
             document.body.appendChild(btn3);
@@ -155,12 +156,15 @@
                 const btn = document.getElementById('nextBtn');
                 const btn2 = document.getElementById('nextBtn2');
 
+                // Want to make the btnResolver work on a button, not next input
                 function btnResolver(value) {
-
-                    if(value === "3"){
+                
+                    if(value === nextStepNo){
+                        
                     if (waitForPressResolve) waitForPressResolve();
                     }
                     else{
+                        alert(nextStepNo);
                         alert("Value not equal");
                     }
                 }
