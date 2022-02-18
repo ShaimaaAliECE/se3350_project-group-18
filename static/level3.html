@@ -181,7 +181,7 @@
                 var inputVal = document.getElementById("myInput").value;
             
             // Displaying the value
-            alert(inputVal);
+            alert(typeof(inputVal));
             btnResolver(inputVal);
             
             };
@@ -199,8 +199,11 @@
 
                 function btnResolver(value) {
 
-                    if(value = "3"){
+                    if(value === "3"){
                     if (waitForPressResolve) waitForPressResolve();
+                    }
+                    else{
+                        alert("Value not equal");
                     }
                 }
 
