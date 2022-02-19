@@ -13,7 +13,9 @@
 <body>
     <div class="menu-wrap">
         <input type="checkbox" class="toggler">
-        <div class="hamburger"><div></div></div>
+        <div class="hamburger">
+            <div></div>
+        </div>
         <div class="menu">
             <div>
                 <div>
@@ -29,23 +31,40 @@
 
     <h1 style="color:white; font-family: 'Open Sans'; text-align: center;">Learn Merge Sort</h1>
     <div class="container">
-        <br />
-        <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2();'>Start</button>
+        <div class="visualFeedback">
+            <img id="CheckMarkCorrect" ; src="audioVisual/checkmark.png" alt="Correct selection">
+            <div class="xMarks">
+                <div class="greyXMarks">
+                    <img id="emptyXMark1" ; src="audioVisual\greyX.png" alt="Try left">
+                    <img id="emptyXMark2" ; src="audioVisual\greyX.png" alt="Try left">
+                    <img id="emptyXMark3" ; src="audioVisual\greyX.png" alt="Try left">
+                </div>
+                <div class="redXMarks">
+                    <img id="XMarkIncorrect1" ; src="audioVisual\incorrectmark.png" alt="Incorrect selection">
+                    <img id="XMarkIncorrect2" ; src="audioVisual\incorrectmark.png" alt="Incorrect selection">
+                    <img id="XMarkIncorrect3" ; src="audioVisual\incorrectmark.png" alt="Incorrect selection">
+                </div>
+            </div>
+        </div>
 
-        <div></div>
+        <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2();'>Start</button>
 
         <!-- <button id='sortBtn' onclick=getArray2()>Sort</button> -->
         <button id='nextBtn' class='button'> Next </button>
-        <button id='nextBtn2' class='button'> Next 2 </button>
-        <input type="number" placeholder="Type something..." id="myInput">
-        <!--button type="button" onclick= 'javascript: getInputValue();'>check</button-->
 
         <div id='av' hidden></div>
 
-        <div></div>
         <!-- use this button instead for part of restart functionality -->
+        <div class="actions">
+            <button id='split' class='navButton' onclick="javascript:handleSplitClicked();" disabled>Split</button>
+            <button id='merge' class='navButton' onclick="javascript:handleMergeForm();" disabled>Merge</button>
+        </div>
+        <form action="javascript:handleMergeClicked();" id="arrayInputForm">
+            <label for="arrayInput" id="arrayInputLabel" class="text">Merged Array:</label>
+            <input type="number" id="arrayInput" name="array" class="inputBox">
+            <input type="submit" value="Submit" id="mergeNum" class="navButton"><br />
+        </form>
         <button id='restart' class='restart-button' onclick='javascript:restart();'>Restart</button>
-        <br /><br />
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
@@ -78,6 +97,11 @@
 
         $(document).ready(function () {
             $("#restart").hide();
+            $("#split").hide();
+            $("#merge").hide();
+            $("#arrayInputForm").hide();
+            $(".visualFeedback").hide();
+            $("#nextBtn").hide();
         });
 
         // originalList.highlight(2);
@@ -98,16 +122,21 @@
             if (this.readyState == 4 && this.status == 200) {
                 originalArr = [];
                 stepLists = [];
-                document.getElementById('startbtn').style.visibility = "hidden";
+                $('#startbtn').hide();
+                // document.getElementById('startbtn').style.visibility = "hidden";
 
                 this.responseText.split(',').forEach(element => {
                     originalArr.push(parseInt(element))
                 });
 
                 originalList = jsav.ds.array(originalArr);
-                instructionLabel = jsav.label('');
+                instructionLabel = jsav.label("");
                 nextInstructionLabel = jsav.label('');
                 $('#av').show();
+                $('#split').show();
+                $('#merge').show();
+                $(".visualFeedback").show();
+                $("#nextBtn").show();
             }
         }
 
@@ -119,6 +148,16 @@
             xReq.open('GET', '/array2', true);
             xReq.send();
         }
+
+        let waitForPressResolve;
+        function waitForPress() {
+            return new Promise(resolve => waitForPressResolve = resolve);
+        }
+
+        function btnResolver() {
+            if (waitForPressResolve) waitForPressResolve();
+        }
+
 
         function displayArray2() {
             if (this.readyState == 4 && this.status == 200) {
@@ -133,51 +172,19 @@
                     }
                 }
 
-            let btn3 = document.createElement("button");
-            btn3.innerHTML = "Check";
-            btn3.onclick = function getInputValue() {
-                var inputVal = document.getElementById("myInput").value;
-            
-            // Displaying the value
-            //alert(typeof(inputVal));
-            
-            btnResolver(parseInt(inputVal));
-            
-            };
-            document.body.appendChild(btn3);
-
-
                 ///////////////////////////////////////////////////////////////////////////////////
-                let waitForPressResolve;
-                function waitForPress() {
-                    return new Promise(resolve => waitForPressResolve = resolve);
-                }
-
                 const btn = document.getElementById('nextBtn');
-                const btn2 = document.getElementById('nextBtn2');
-
-                // Want to make the btnResolver work on a button, not next input
-                function btnResolver(value) {
-                
-                    if(value === nextStepNo){
-                        
-                    if (waitForPressResolve) waitForPressResolve();
-                    }
-                    else{
-                        alert(nextStepNo);
-                        alert("Value not equal");
-                    }
-                }
 
                 async function doIt() {
                     btn.addEventListener('click', btnResolver);
-                    btn2.addEventListener('click', btnResolver);
+
                     for (p in stepArr) {
                         p = parseInt(p)
                         await waitForPress();
                         curInstruction = instruct[p];
                         curStepArr = stepArr[p];
                         curStepNo = stepNo[p];
+                        console.log(p); ///TODO: delete
 
                         try {
                             nextInstruction = 'Next: ' + instruct[p + 1];
@@ -189,6 +196,24 @@
                             nextStepArr = ''
                             nextStepNo = 0
                         }
+
+                        if (nextStepNo === 2 || nextStepNo === 6){
+                            $("#nextBtn").prop("disabled", true);
+                            $("#split").prop("disabled", false);
+                            $("#merge").prop("disabled", false);
+                        }
+                        else {
+                            $("#nextBtn").prop("disabled", false);
+                            $("#split").prop("disabled", true);
+                            $("#merge").prop("disabled", true);
+                        }
+
+                        if (curStepNo === 8 && nextStepNo !== 8){
+                            $("#arrayInputForm").hide();
+                        }
+
+                        // instructionLabel.text(curInstruction)
+                        // nextInstructionLabel.text(nextInstruction)
 
                         for (let arr of stepLists) {
                             arr.clear();
@@ -209,8 +234,10 @@
 
                     }
                     btn.removeEventListener('click', btnResolver);
-                    btn2.removeEventListener('click', btnResolver);
                     // alert('Finished');
+                    $('#split').hide();
+                    $('#merge').hide();
+                    $("#nextBtn").hide();
                     $("#restart").show();
                 }
                 doIt();
@@ -218,6 +245,11 @@
         }
 
         function restart() {
+            document.getElementById('CheckMarkCorrect').style.visibility = "hidden";
+            document.getElementById('XMarkIncorrect1').style.visibility = "hidden";
+            document.getElementById('XMarkIncorrect2').style.visibility = "hidden";
+            document.getElementById('XMarkIncorrect3').style.visibility = "hidden";
+
             $('.jsavarray').remove();
             $('.jsavlabel').remove();
             $('#restart').hide();
@@ -228,24 +260,92 @@
             getArray();
             getArray2();
         }
-        
+
+        var soundCorrect = new Audio('audioVisual/Correct.mp3');
+        var soundIncorrect = new Audio('audioVisual/Wrong.mp3');
+
+        function isHidden(mark) {
+            var style = window.getComputedStyle(mark);
+            return (style.visibility === 'hidden')
+        }
+
+        ///TODO: make sure the check mark is hidden when switching between levels, restarting levels, etc.
+        function displayFeedback(x) {
+            var checkmark = document.getElementById('CheckMarkCorrect');
+            var style = '';
+
+            if (x == 0) { // Correct step
+                checkmark.style.visibility = "visible";
+            }
+            else if (x == 1) { // Incorrect step
+                checkmark.style.visibility = "hidden";
+
+                ///TODO: there might be a more elegant way to approach this
+                if (isHidden(document.getElementById('XMarkIncorrect1'))) {
+                    document.getElementById('XMarkIncorrect1').style.visibility = "visible";
+                }
+                else if (isHidden(document.getElementById('XMarkIncorrect2'))) {
+                    document.getElementById('XMarkIncorrect2').style.visibility = "visible";
+                }
+                else if (isHidden(document.getElementById('XMarkIncorrect3'))) {
+                    document.getElementById('XMarkIncorrect3').style.visibility = "visible";
+                }
+                else {
+                    ///TODO: gameover
+                }
+            }
+        }
+
+        function handleValidation(isCorrect) {
+            if (isCorrect) {
+                //handleCorrect(); ///TODO: create function and check for parameters
+
+                displayFeedback(0);
+                soundCorrect.play();
+
+                btnResolver();
+                // hide the buttons if there is no input required for the next step
+
+
+            } else {
+                //handleIncorrect(); ///TODO: create function and check for parameters
+
+                displayFeedback(1);
+                soundIncorrect.play();
+            }
+        }
+
+
         function handleSplitClicked() {
             handleValidation(nextStepNo === 2);
         }
 
+        function handleMergeForm() {
+            if (nextStepNo === 6){
+                handleValidation(true);
+                $("#arrayInputForm").show();
+            }
+            else{
+                handleValidation(false);
+            }
+        }
         function handleMergeClicked() {
-            handleValidation(nextStepNo === 5 || nextStepNo === 6);
+            let num = document.getElementById("arrayInput").value;
+            handleUserInput(num);
         }
 
         function handleUserInput(value) {
+            value = parseInt(value);
+            let valArr = [];
+            nextStepArr[0].split(',').forEach(element => {
+                valArr.push(parseInt(element))
+            });
             // check if the user inputs the next value which is supposed to be added to the array
-            lastNonNull = nextStepArr[0].filter(x => x != null).slice(-1)[0];
-            handleUserInput(value === lastNonNull);
+            lastNonNull = valArr.filter(x => !isNaN(x)).slice(-1)[0];
+            console.log(lastNonNull)
+            console.log(value)
+            handleValidation((nextStepNo === 7 || nextStepNo === 8) && value === lastNonNull);
         }
-
-       
-
-
     </script>
 
 </html>
