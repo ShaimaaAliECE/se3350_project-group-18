@@ -145,5 +145,5 @@ app.get('/menu', (req, res) => {
 })
 
 
-// setting local host listen to 2005
-app.listen(2005);
+// setting local host listen to 80
+app.listen(80);
