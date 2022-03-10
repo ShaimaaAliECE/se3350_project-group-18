@@ -85,10 +85,6 @@
             $("#nextBtn").hide();
         });
 
-        // originalList.highlight(2);
-        // originalList.css(4, { "background-color": "aqua", "color": "rgb(150, 55, 50)" });
-        // originalList.layout();
-
         //displays unsorted array 
         function getArray() {
             let xReq = new XMLHttpRequest();
@@ -190,6 +186,13 @@
                                 arr.forEach(element => { stepArr.push(element) });
                             }
                             stepLists.push(jsav.ds.array(stepArr));
+                        }
+                        if (curStepNo === 3){
+                            console.log(stepLists[1])
+                            stepLists[1] = stepLists[1].highlight();
+                        }
+                        if (curStepNo === 4){
+                            stepLists[2] = stepLists[2].highlight();
                         }
                         $("span:contains('NaN')").text('');
 
