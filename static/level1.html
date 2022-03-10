@@ -188,11 +188,21 @@
                             stepLists.push(jsav.ds.array(stepArr));
                         }
                         if (curStepNo === 3){
-                            console.log(stepLists[1])
-                            stepLists[1] = stepLists[1].highlight();
+                            let highlightedArr = $('.jsavarray')[2];
+                            for (let index of highlightedArr.children){
+                                index.style = 'background: yellow'
+                            }
                         }
                         if (curStepNo === 4){
-                            stepLists[2] = stepLists[2].highlight();
+                            let highlightedArr = $('.jsavarray')[3];
+                            for (let index of highlightedArr.children){
+                                index.style = 'background: yellow'
+                            }
+                        }
+                        if (curStepNo === 9){
+                            let highlightedArrs = $('.jsavarray');
+                            highlightedArrs[2].children[0].style = 'background: yellow';
+                            highlightedArrs[3].children[0].style = 'background: yellow';
                         }
                         $("span:contains('NaN')").text('');
 
