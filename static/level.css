@@ -5,7 +5,8 @@ body {
 }
 
 .container {
-    width: 600px; 
+    width: auto;
+    max-width: 80%; 
     height: auto;
     border-radius: 25px; 
     background: white;
@@ -16,6 +17,11 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
+}
+
+.num-containter {
+    width: auto;
+    max-width: 80%;
 }
 
 .actions {
