@@ -90,7 +90,7 @@
             let xReq = new XMLHttpRequest();
             xReq.onreadystatechange = displayArray;
 
-            xReq.open('GET', '/array', true);
+            xReq.open('GET', '/array?size=10&range=20', true);
             xReq.send();
         }
 

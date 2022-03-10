@@ -108,7 +108,9 @@ app.get('/array', (req, res) => {
     let content = '';
 
     let list = [];
-    runAlgo(list, 10, 20);
+    let s = req.query.size;
+    let r = req.query.range;
+    runAlgo(list, s, r);
 
     content += list;
 
