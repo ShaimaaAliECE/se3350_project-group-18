@@ -53,7 +53,7 @@
               <input id="size" name="size" type="text">
               <label>Range Maximum:</label>
               <input id="range" name="range" type="text">
-              <input id="submit" type="submit">
+              <input id="submit" type="submit" class='navButton'>
             </div>
         </form>
         
@@ -122,12 +122,14 @@
         function getArray() {
             let xReq = new XMLHttpRequest();
             xReq.onreadystatechange = displayArray;
-            size = document.getElementById('size')[0];
-            alert(size);
-            range = parseInt(document.getElementById('range'));
-            alert(range);
+            let size = parseInt(document.getElementById('size').value);
+            //alert(document.getElementById('size'))
+            
+            let range = parseInt(document.getElementById('range').value);
+            
 
             xReq.open('GET', '/array?size='+size+'&range='+range, true);
+            $("#custom").hide();
             xReq.send();
         }
 
