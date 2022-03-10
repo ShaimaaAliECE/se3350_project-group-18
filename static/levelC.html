@@ -49,8 +49,8 @@
 
         <form id='custom' action='javascript:getArray(); getArray2();'>
             <div>
-              <label>Length:</label>
-              <input id="length" name="length" type="text">
+              <label>Size:</label>
+              <input id="size" name="size" type="text">
               <label>Range Maximum:</label>
               <input id="range" name="range" type="text">
               <input id="submit" type="submit">
@@ -122,9 +122,12 @@
         function getArray() {
             let xReq = new XMLHttpRequest();
             xReq.onreadystatechange = displayArray;
-            length = document.getElementById('length')
-            range = document.getElementById('range')
-            xReq.open('GET', '/arrayC?num='+length+","+range, true);
+            size = document.getElementById('size')[0];
+            alert(size);
+            range = parseInt(document.getElementById('range'));
+            alert(range);
+
+            xReq.open('GET', '/array?size='+size+'&range='+range, true);
             xReq.send();
         }
 

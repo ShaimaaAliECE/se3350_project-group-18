@@ -117,22 +117,7 @@ app.get('/array', (req, res) => {
     res.send(content);
 })
 
-app.get('/arrayC', (req, res) => {
-    arr = [];
-    let content = '';
 
-    let number = req.query.num
-
-    let length = number[0];
-    let range = number[1];
-
-    let list = [];
-    runAlgo(list, length, range);
-
-    content += list;
-
-    res.send(content);
-})
 
 app.get('/array2', (req, res) => {
     res.send(JSON.stringify(arr));
