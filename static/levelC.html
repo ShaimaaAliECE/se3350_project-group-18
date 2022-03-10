@@ -47,7 +47,17 @@
             </div>
         </div>
 
-        <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2();'>Start</button>
+        <form id='custom' action='javascript:getArray(); getArray2();'>
+            <div>
+              <label>Length:</label>
+              <input id="length" name="length" type="text">
+              <label>Range Maximum:</label>
+              <input id="range" name="range" type="text">
+              <input id="submit" type="submit">
+            </div>
+        </form>
+        
+        <!-- <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2();'>Start</button> -->
 
         <!-- <button id='sortBtn' onclick=getArray2()>Sort</button> -->
         <button id='nextBtn' class='button'> Next </button>
@@ -112,8 +122,9 @@
         function getArray() {
             let xReq = new XMLHttpRequest();
             xReq.onreadystatechange = displayArray;
-
-            xReq.open('GET', '/array', true);
+            length = document.getElementById('length')
+            range = document.getElementById('range')
+            xReq.open('GET', '/arrayC?num='+length+","+range, true);
             xReq.send();
         }
 
