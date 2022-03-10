@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <title>Merge Sort Level 3</title>
+    <link rel="stylesheet" href="/css/JSAV.css" type="text/css" media="screen" title="no title" charset="utf-8" />
+    <link rel="stylesheet" href="level.css">
+    <link rel="stylesheet" href="levelMenu.css">
+</head>
+
+<body>
+    <div class="menu-wrap">
+        <input type="checkbox" class="toggler">
+        <div class="hamburger">
+            <div></div>
+        </div>
+        <div class="menu">
+            <div>
+                <div>
+                    <ul>
+                        <li onclick="javascript:restart()"><a href="#">Restart</a></li>
+                        <li><a href="mergesort.html">Menu</a></li>
+                        <li><a href="index.html">Quit</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h1 style="color:white; font-family: 'Open Sans'; text-align: center;">Learn Merge Sort</h1>
+    <div class="container">
+        <div class="visualFeedback">
+            <img id="CheckMarkCorrect" ; src="audioVisual/checkmark.png" alt="Correct selection">
+            <div class="xMarks">
+                <div class="greyXMarks">
+                    <img id="emptyXMark1" ; src="audioVisual\greyX.png" alt="Try left">
+                    <img id="emptyXMark2" ; src="audioVisual\greyX.png" alt="Try left">
+                    <img id="emptyXMark3" ; src="audioVisual\greyX.png" alt="Try left">
+                </div>
+                <div class="redXMarks">
+                    <img id="XMarkIncorrect1" ; src="audioVisual\incorrectmark.png" alt="Incorrect selection">
+                    <img id="XMarkIncorrect2" ; src="audioVisual\incorrectmark.png" alt="Incorrect selection">
+                    <img id="XMarkIncorrect3" ; src="audioVisual\incorrectmark.png" alt="Incorrect selection">
+                </div>
+            </div>
+        </div>
+
+        <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2();'>Start</button>
+
+        <!-- <button id='sortBtn' onclick=getArray2()>Sort</button> -->
+        <button id='nextBtn' class='button'> Next </button>
+
+        <div id='av' hidden></div>
+
+        <!-- use this button instead for part of restart functionality -->
+        <div class="actions">
+            <button id='split' class='navButton' onclick="javascript:handleSplitClicked();" disabled>Split</button>
+            <button id='merge' class='navButton' onclick="javascript:handleMergeForm();" disabled>Merge</button>
+        </div>
+        <form action="javascript:handleMergeClicked();" id="arrayInputForm">
+            <label for="arrayInput" id="arrayInputLabel" class="text">Merged Array:</label>
+            <input type="number" id="arrayInput" name="array" class="inputBox">
+            <input type="submit" value="Submit" id="mergeNum" class="navButton"><br />
+        </form>
+        <button id='restart' class='restart-button' onclick='javascript:restart();'>Restart</button>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src='/lib/jquery.transit.js'></script>
+    <script src='/lib/raphael.js'></script>
+    <script src='/build/jsav.js'></script>
+
+    <script>
+        let originalArr = [];
+        let stepLists = [];
+
+        let jsav = new JSAV("av");
+        let instructionLabel;
+        let nextInstructionLabel;
+        let originalList;
+
+
+        let curStepArr = '';
+        let curInstruction = '';
+        let curStepNo = 0;
+
+        let nextStepArr = '';
+        let nextInstruction = '';
+        let nextStepNo = 1;
+
+        let instruct = [];
+        let stepNo = [];
+        let stepArr = [];
+
+        $(document).ready(function () {
+            $("#restart").hide();
+            $("#split").hide();
+            $("#merge").hide();
+            $("#arrayInputForm").hide();
+            $(".visualFeedback").hide();
+            $("#nextBtn").hide();
+        });
+
+        // originalList.highlight(2);
+        // originalList.css(4, { "background-color": "aqua", "color": "rgb(150, 55, 50)" });
+        // originalList.layout();
+
+        //displays unsorted array 
+        function getArray() {
+            let xReq = new XMLHttpRequest();
+            xReq.onreadystatechange = displayArray;
+
+            // xReq.open('GET', '/arrayL4?num=20,50', true);
+            xReq.open('GET', '/array?size=20&range=50', true);
+            xReq.send();
+        }
+
+        function displayArray() {
+            // ensures ready state is met before running
+            if (this.readyState == 4 && this.status == 200) {
+                originalArr = [];
+                stepLists = [];
+                $('#startbtn').hide();
+                // document.getElementById('startbtn').style.visibility = "hidden";
+
+                this.responseText.split(',').forEach(element => {
+                    originalArr.push(parseInt(element))
+                });
+
+                originalList = jsav.ds.array(originalArr);
+                instructionLabel = jsav.label("");
+                nextInstructionLabel = jsav.label('');
+                $('#av').show();
+                $('#split').show();
+                $('#merge').show();
+                $(".visualFeedback").show();
+                $("#nextBtn").show();
+            }
+        }
+
+        //displays steps when the sort button is pressed 
+        function getArray2() {
+            let xReq = new XMLHttpRequest();
+            xReq.onreadystatechange = displayArray2;
+
+            xReq.open('GET', '/array2', true);
+            xReq.send();
+        }
+
+        let waitForPressResolve;
+        function waitForPress() {
+            return new Promise(resolve => waitForPressResolve = resolve);
+        }
+
+        function btnResolver() {
+            if (waitForPressResolve) waitForPressResolve();
+        }
+
+
+        function displayArray2() {
+            if (this.readyState == 4 && this.status == 200) {
+                let instructions = JSON.parse(this.responseText);
+
+                for (i in instructions) {
+                    if (i % 2 == 0) {
+                        instruct.push(instructions[i].instruction);
+                        stepNo.push(instructions[i].stepNo);
+                    } else {
+                        stepArr.push(instructions[i]);
+                    }
+                }
+
+                ///////////////////////////////////////////////////////////////////////////////////
+                const btn = document.getElementById('nextBtn');
+
+                async function doIt() {
+                    btn.addEventListener('click', btnResolver);
+
+                    for (p in stepArr) {
+                        p = parseInt(p)
+                        await waitForPress();
+                        curInstruction = instruct[p];
+                        curStepArr = stepArr[p];
+                        curStepNo = stepNo[p];
+                        console.log(p); ///TODO: delete
+
+                        try {
+                            nextInstruction = 'Next: ' + instruct[p + 1];
+                            nextStepArr = stepArr[p + 1];
+                            nextStepNo = stepNo[p + 1];
+                        }
+                        catch {
+                            nextInstruction = ''
+                            nextStepArr = ''
+                            nextStepNo = 0
+                        }
+
+                        if (nextStepNo === 2 || nextStepNo === 6){
+                            $("#nextBtn").prop("disabled", true);
+                            $("#split").prop("disabled", false);
+                            $("#merge").prop("disabled", false);
+                        }
+                        else {
+                            $("#nextBtn").prop("disabled", false);
+                            $("#split").prop("disabled", true);
+                            $("#merge").prop("disabled", true);
+                        }
+
+                        if (curStepNo === 8 && nextStepNo !== 8){
+                            $("#arrayInputForm").hide();
+                        }
+
+                        // instructionLabel.text(curInstruction)
+                        // nextInstructionLabel.text(nextInstruction)
+
+                        for (let arr of stepLists) {
+                            arr.clear();
+                        }
+                        for (let arr of curStepArr) {
+                            let stepArr = [];
+                            try {
+                                arr.split(',').forEach(element => {
+                                    stepArr.push(parseInt(element))
+                                });
+                            }
+                            catch {
+                                arr.forEach(element => { stepArr.push(element) });
+                            }
+                            stepLists.push(jsav.ds.array(stepArr));
+                        }
+                        $("span:contains('NaN')").text('');
+
+                    }
+                    btn.removeEventListener('click', btnResolver);
+                    // alert('Finished');
+                    $('#split').hide();
+                    $('#merge').hide();
+                    $("#nextBtn").hide();
+                    $("#restart").show();
+                }
+                doIt();
+            }
+        }
+
+        function restart() {
+            document.getElementById('CheckMarkCorrect').style.visibility = "hidden";
+            document.getElementById('XMarkIncorrect1').style.visibility = "hidden";
+            document.getElementById('XMarkIncorrect2').style.visibility = "hidden";
+            document.getElementById('XMarkIncorrect3').style.visibility = "hidden";
+
+            $('.jsavarray').remove();
+            $('.jsavlabel').remove();
+            $('#restart').hide();
+            for (let arr of stepLists) {
+                arr.clear();
+            }
+
+            getArray();
+            getArray2();
+        }
+
+        var soundCorrect = new Audio('audioVisual/Correct.mp3');
+        var soundIncorrect = new Audio('audioVisual/Wrong.mp3');
+
+        function isHidden(mark) {
+            var style = window.getComputedStyle(mark);
+            return (style.visibility === 'hidden')
+        }
+
+        ///TODO: make sure the check mark is hidden when switching between levels, restarting levels, etc.
+        function displayFeedback(x) {
+            var checkmark = document.getElementById('CheckMarkCorrect');
+            var style = '';
+
+            if (x == 0) { // Correct step
+                checkmark.style.visibility = "visible";
+            }
+            else if (x == 1) { // Incorrect step
+                checkmark.style.visibility = "hidden";
+
+                ///TODO: there might be a more elegant way to approach this
+                if (isHidden(document.getElementById('XMarkIncorrect1'))) {
+                    document.getElementById('XMarkIncorrect1').style.visibility = "visible";
+                }
+                else if (isHidden(document.getElementById('XMarkIncorrect2'))) {
+                    document.getElementById('XMarkIncorrect2').style.visibility = "visible";
+                }
+                else if (isHidden(document.getElementById('XMarkIncorrect3'))) {
+                    document.getElementById('XMarkIncorrect3').style.visibility = "visible";
+                }
+                else {
+                    ///TODO: gameover
+                }
+            }
+        }
+
+        function handleValidation(isCorrect) {
+            if (isCorrect) {
+                //handleCorrect(); ///TODO: create function and check for parameters
+
+                displayFeedback(0);
+                soundCorrect.play();
+
+                btnResolver();
+                // hide the buttons if there is no input required for the next step
+
+
+            } else {
+                //handleIncorrect(); ///TODO: create function and check for parameters
+
+                displayFeedback(1);
+                soundIncorrect.play();
+            }
+        }
+
+
+        function handleSplitClicked() {
+            handleValidation(nextStepNo === 2);
+        }
+
+        function handleMergeForm() {
+            if (nextStepNo === 6){
+                handleValidation(true);
+                $("#arrayInputForm").show();
+            }
+            else{
+                handleValidation(false);
+            }
+        }
+        function handleMergeClicked() {
+            let num = document.getElementById("arrayInput").value;
+            handleUserInput(num);
+        }
+
+        function handleUserInput(value) {
+            value = parseInt(value);
+            let valArr = [];
+            nextStepArr[0].split(',').forEach(element => {
+                valArr.push(parseInt(element))
+            });
+            // check if the user inputs the next value which is supposed to be added to the array
+            lastNonNull = valArr.filter(x => !isNaN(x)).slice(-1)[0];
+            console.log(lastNonNull)
+            console.log(value)
+            handleValidation((nextStepNo === 7 || nextStepNo === 8) && value === lastNonNull);
+        }
+    </script>
+
+</html>
