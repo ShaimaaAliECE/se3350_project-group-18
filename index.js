@@ -15,8 +15,9 @@ class Instruction {
     static step4 = new Instruction('Now select the right subarray', 4); 
     static step5 = new Instruction('This subrray is fully broken down, so it is ready to merge', 5);
     static step6 = new Instruction('Now that we have sorted the two subarrays, we will merge them into a larger one', 6);
-    static step7 = new Instruction('If both subarrays have values left, push the smallest of the two subarrays first index to merged array', 7);
+    static step7 = new Instruction('Push the smallest of the two values into the merged array', 7);
     static step8 = new Instruction('If there is only one subarray left, push its remaining values to the merged array', 8);
+    static step9 = new Instruction('If both subarrays have values left, compare the values in the first index of each subarray', 9);
 
     constructor(instruction, stepNo){
         this.instruction = instruction;
@@ -39,6 +40,7 @@ const _mergeArrays = (a, b) => {
 
     // If both a and b both have values left, push the smaller of indicies 0 to c
     while (a.length && b.length) {
+        getDisplay(Instruction.step9, c.toString(), a.toString(), b.toString())
         c[i++] = a[0] > b[0] ? b.shift() : a.shift();
         getDisplay(Instruction.step7, c.toString(), a.toString(), b.toString())
     }
@@ -89,14 +91,7 @@ function runAlgo(list, size, range) {
         // store random number in range in variable "num"
         let num = (Math.floor(Math.random() * range) + 1);
         // checks if the number generated is in the array
-        if (list.includes(num)) {
-            // if the number is already in the array the counter is decremented so that the step is repeated
-            i--;
-        }
-        // if the number is not in the array push it to the array
-        else {
-            list.push(num);
-        }
+        list.push(num);
     }
     // call the merge sort algorithm for the generated list
     mergeSort(list);
@@ -114,7 +109,9 @@ app.get('/array', (req, res) => {
     let content = '';
 
     let list = [];
-    runAlgo(list, 10, 20);
+    let s = req.query.size;
+    let r = req.query.range;
+    runAlgo(list, s, r);
 
     content += list;
 

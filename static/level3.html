@@ -59,7 +59,7 @@
 
         <button id='nextBtn' class='button'> Next </button>
 
-        <div id='av' hidden></div>
+        <div style="width: auto;" id='av' hidden></div>
 
         <!-- use this button instead for part of restart functionality -->
         <div class="actions">
@@ -121,7 +121,7 @@
             let xReq = new XMLHttpRequest();
             xReq.onreadystatechange = displayArray;
 
-            xReq.open('GET', '/array', true);
+            xReq.open('GET', '/array?size=10&range=20', true);
             xReq.send();
         }
 

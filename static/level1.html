@@ -42,7 +42,7 @@
         <!-- <button id='sortBtn' onclick=getArray2()>Sort</button> -->
         <a href="#av" class="jump"><button id='nextBtn' class='button'> Next </button></a>
 
-        <div id='av' hidden></div>
+        <div id='av' class='num-container' hidden></div>
 
         <div></div>
         <!-- use this button instead for part of restart functionality -->
@@ -85,16 +85,12 @@
             $("#nextBtn").hide();
         });
 
-        // originalList.highlight(2);
-        // originalList.css(4, { "background-color": "aqua", "color": "rgb(150, 55, 50)" });
-        // originalList.layout();
-
         //displays unsorted array 
         function getArray() {
             let xReq = new XMLHttpRequest();
             xReq.onreadystatechange = displayArray;
 
-            xReq.open('GET', '/array', true);
+            xReq.open('GET', '/array?size=10&range=20', true);
             xReq.send();
         }
 
@@ -190,6 +186,13 @@
                                 arr.forEach(element => { stepArr.push(element) });
                             }
                             stepLists.push(jsav.ds.array(stepArr));
+                        }
+                        if (curStepNo === 3){
+                            console.log(stepLists[1])
+                            stepLists[1] = stepLists[1].highlight();
+                        }
+                        if (curStepNo === 4){
+                            stepLists[2] = stepLists[2].highlight();
                         }
                         $("span:contains('NaN')").text('');
 
