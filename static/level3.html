@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="/css/JSAV.css" type="text/css" media="screen" title="no title" charset="utf-8" />
     <link rel="stylesheet" href="level.css">
     <link rel="stylesheet" href="levelMenu.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src='/lib/jquery.transit.js'></script>
+    <script src='/lib/raphael.js'></script>
+    <script src='/build/jsav.js'></script>
 </head>
 
 <body>
@@ -66,12 +72,6 @@
         </form>
         <button id='restart' class='restart-button' onclick='javascript:restart();'>Restart</button>
     </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-    <script src='/lib/jquery.transit.js'></script>
-    <script src='/lib/raphael.js'></script>
-    <script src='/build/jsav.js'></script>
 
     <script>
         let originalArr = [];
@@ -184,7 +184,6 @@
                         curInstruction = instruct[p];
                         curStepArr = stepArr[p];
                         curStepNo = stepNo[p];
-                        console.log(p); ///TODO: delete
 
                         try {
                             nextInstruction = 'Next: ' + instruct[p + 1];
@@ -197,7 +196,7 @@
                             nextStepNo = 0
                         }
 
-                        if (nextStepNo === 2 || nextStepNo === 6){
+                        if ([2, 6, 7, 8].includes(nextStepNo)) {
                             $("#nextBtn").prop("disabled", true);
                             $("#split").prop("disabled", false);
                             $("#merge").prop("disabled", false);
@@ -208,7 +207,7 @@
                             $("#merge").prop("disabled", true);
                         }
 
-                        if (curStepNo === 8 && nextStepNo !== 8){
+                        if (curStepNo === 8 && nextStepNo !== 8) {
                             $("#arrayInputForm").hide();
                         }
 
@@ -229,6 +228,24 @@
                                 arr.forEach(element => { stepArr.push(element) });
                             }
                             stepLists.push(jsav.ds.array(stepArr));
+                        }
+
+                        if (curStepNo === 3) {
+                            let highlightedArr = $('.jsavarray')[2];
+                            for (let index of highlightedArr.children) {
+                                index.style = 'background: yellow'
+                            }
+                        }
+                        if (curStepNo === 4) {
+                            let highlightedArr = $('.jsavarray')[3];
+                            for (let index of highlightedArr.children) {
+                                index.style = 'background: yellow'
+                            }
+                        }
+                        if (curStepNo === 9) {
+                            let highlightedArrs = $('.jsavarray');
+                            highlightedArrs[2].children[0].style = 'background: yellow';
+                            highlightedArrs[3].children[0].style = 'background: yellow';
                         }
                         $("span:contains('NaN')").text('');
 
@@ -321,11 +338,11 @@
         }
 
         function handleMergeForm() {
-            if (nextStepNo === 6){
+            if (nextStepNo === 6) {
                 handleValidation(true);
                 $("#arrayInputForm").show();
             }
-            else{
+            else {
                 handleValidation(false);
             }
         }
@@ -342,8 +359,6 @@
             });
             // check if the user inputs the next value which is supposed to be added to the array
             lastNonNull = valArr.filter(x => !isNaN(x)).slice(-1)[0];
-            console.log(lastNonNull)
-            console.log(value)
             handleValidation((nextStepNo === 7 || nextStepNo === 8) && value === lastNonNull);
         }
     </script>
