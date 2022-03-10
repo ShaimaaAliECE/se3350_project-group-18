@@ -133,6 +133,7 @@
                 originalList = jsav.ds.array(originalArr);
                 instructionLabel = jsav.label("");
                 nextInstructionLabel = jsav.label('');
+                // shows different features
                 $('#av').show();
                 $('#split').show();
                 $('#merge').show();
@@ -159,7 +160,7 @@
             if (waitForPressResolve) waitForPressResolve();
         }
 
-
+        // display array 
         function displayArray2() {
             if (this.readyState == 4 && this.status == 200) {
                 let instructions = JSON.parse(this.responseText);
@@ -245,6 +246,7 @@
             }
         }
 
+        // function for restarting game
         function restart() {
             document.getElementById('CheckMarkCorrect').style.visibility = "hidden";
             document.getElementById('XMarkIncorrect1').style.visibility = "hidden";
@@ -297,11 +299,15 @@
             }
         }
 
+        // handles a correct input
         function handleValidation(isCorrect) {
             if (isCorrect) {
                 //handleCorrect(); ///TODO: create function and check for parameters
 
+                // displays checkmark to user
                 displayFeedback(0);
+
+                // plays the correct sound 'ding' to the user
                 soundCorrect.play();
 
                 btnResolver();
@@ -311,7 +317,10 @@
             } else {
                 //handleIncorrect(); ///TODO: create function and check for parameters
 
+                // displays x-mark to user
                 displayFeedback(1);
+
+                // plays the incorrect sound 'ding' to the user
                 soundIncorrect.play();
             }
         }
