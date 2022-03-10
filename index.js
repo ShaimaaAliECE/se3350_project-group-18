@@ -136,6 +136,11 @@ app.get('/level3', (req, res) => {
 
 })
 
+app.get('/level5', (req, res) => {
+    res.redirect('/level5.html')
+
+})
+
 app.get('/menu', (req, res) => {
     res.redirect('/menu.html')
 
