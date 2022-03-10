@@ -20,7 +20,7 @@
             <div>
                 <div>
                     <ul>
-                        <li onclick="javascript:restart()"><a href="#">Restart</a></li>
+                        <li onclick="javascript:restart(); reset();"><a href="#">Restart</a></li>
                         <li><a href="mergesort.html">Menu</a></li>
                         <li><a href="index.html">Quit</a></li>
                     </ul>
@@ -47,9 +47,16 @@
             </div>
         </div>
 
-        <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2();'>Start</button>
+        <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2(); start();'>Start</button>
 
         <!-- <button id='sortBtn' onclick=getArray2()>Sort</button> -->
+        <form name="timer" id="time">
+            <div>
+              <span id="minute">00</span>:<span id="second">00</span>
+            </div>
+            <br />
+          </form>
+
         <button id='nextBtn' class='button'> Next </button>
 
         <div id='av' hidden></div>
@@ -102,6 +109,7 @@
             $("#arrayInputForm").hide();
             $(".visualFeedback").hide();
             $("#nextBtn").hide();
+            $("#time").hide();
         });
 
         // originalList.highlight(2);
@@ -137,6 +145,11 @@
                 $('#merge').show();
                 $(".visualFeedback").show();
                 $("#nextBtn").show();
+                $("#time").show();
+
+
+
+                
             }
         }
 
@@ -346,6 +359,73 @@
             console.log(value)
             handleValidation((nextStepNo === 7 || nextStepNo === 8) && value === lastNonNull);
         }
+
+        ////////////////////////TIMER
+
+        //initializing variables 
+        let minute = 0;
+        let second = 0;
+        let millisecond = 0;
+
+        let cron;
+
+
+
+        function start() {
+            pause();
+            cron = setInterval(() => { timer(); }, 10);
+        }
+
+        function pause() {
+            clearInterval(cron);
+        }
+
+        //resets all values when reset button is pushed 
+        function reset() {
+        
+            minute = 0;
+            second = 0;
+            millisecond = 0;
+        
+            document.getElementById('minute').innerText = '00';
+            document.getElementById('second').innerText = '00';
+
+        
+        }
+
+        //fuction to deal with timeout 
+        function timeout(){
+            //alert("You have timed out");
+            //redirect to menu page 
+            window.location.replace("http://localhost:2009/index.html");
+        }
+
+        function timer() {
+        if ((millisecond += 10) == 1000) {
+            millisecond = 0;
+            second++;
+        }
+        //if 60 seconds pass then minute increments and seconds display resets
+        if (second == 60) {
+            second = 0;
+            minute++;
+        }
+        //if 5 minutes have passed then trigger timeout 
+        if (minute == 5) {
+            timeout();
+        }
+        
+        document.getElementById('minute').innerText = returnData(minute);
+        document.getElementById('second').innerText = returnData(second);
+        
+        }
+
+        function returnData(input) {
+        return input > 10 ? input : `0${input}`
+        }
+
+
+
     </script>
 
 </html>
