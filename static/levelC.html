@@ -4,16 +4,10 @@
 <head>
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
     <meta charset="UTF-8">
-    <title>Merge Sort Level 3</title>
+    <title>Merge Sort Custom Level</title>
     <link rel="stylesheet" href="/css/JSAV.css" type="text/css" media="screen" title="no title" charset="utf-8" />
     <link rel="stylesheet" href="level.css">
     <link rel="stylesheet" href="levelMenu.css">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-    <script src='/lib/jquery.transit.js'></script>
-    <script src='/lib/raphael.js'></script>
-    <script src='/build/jsav.js'></script>
 </head>
 
 <body>
@@ -37,32 +31,38 @@
 
     <h1 style="color:white; font-family: 'Open Sans'; text-align: center;">Learn Merge Sort</h1>
     <div class="container">
-        <div class="headerContainer">
-            <form name="timer" id="time">
-                <div>
-                <span id="minute">00</span>:<span id="second">00</span>
+        <div class="visualFeedback">
+            <img id="CheckMarkCorrect" ; src="audioVisual/checkmark.png" alt="Correct selection">
+            <div class="xMarks">
+                <div class="greyXMarks">
+                    <img id="emptyXMark1" ; src="audioVisual\greyX.png" alt="Try left">
+                    <img id="emptyXMark2" ; src="audioVisual\greyX.png" alt="Try left">
+                    <img id="emptyXMark3" ; src="audioVisual\greyX.png" alt="Try left">
                 </div>
-            </form>
-            <div class="visualFeedback">
-                <img id="CheckMarkCorrect" ; src="audioVisual/checkmark.png" alt="Correct selection">
-                <div class="xMarks">
-                    <div class="greyXMarks">
-                        <img id="emptyXMark1" ; src="audioVisual\greyX.png" alt="Try left">
-                        <img id="emptyXMark2" ; src="audioVisual\greyX.png" alt="Try left">
-                        <img id="emptyXMark3" ; src="audioVisual\greyX.png" alt="Try left">
-                    </div>
-                    <div class="redXMarks">
-                        <img id="XMarkIncorrect1" ; src="audioVisual\incorrectmark.png" alt="Incorrect selection">
-                        <img id="XMarkIncorrect2" ; src="audioVisual\incorrectmark.png" alt="Incorrect selection">
-                        <img id="XMarkIncorrect3" ; src="audioVisual\incorrectmark.png" alt="Incorrect selection">
-                    </div>
+                <div class="redXMarks">
+                    <img id="XMarkIncorrect1" ; src="audioVisual\incorrectmark.png" alt="Incorrect selection">
+                    <img id="XMarkIncorrect2" ; src="audioVisual\incorrectmark.png" alt="Incorrect selection">
+                    <img id="XMarkIncorrect3" ; src="audioVisual\incorrectmark.png" alt="Incorrect selection">
                 </div>
             </div>
         </div>
 
-        <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2();'>Start</button>
+        <form id='custom' action='javascript:getArray(); getArray2();'>
+            <div>
+              <label class="text">Size:</label>
+              <input id="size" name="size" type="text" class="inputBox">
+            </br>
+              <label class="text">Range:</label>
+              <input id="range" name="range" type="text" class="inputBox">
+            <br>
+              <input id="submit" type="submit" class='navButton'>
+            </div>
+        </form>
+        
+        <!-- <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2();'>Start</button> -->
 
         <!-- <button id='sortBtn' onclick=getArray2()>Sort</button> -->
+        <button id='nextBtn' class='button'> Next </button>
 
         <div id='av' hidden></div>
 
@@ -78,6 +78,12 @@
         </form>
         <button id='restart' class='restart-button' onclick='javascript:restart();'>Restart</button>
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src='/lib/jquery.transit.js'></script>
+    <script src='/lib/raphael.js'></script>
+    <script src='/build/jsav.js'></script>
 
     <script>
         let originalArr = [];
@@ -118,8 +124,14 @@
         function getArray() {
             let xReq = new XMLHttpRequest();
             xReq.onreadystatechange = displayArray;
+            let size = parseInt(document.getElementById('size').value);
+            //alert(document.getElementById('size'))
+            
+            let range = parseInt(document.getElementById('range').value);
+            
 
-            xReq.open('GET', '/array?size=10&range=20', true);
+            xReq.open('GET', '/array?size='+size+'&range='+range, true);
+            $("#custom").hide();
             xReq.send();
         }
 
@@ -190,6 +202,7 @@
                         curInstruction = instruct[p];
                         curStepArr = stepArr[p];
                         curStepNo = stepNo[p];
+                        console.log(p); ///TODO: delete
 
                         try {
                             nextInstruction = 'Next: ' + instruct[p + 1];
@@ -202,7 +215,7 @@
                             nextStepNo = 0
                         }
 
-                        if ([2, 6, 7, 8].includes(nextStepNo)) {
+                        if (nextStepNo === 2 || nextStepNo === 6){
                             $("#nextBtn").prop("disabled", true);
                             $("#split").prop("disabled", false);
                             $("#merge").prop("disabled", false);
@@ -213,14 +226,7 @@
                             $("#merge").prop("disabled", true);
                         }
 
-                        if (nextStepNo === 9){
-                            $("#mergeNum").prop("disabled", true);
-                        }
-                        else {
-                            $("#mergeNum").prop("disabled", false);
-                        }
-
-                        if (curStepNo === 8 && nextStepNo !== 8) {
+                        if (curStepNo === 8 && nextStepNo !== 8){
                             $("#arrayInputForm").hide();
                         }
 
@@ -241,24 +247,6 @@
                                 arr.forEach(element => { stepArr.push(element) });
                             }
                             stepLists.push(jsav.ds.array(stepArr));
-                        }
-
-                        if (curStepNo === 3) {
-                            let highlightedArr = $('.jsavarray')[2];
-                            for (let index of highlightedArr.children) {
-                                index.style = 'background: yellow'
-                            }
-                        }
-                        if (curStepNo === 4) {
-                            let highlightedArr = $('.jsavarray')[3];
-                            for (let index of highlightedArr.children) {
-                                index.style = 'background: yellow'
-                            }
-                        }
-                        if (curStepNo === 9) {
-                            let highlightedArrs = $('.jsavarray');
-                            highlightedArrs[2].children[0].style = 'background: yellow';
-                            highlightedArrs[3].children[0].style = 'background: yellow';
                         }
                         $("span:contains('NaN')").text('');
 
@@ -351,11 +339,11 @@
         }
 
         function handleMergeForm() {
-            if (nextStepNo === 6) {
+            if (nextStepNo === 6){
                 handleValidation(true);
                 $("#arrayInputForm").show();
             }
-            else {
+            else{
                 handleValidation(false);
             }
         }
@@ -372,6 +360,8 @@
             });
             // check if the user inputs the next value which is supposed to be added to the array
             lastNonNull = valArr.filter(x => !isNaN(x)).slice(-1)[0];
+            console.log(lastNonNull)
+            console.log(value)
             handleValidation((nextStepNo === 7 || nextStepNo === 8) && value === lastNonNull);
         }
     </script>

@@ -118,6 +118,8 @@ app.get('/array', (req, res) => {
     res.send(content);
 })
 
+
+
 app.get('/array2', (req, res) => {
     res.send(JSON.stringify(arr));
 })
