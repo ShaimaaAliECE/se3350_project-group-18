@@ -6,12 +6,13 @@ app.use(express.static('static'));
 app.use(express.static('jsav'));
 
 
+
 class Instruction {
     static step0 = new Instruction('Starting Array', 0);
     static step1 = new Instruction('This is our initial, unsorted array', 1);
     static step2 = new Instruction('Split the arrays into two equal lengths, these are the two subarrays', 2);
     static step3 = new Instruction('Now select the left subarray', 3);
-    static step4 = new Instruction('Now select the right subarray', 4);
+    static step4 = new Instruction('Now select the right subarray', 4); 
     static step5 = new Instruction('This subrray is fully broken down, so it is ready to merge', 5);
     static step6 = new Instruction('Now that we have sorted the two subarrays, we will merge them into a larger one', 6);
     static step7 = new Instruction('Push the smallest of the two values into the merged array', 7);
@@ -138,6 +139,11 @@ app.get('/level3', (req, res) => {
 
 })
 
+app.get('/level5', (req, res) => {
+    res.redirect('/level5.html')
+
+})
+
 app.get('/menu', (req, res) => {
     res.redirect('/menu.html')
 
@@ -145,4 +151,4 @@ app.get('/menu', (req, res) => {
 
 
 // setting local host listen to 80
-app.listen(80);
+app.listen(2009);

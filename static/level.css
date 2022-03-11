@@ -5,7 +5,8 @@ body {
 }
 
 .container {
-    width: 600px; 
+    width: auto;
+    max-width: 80%; 
     height: auto;
     border-radius: 25px; 
     background: white;
@@ -16,6 +17,11 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
+}
+
+.num-containter {
+    width: auto;
+    max-width: 80%;
 }
 
 .actions {
@@ -112,6 +118,14 @@ body {
     font-size: 24px;
 }
 
+.headerContainer {
+    width: 75vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .visualFeedback {
     width: 22vw;
     display: flex;
@@ -129,6 +143,7 @@ body {
     width: 5vw;
     height: 5vw;
     object-fit: cover;
+    
 }
 
 #CheckMarkCorrect {
@@ -147,8 +162,15 @@ body {
     visibility: hidden;
 }
 
-button:disabled{
+button:disabled {
     background: white;
     border-color: grey;
     color: grey;
 }
+
+input:disabled {
+    background: white;
+    border-color: grey;
+    color: grey;
+}
+
