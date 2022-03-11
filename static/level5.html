@@ -49,6 +49,13 @@
 
         <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2();'>Start</button>
 
+        <form name="timer" id="time">
+            <div>
+                <span id="minute">00</span>:<span id="second">00</span>
+            </div>
+            <br />
+        </form>
+
         <!-- <button id='sortBtn' onclick=getArray2()>Sort</button> -->
         <button id='nextBtn' class='button'> Next </button>
 
@@ -198,8 +205,7 @@
                             nextStepArr = ''
                             nextStepNo = 0
                         }
-
-                        if (nextStepNo === 2 || nextStepNo === 6){
+                        if ([2, 6, 7, 8].includes(nextStepNo)) {
                             $("#nextBtn").prop("disabled", true);
                             $("#split").prop("disabled", false);
                             $("#merge").prop("disabled", false);
@@ -210,7 +216,14 @@
                             $("#merge").prop("disabled", true);
                         }
 
-                        if (curStepNo === 8 && nextStepNo !== 8){
+                        if (nextStepNo === 9) {
+                            $("#mergeNum").prop("disabled", true);
+                        }
+                        else {
+                            $("#mergeNum").prop("disabled", false);
+                        }
+
+                        if (curStepNo === 8 && nextStepNo !== 8) {
                             $("#arrayInputForm").hide();
                         }
 
@@ -231,6 +244,24 @@
                                 arr.forEach(element => { stepArr.push(element) });
                             }
                             stepLists.push(jsav.ds.array(stepArr));
+                        }
+
+                        if (curStepNo === 3) {
+                            let highlightedArr = $('.jsavarray')[2];
+                            for (let index of highlightedArr.children) {
+                                index.style = 'background: yellow'
+                            }
+                        }
+                        if (curStepNo === 4) {
+                            let highlightedArr = $('.jsavarray')[3];
+                            for (let index of highlightedArr.children) {
+                                index.style = 'background: yellow'
+                            }
+                        }
+                        if (curStepNo === 9) {
+                            let highlightedArrs = $('.jsavarray');
+                            highlightedArrs[2].children[0].style = 'background: yellow';
+                            highlightedArrs[3].children[0].style = 'background: yellow';
                         }
                         $("span:contains('NaN')").text('');
 
@@ -331,11 +362,11 @@
         }
 
         function handleMergeForm() {
-            if (nextStepNo === 6){
+            if (nextStepNo === 6) {
                 handleValidation(true);
                 $("#arrayInputForm").show();
             }
-            else{
+            else {
                 handleValidation(false);
             }
         }
@@ -356,6 +387,122 @@
             console.log(value)
             handleValidation((nextStepNo === 7 || nextStepNo === 8) && value === lastNonNull);
         }
+
+        //initializing variables 
+        let minute = 0;
+        let second = 0;
+        let millisecond = 0;
+
+        let cron;
+
+
+
+        function start() {
+            pause();
+            cron = setInterval(() => { timer(); }, 10);
+        }
+
+        function pause() {
+            clearInterval(cron);
+        }
+
+        //resets all values when reset button is pushed 
+        function reset() {
+
+            minute = 0;
+            second = 0;
+            millisecond = 0;
+
+            document.getElementById('minute').innerText = '00';
+            document.getElementById('second').innerText = '00';
+
+
+        }
+
+        function timer() {
+            if ((millisecond += 10) == 1000) {
+                millisecond = 0;
+                second++;
+            }
+            //if 60 seconds pass then minute increments and seconds display resets
+            if (second == 60) {
+                second = 0;
+                minute++;
+            }
+
+
+            document.getElementById('minute').innerText = returnData(minute);
+            document.getElementById('second').innerText = returnData(second);
+
+        }
+
+        function returnData(input) {
+            return input > 10 ? input : `0${input}`
+        }
+
+        ///////////////////////////INACTIVITY TIMER
+        //initializing variables 
+        let minuteto = 0;
+        let secondto = 0;
+        let millisecondto = 0;
+
+        let cron1;
+
+
+
+        function startto() {
+            pauseto();
+            cron1 = setInterval(() => { timerto(); }, 10);
+        }
+
+        function pauseto() {
+            clearInterval(cron1);
+        }
+
+        //resets all values when reset button is pushed 
+        function resetto() {
+
+            minuteto = 0;
+            secondto = 0;
+            millisecondto = 0;
+
+            document.getElementById('minuteto').innerText = '00';
+            document.getElementById('secondto').innerText = '00';
+
+
+        }
+
+        //fuction to deal with timeout 
+        function timeout() {
+            //alert("You have timed out");
+            //redirect to menu page 
+            window.location.replace("http://localhost:2009/index.html");
+        }
+
+        function timerto() {
+            if ((millisecondto += 10) == 1000) {
+                millisecondto = 0;
+                secondto++;
+            }
+            //if 60 seconds pass then minute increments and seconds display resets
+            if (secondto == 60) {
+                secondto = 0;
+                minuteto++;
+            }
+            //if 5 minutes have passed then trigger timeout 
+            if (minuteto == 5) {
+                timeout();
+            }
+
+            document.getElementById('minuteto').innerText = returnDatato(minuteto);
+            document.getElementById('secondto').innerText = returnDatato(secondto);
+
+        }
+
+        function returnDatato(input) {
+            return input > 10 ? input : `0${input}`
+        }
+
     </script>
 
 </html>

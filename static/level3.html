@@ -26,7 +26,7 @@
             <div>
                 <div>
                     <ul>
-                        <li onclick="javascript:restart(); reset(); resetto();"><a href="#">Restart</a></li>
+                        <li onclick="javascript:restart()"><a href="#">Restart</a></li>
                         <li><a href="mergesort.html">Menu</a></li>
                         <li><a href="index.html">Quit</a></li>
                     </ul>
@@ -53,39 +53,24 @@
             </div>
         </div>
 
-        <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2(); start(); startto();'>Start</button>
+        <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2();'>Start</button>
 
         <!-- <button id='sortBtn' onclick=getArray2()>Sort</button> -->
-        <form name="timer" id="time">
-            <div>
-              <span id="minute">00</span>:<span id="second">00</span>
-            </div>
-            <br />
-          </form>
+        <button id='nextBtn' class='button'> Next </button>
 
-          <!--inactivity timer displayed just to test functionality-->
-          <!--form name="timerto" id="timeto">
-            <div>
-              <span id="minuteto">00</span>:<span id="secondto">00</span>
-            </div>
-            <br />
-          </form-->
-
-        <button id='nextBtn' class='button' onclick='javascript:resetto();'> Next </button>
-
-        <div style="width: auto;" id='av' hidden></div>
+        <div id='av' hidden></div>
 
         <!-- use this button instead for part of restart functionality -->
         <div class="actions">
-            <button id='split' class='navButton' onclick="javascript:handleSplitClicked(); resetto();" disabled>Split</button>
-            <button id='merge' class='navButton' onclick="javascript:handleMergeForm(); resetto();" disabled>Merge</button>
+            <button id='split' class='navButton' onclick="javascript:handleSplitClicked();" disabled>Split</button>
+            <button id='merge' class='navButton' onclick="javascript:handleMergeForm();" disabled>Merge</button>
         </div>
         <form action="javascript:handleMergeClicked();" id="arrayInputForm">
             <label for="arrayInput" id="arrayInputLabel" class="text">Merged Array:</label>
             <input type="number" id="arrayInput" name="array" class="inputBox">
-            <input type="submit" value="Submit" id="mergeNum" class="navButton" onclick='javascript:resetto();'><br />
+            <input type="submit" value="Submit" id="mergeNum" class="navButton"><br />
         </form>
-        <button id='restart' class='restart-button' onclick='javascript:restart(); resetto();'>Restart</button>
+        <button id='restart' class='restart-button' onclick='javascript:restart();'>Restart</button>
     </div>
 
     <script>
@@ -117,8 +102,6 @@
             $("#arrayInputForm").hide();
             $(".visualFeedback").hide();
             $("#nextBtn").hide();
-            $("#time").hide();
-            $("#timeto").hide();
         });
 
         // originalList.highlight(2);
@@ -154,12 +137,6 @@
                 $('#merge').show();
                 $(".visualFeedback").show();
                 $("#nextBtn").show();
-                $("#time").show();
-                $("#timeto").show();
-
-
-
-                
             }
         }
 
@@ -228,6 +205,13 @@
                             $("#nextBtn").prop("disabled", false);
                             $("#split").prop("disabled", true);
                             $("#merge").prop("disabled", true);
+                        }
+
+                        if (nextStepNo === 9){
+                            $("#mergeNum").prop("disabled", true);
+                        }
+                        else {
+                            $("#mergeNum").prop("disabled", false);
                         }
 
                         if (curStepNo === 8 && nextStepNo !== 8) {
@@ -384,127 +368,6 @@
             lastNonNull = valArr.filter(x => !isNaN(x)).slice(-1)[0];
             handleValidation((nextStepNo === 7 || nextStepNo === 8) && value === lastNonNull);
         }
-
-        ////////////////////////DISPLAYED TIMER
-
-        //initializing variables 
-        let minute = 0;
-        let second = 0;
-        let millisecond = 0;
-
-        let cron;
-
-
-
-        function start() {
-            pause();
-            cron = setInterval(() => { timer(); }, 10);
-        }
-
-        function pause() {
-            clearInterval(cron);
-        }
-
-        //resets all values when reset button is pushed 
-        function reset() {
-        
-            minute = 0;
-            second = 0;
-            millisecond = 0;
-        
-            document.getElementById('minute').innerText = '00';
-            document.getElementById('second').innerText = '00';
-
-        
-        }
-
-        function timer() {
-        if ((millisecond += 10) == 1000) {
-            millisecond = 0;
-            second++;
-        }
-        //if 60 seconds pass then minute increments and seconds display resets
-        if (second == 60) {
-            second = 0;
-            minute++;
-        }
-        
-        
-        document.getElementById('minute').innerText = returnData(minute);
-        document.getElementById('second').innerText = returnData(second);
-        
-        }
-
-        function returnData(input) {
-        return input > 10 ? input : `0${input}`
-        }
-
-    ///////////////////////////INACTIVITY TIMER
-    //initializing variables 
-        let minuteto = 0;
-        let secondto = 0;
-        let millisecondto = 0;
-
-        let cron1;
-
-
-
-        function startto() {
-            pauseto();
-            cron1 = setInterval(() => { timerto(); }, 10);
-        }
-
-        function pauseto() {
-            clearInterval(cron1);
-        }
-
-        //resets all values when reset button is pushed 
-        function resetto() {
-        
-            minuteto = 0;
-            secondto = 0;
-            millisecondto = 0;
-        
-            document.getElementById('minuteto').innerText = '00';
-            document.getElementById('secondto').innerText = '00';
-
-        
-        }
-
-        //fuction to deal with timeout 
-        function timeout(){
-            //alert("You have timed out");
-            //redirect to menu page 
-            window.location.replace("http://localhost:2009/index.html");
-        }
-
-        function timerto() {
-        if ((millisecondto += 10) == 1000) {
-            millisecondto = 0;
-            secondto++;
-        }
-        //if 60 seconds pass then minute increments and seconds display resets
-        if (secondto == 60) {
-            secondto = 0;
-            minuteto++;
-        }
-        //if 5 minutes have passed then trigger timeout 
-        if (minuteto == 5) {
-            timeout();
-        }
-        
-        document.getElementById('minuteto').innerText = returnDatato(minuteto);
-        document.getElementById('secondto').innerText = returnDatato(secondto);
-        
-        }
-
-        function returnDatato(input) {
-        return input > 10 ? input : `0${input}`
-        }
-
-
-
-
     </script>
 
 </html>
