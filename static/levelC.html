@@ -11,6 +11,24 @@
 </head>
 
 <body>
+    <section class= "gameover" id = "gameovermenu">
+        
+        <div class = "gameov">
+            <div>
+                <div>
+                    <ul>
+                        <h1 style="color:white; font-family: 'Open Sans'; text-align: center; font-size:40px;"> Game Over </h1>
+                        <li onclick="javascript:restart()"><a href="levelC.html">Restart</a></li>
+                        <li><a href="mergesort.html">Menu</a></li>
+                        <li><a href="index.html">Quit</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+
+    <section id="main">
     <div class="menu-wrap">
         <input type="checkbox" class="toggler">
         <div class="hamburger">
@@ -78,6 +96,7 @@
         </form>
         <button id='restart' class='restart-button' onclick='javascript:restart();'>Restart</button>
     </div>
+    </section>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
@@ -307,6 +326,11 @@
                 }
                 else if (isHidden(document.getElementById('XMarkIncorrect3'))) {
                     document.getElementById('XMarkIncorrect3').style.visibility = "visible";
+
+                    
+                    gameover = document.getElementById("gameovermenu");
+                    gameover.style.visibility = "visible";
+                    $("#main").hide();
                 }
                 else {
                     ///TODO: gameover

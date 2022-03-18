@@ -17,6 +17,24 @@
 </head>
 
 <body>
+    <section class= "gameover" id = "gameovermenu">
+        
+        <div class = "gameov">
+            <div>
+                <div>
+                    <ul>
+                        <h1 style="color:white; font-family: 'Open Sans'; text-align: center; font-size:40px;"> Game Over </h1>
+                        <li onclick="javascript:restart()"><a href="level2.html">Restart</a></li>
+                        <li><a href="mergesort.html">Menu</a></li>
+                        <li><a href="index.html">Quit</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+
+    <section id = "main">
     <div class="menu-wrap">
         <input type="checkbox" class="toggler">
         <div class="hamburger">
@@ -36,7 +54,7 @@
     </div>
 
     <h1 style="color:white; font-family: 'Open Sans'; text-align: center;">Learn Merge Sort</h1>
-    <div class="container">
+    <div class="container" >
         <div class="headerContainer">
             <form name="timer" id="time">
                 <div>
@@ -67,6 +85,8 @@
 
         <div id='av' hidden></div>
 
+        
+
         <!-- use this button instead for part of restart functionality -->
         <div class="actions">
             <button id='split' class='navButton' onclick="javascript:handleSplitClicked();" disabled>Split</button>
@@ -79,6 +99,7 @@
         </form>
         <button id='restart' class='restart-button' onclick='javascript:restart();'>Restart</button>
     </div>
+    </section>
 
     <script>
         let originalArr = [];
@@ -109,6 +130,7 @@
             $("#arrayInputForm").hide();
             $(".visualFeedback").hide();
             $("#nextBtn").hide();
+            
         });
 
         // originalList.highlight(2);
@@ -276,6 +298,9 @@
         }
 
         function restart() {
+            $("#main").show();
+            gameover = document.getElementById("gameovermenu");
+            gameover.style.visibility = "hidden";
             document.getElementById('CheckMarkCorrect').style.visibility = "hidden";
             document.getElementById('XMarkIncorrect1').style.visibility = "hidden";
             document.getElementById('XMarkIncorrect2').style.visibility = "hidden";
@@ -290,6 +315,7 @@
 
             getArray();
             getArray2();
+
         }
 
         var soundCorrect = new Audio('audioVisual/Correct.mp3');
@@ -320,9 +346,16 @@
                 }
                 else if (isHidden(document.getElementById('XMarkIncorrect3'))) {
                     document.getElementById('XMarkIncorrect3').style.visibility = "visible";
+                    
+                    
+                    gameover = document.getElementById("gameovermenu");
+                    gameover.style.visibility = "visible";
+                    $("#main").hide();
+                    
+                    
                 }
+                //would be the 4th mistake 
                 else {
-                    ///TODO: gameover
                 }
             }
         }
@@ -340,9 +373,10 @@
 
             } else {
                 //handleIncorrect(); ///TODO: create function and check for parameters
-
-                displayFeedback(1);
                 soundIncorrect.play();
+                displayFeedback(1);
+                //soundIncorrect.play();
+                
             }
         }
 
