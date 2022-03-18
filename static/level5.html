@@ -18,7 +18,7 @@
                 <div>
                     <ul>
                         <h1 style="color:white; font-family: 'Open Sans'; text-align: center; font-size:40px;"> Game Over </h1>
-                        <li onclick="javascript:restart()"><a href="level5.html">Restart</a></li>
+                        <li onclick="javascript:restart(); reset(); resetto();"><a href="level5.html">Restart</a></li>
                         <li><a href="mergesort.html">Menu</a></li>
                         <li><a href="index.html">Quit</a></li>
                     </ul>
@@ -38,7 +38,7 @@
             <div>
                 <div>
                     <ul>
-                        <li onclick="javascript:restart()"><a href="#">Restart</a></li>
+                        <li onclick="javascript:restart(); reset(); resetto();"><a href="#">Restart</a></li>
                         <li><a href="mergesort.html">Menu</a></li>
                         <li><a href="index.html">Quit</a></li>
                     </ul>
@@ -72,14 +72,9 @@
             </div>
         </div>
 
-        <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2();'>Start</button>
+        <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2(); start(); startto();'>Start</button>
 
-        <form name="timer" id="time">
-            <div>
-                <span id="minute">00</span>:<span id="second">00</span>
-            </div>
-            <br />
-        </form>
+        
 
         <!-- <button id='sortBtn' onclick=getArray2()>Sort</button> -->
         <button id='nextBtn' class='button'> Next </button>
@@ -88,13 +83,13 @@
 
         <!-- use this button instead for part of restart functionality -->
         <div class="actions">
-            <button id='split' class='navButton' onclick="javascript:handleSplitClicked();" disabled>Split</button>
-            <button id='merge' class='navButton' onclick="javascript:handleMergeForm();" disabled>Merge</button>
+            <button id='split' class='navButton' onclick="javascript:handleSplitClicked(); resetto();" disabled>Split</button>
+            <button id='merge' class='navButton' onclick="javascript:handleMergeForm();resetto();" disabled>Merge</button>
         </div>
         <form action="javascript:handleMergeClicked();" id="arrayInputForm">
             <label for="arrayInput" id="arrayInputLabel" class="text">Merged Array:</label>
             <input type="number" id="arrayInput" name="array" class="inputBox">
-            <input type="submit" value="Submit" id="mergeNum" class="navButton"><br />
+            <input type="submit" value="Submit" id="mergeNum" class="navButton" onclick='javascript:resetto();'><br />
         </form>
         <button id='restart' class='restart-button' onclick='javascript:restart();'>Restart</button>
     </div>
