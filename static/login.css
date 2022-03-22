@@ -112,13 +112,12 @@ body {
     align-items: center;
 }
 
-input {
+.checkbox {
     display: none;
 }
 
 .studentText {
-    font-family: 
-    'Open Sans'; 
+    font-family: 'Open Sans'; 
     text-align: center;
     display: flex;
     flex: 1;
@@ -134,8 +133,7 @@ input {
 }
 
 .adminText {
-    font-family: 
-    'Open Sans'; 
+    font-family: 'Open Sans'; 
     text-align: center;
     display: flex;
     flex: 1;
@@ -208,4 +206,40 @@ input:checked + .studentText + .switchBlock .switch .slider:before {
   
 .slider.round:before {
     border-radius: 50%;
+}
+
+.basicText {
+    font-family: 'Open Sans';
+    color: dodgerblue;
+    font-size: 15px;
+    text-align: center;
+    display: flex;
+    flex: 1;
+    justify-content: left;
+}
+
+.inputBox {
+    width: auto;
+    border-color: dodgerblue;
+    border: 2px solid dodgerblue;
+    border-radius: 6px;
+    font-family: "Open Sans";
+    color: dodgerblue;
+    font-size: 24px;
+    display: flex;
+    flex: 4;
+}
+
+.usernameBlock {
+    width: 500px;
+    display: flex;
+    align-items: center;
+    margin: 10px;
+}
+
+.passwordBlock {
+    width: 500px;
+    display: flex;
+    align-items: center;
+    margin: 10px;
 }

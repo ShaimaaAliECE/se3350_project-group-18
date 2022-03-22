@@ -11,24 +11,30 @@
 <body>
     <h1 style="color:white; font-family: 'Open Sans'; text-align: center;">Enter your credentials</h1>
     <div class="container">
-        <h2 style="color:black; font-family: 'Open Sans'; text-align: center;">Please indicate whether you are a Student or an Administrator</h2>
+        <form id='credentials'>
+            <div class="usernameBlock">
+                <label class="basicText">Username:</label>
+                <input id="username" name="username" type="text" class="inputBox">
+            </div>
+            <div class="passwordBlock">
+                <label class="basicText">Password:</label>
+                <input id="password" name="password" type="text" class="inputBox">
+            </div>
+        </form>
+        <br>
+        <h2 style="color:black; font-family: 'Open Sans'; font-size: 15px; text-align: center;">Please indicate whether you are a Student or an Administrator</h2>
         <div class="userType">
-            <input type="checkbox" checked id="checkboxID">
+            <input type="checkbox" id="checkboxID" class="checkbox">
             <label class="studentText">Student</label>
             <div class="switchBlock">
                 <label class="switch" for="checkboxID">
-                    
                     <span class="slider round"></span>
                 </label>
             </div>
             <label class="adminText">Administrator</label>
         </div>
-        <h2 style="color:black; font-family: 'Open Sans'; text-align: center;">Enter your credentials</h2>
-        <div class="credentials">
-            <div class="username"></div>
-            <div class="password"></div>
-            <button onclick="location.href = '/algorithmMenu.html'" id="level1btn" class="button3">Login</button><br/>
-        </div>
+        <br>
+        <button onclick="location.href = '/algorithmMenu.html'" id="level1btn" class="button3">Login</button><br/>
     </div>
 </body>
 </html>
