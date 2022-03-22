@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <link rel="stylesheet" href="login.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h1 style="color:white; font-family: 'Open Sans'; text-align: center;">Enter your credentials</h1>
+    <div class="container">
+        <h2 style="color:black; font-family: 'Open Sans'; text-align: center;">Please indicate whether you are a Student or an Administrator</h2>
+        <div class="userType">
+            <input type="checkbox" checked id="checkboxID">
+            <label class="studentText">Student</label>
+            <div class="switchBlock">
+                <label class="switch" for="checkboxID">
+                    
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <label class="adminText">Administrator</label>
+        </div>
+        <h2 style="color:black; font-family: 'Open Sans'; text-align: center;">Enter your credentials</h2>
+        <div class="credentials">
+            <div class="username"></div>
+            <div class="password"></div>
+            <button onclick="location.href = '/algorithmMenu.html'" id="level1btn" class="button3">Login</button><br/>
+        </div>
+    </div>
+</body>
+</html>
