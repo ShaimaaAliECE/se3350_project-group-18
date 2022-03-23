@@ -243,3 +243,19 @@ input:checked + .studentText + .switchBlock .switch .slider:before {
     align-items: center;
     margin: 10px;
 }
+
+input[name=username]:invalid {
+    border: 2px dashed red;
+}
+  
+input[name=username]:valid {
+    border: 2px solid dodgerblue;
+}
+
+input[name=password]:invalid {
+    border: 2px dashed red;
+}
+  
+input[name=password]:valid {
+    border: 2px solid dodgerblue;
+}

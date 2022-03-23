@@ -14,11 +14,11 @@
         <form id='credentials'>
             <div class="usernameBlock">
                 <label class="basicText">Username:</label>
-                <input id="username" name="username" type="text" class="inputBox">
+                <input id="username" name="username" type="text" class="inputBox" required>
             </div>
             <div class="passwordBlock">
                 <label class="basicText">Password:</label>
-                <input id="password" name="password" type="text" class="inputBox">
+                <input id="password" name="password" type="text" class="inputBox" required>
             </div>
         </form>
         <br>
@@ -34,7 +34,28 @@
             <label class="adminText">Administrator</label>
         </div>
         <br>
-        <button onclick="location.href = '/algorithmMenu.html'" id="level1btn" class="button3">Login</button><br/>
+        <button id="loginBtn" class="button3">Login</button><br/>
     </div>
 </body>
 </html>
+
+<script>
+    const loginForm = document.getElementById("credentials");
+    const loginButton = document.getElementById("loginBtn");
+
+    loginButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        const username = loginForm.username.value;
+        const password = loginForm.password.value;
+        const usernameField = loginForm.username;
+        const passwordField = loginForm.password;
+
+        if (username === "mginham" && password === "web_dev") {
+            alert("You have successfully logged in.");
+            location.href = "/algorithmMenu.html";
+        } else {
+            loginForm.username.style.border = "2px solid red";
+            loginForm.password.style.border = "2px solid red";
+        }
+    })
+</script>
