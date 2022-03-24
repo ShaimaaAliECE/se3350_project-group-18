@@ -11,7 +11,7 @@
 <body>
     <h1 style="color:white; font-family: 'Open Sans'; text-align: center;">Enter your credentials</h1>
     <div class="container">
-        <form id='credentials'>
+        <form id='credentials' action='/studentLogin'>
             <div class="usernameBlock">
                 <label class="basicText">Username:</label>
                 <input id="username" name="username" type="text" class="inputBox" required>
@@ -20,7 +20,6 @@
                 <label class="basicText">Password:</label>
                 <input id="password" name="password" type="text" class="inputBox" required>
             </div>
-        </form>
         <br>
         <h2 style="color:black; font-family: 'Open Sans'; font-size: 15px; text-align: center;">Please indicate whether you are a Student or an Administrator</h2>
         <div class="userType">
@@ -34,7 +33,8 @@
             <label class="adminText">Administrator</label>
         </div>
         <br>
-        <button id="loginBtn" class="button3">Login</button><br/>
+        <button id="loginBtn" class="button3" type="submit">Login</button><br/>
+    </form>
     </div>
 </body>
 </html>
@@ -44,17 +44,17 @@
     const isAdminUser = document.getElementById("checkboxID");
     const loginButton = document.getElementById("loginBtn");
 
-    loginButton.addEventListener("click", (e) => {
-        e.preventDefault();
+    isAdminUser.addEventListener("change", (e) => {
+        // e.preventDefault();
         const username = loginForm.username.value;
         const password = loginForm.password.value;
 
-        if (isAdminUser.checked == false && username === "potato" && password === "hi_there") { ///TODO: make dynamic reference to user database
-            alert("You have successfully logged in."); ///TODO: probably delete
-            location.href = "/algorithmMenu.html";
-        } else if (isAdminUser.checked == true && username === "tomato" && password === "web_dev") { ///TODO: make dynamic reference to user database
-            alert("You have successfully logged in."); ///TODO: probably delete
-            location.href = "/index.html"; ///TODO: reference admin page
+        if (isAdminUser.checked == false) {
+            document.getElementById("credentials").action = '/studentLogin';
+            console.log("student checked");
+        } else if (isAdminUser.checked == true) {
+            document.getElementById("credentials").action = '/adminLogin';
+            console.log("admin checked");
         } else {
             loginForm.username.style.border = "2px solid red";
             loginForm.password.style.border = "2px solid red";

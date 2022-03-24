@@ -1,5 +1,5 @@
 const express = require('express');
-
+const newConnection = require('./DBConnection');
 const app = express();
 
 app.use(express.static('static'));
@@ -149,6 +149,55 @@ app.get('/menu', (req, res) => {
 
 })
 
+app.get('/studentLogin', (req,res) => {
+    let connection = newConnection();
+    var formUserName = req.query.username;
+    let formPassword = req.query.password;
+    let dbUsername;
+    let dbPassword;
+    connection.connect();
+    
+    connection.query(`select * from Users where type='student'`, (err,rows,fields) => {
+        let loginList = rows;
+        for (l of loginList){
+            dbUsername = l.username;
+            dbPassword = l.password;
+            if((dbUsername == formUserName) && (dbPassword == formPassword)){
+                res.redirect('algorithmMenu.html');
+            }
+        }
+        if ((dbUsername != formUserName) || (dbPassword != formPassword)){
+            console.log("Invalid Cradentials");
+            res.redirect('login.html');
+        }
+    })
+
+})
+
+app.get('/adminLogin', (req,res) => {
+    let connection = newConnection();
+    let formUserName = req.query.username;
+    let formPassword = req.query.password;
+    let dbUsername;
+    let dbPassword;
+    connection.connect();
+    
+    connection.query(`select * from Users where type='admin'`, (err,rows,fields) => {
+        let loginList = rows;
+        for (l of loginList){
+            dbUsername = l.username;
+            dbPassword = l.password;
+            if((dbUsername == formUserName) && (dbPassword == formPassword)){
+                res.redirect('index.html');
+            }
+        }
+        if ((dbUsername != formUserName) || (dbPassword != formPassword)){
+            console.log("Invalid Cradentials");
+            res.redirect('login.html');
+        }
+    })
+
+})
 
 // setting local host listen to 80
 app.listen(2009);
