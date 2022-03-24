@@ -20,7 +20,7 @@ app.get('/login', (req,res) => {
                 dbUsername = l.username;
                 dbPassword = l.password;
                 if((dbUsername == iUsername) && (dbPassword == iPassword)){
-                    // res.redirect('admin.html'); // Need new redirection
+                    res.redirect('admin.html'); // Need new redirection
                 }
             }
             if((dbUsername != iUsername) || (dbPassword != iPassword)){

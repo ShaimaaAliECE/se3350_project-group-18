@@ -51,10 +51,10 @@
 
         if (isAdminUser.checked == false && username === "potato" && password === "hi_there") { ///TODO: make dynamic reference to user database
             alert("You have successfully logged in."); ///TODO: probably delete
-            location.href = "/algorithmMenu.html";
+            location.href = "/index.html";
         } else if (isAdminUser.checked == true && username === "tomato" && password === "web_dev") { ///TODO: make dynamic reference to user database
             alert("You have successfully logged in."); ///TODO: probably delete
-            location.href = "/index.html"; ///TODO: reference admin page
+            location.href = "/admin.html"; ///TODO: reference admin page
         } else {
             loginForm.username.style.border = "2px solid red";
             loginForm.password.style.border = "2px solid red";
