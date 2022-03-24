@@ -1,0 +1,261 @@
+body {
+    background-color:DodgerBlue;
+    margin: 0;
+    padding: 0;
+}
+
+#av {
+    margin-top: 5%;
+    width: 80%;
+    position: relative;
+}
+
+.jsavlabel {
+    font-size: 100%;
+    text-align: center;
+    margin: 30px 0 10px 0;
+}
+
+.jsavedgelabel {
+    font-size: 100%;
+    margin: 0;
+}
+
+.button {
+    display: block;
+    background-color: dodgerblue;
+    border: 2px solid dodgerblue;
+    color: white;
+    width: 500px;
+    font-size: 24px;
+    border-radius: 6px;
+    margin: 5px;
+    font-family: 'Open Sans';
+}
+.button:hover{
+    background-color: white;
+    color: dodgerblue;
+    border:2px solid DodgerBlue;
+}
+
+.button1 {
+    display: block;
+    background-color: #6AA5F4;
+    border: 2px solid #6AA5F4;
+    color: white;
+    width: 500px;
+    height: 60px;
+    font-size: 24px;
+    border-radius: 6px;
+    margin: 5px;
+    font-family: 'Open Sans';
+}
+.button1:hover{
+    background-color: white;
+    color: #6AA5F4;
+    border:2px solid #6AA5F4;
+}
+
+.button2 {
+    display: block;
+    background-color: #558AD3;
+    border: 2px solid #558AD3;
+    color: white;
+    width: 500px;
+    height: 60px;
+    font-size: 24px;
+    border-radius: 6px;
+    margin: 5px;
+    font-family: 'Open Sans';
+}
+.button2:hover{
+    background-color: white;
+    color: #558AD3;
+    border:2px solid #558AD3;
+}
+
+.button3 {
+    display: block;
+    background-color: #2F66B0;
+    border: 2px solid #2F66B0;
+    color: white;
+    width: 500px;
+    height: 60px;
+    font-size: 24px;
+    border-radius: 6px;
+    margin: 5px;
+    font-family: 'Open Sans';
+}
+.button3:hover{
+    background-color: white;
+    color: #2F66B0;
+    border:2px solid #2F66B0;
+}
+
+.container {
+    width: 600px; 
+    height: auto;
+    border-radius: 25px; 
+    background: white;
+    margin:0 auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.userType {
+    width: 500px;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox {
+    display: none;
+}
+
+.studentText {
+    font-family: 'Open Sans'; 
+    text-align: center;
+    display: flex;
+    flex: 1;
+    justify-content: right;
+}
+
+.userType input + .studentText {
+    color:dodgerblue; 
+}
+
+.userType input:checked + .studentText {
+    color:grey; 
+}
+
+.adminText {
+    font-family: 'Open Sans'; 
+    text-align: center;
+    display: flex;
+    flex: 1;
+    justify-content: left;
+}
+
+.userType input +*+*+ .adminText {
+    color:grey; 
+}
+
+.userType input:checked +*+*+ .adminText {
+    color:dodgerblue; 
+}
+
+.switchBlock {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+}
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: dodgerblue;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+  
+input:checked + .studentText + .switchBlock .switch .slider {
+    background-color: dodgerblue;
+}
+
+input + .studentText + .switchBlock .switch .slider {
+    box-shadow: 0 0 1px dodgerblue;
+}
+  
+input:checked + .studentText + .switchBlock .switch .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+  
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.basicText {
+    font-family: 'Open Sans';
+    color: dodgerblue;
+    font-size: 15px;
+    text-align: center;
+    display: flex;
+    flex: 1;
+    justify-content: left;
+}
+
+.inputBox {
+    width: auto;
+    border-color: dodgerblue;
+    border: 2px solid dodgerblue;
+    border-radius: 6px;
+    font-family: "Open Sans";
+    color: dodgerblue;
+    font-size: 24px;
+    display: flex;
+    flex: 4;
+}
+
+.usernameBlock {
+    width: 500px;
+    display: flex;
+    align-items: center;
+    margin: 10px;
+}
+
+.passwordBlock {
+    width: 500px;
+    display: flex;
+    align-items: center;
+    margin: 10px;
+}
+
+input[name=username]:invalid {
+    border: 2px dashed red;
+}
+  
+input[name=username]:valid {
+    border: 2px solid dodgerblue;
+}
+
+input[name=password]:invalid {
+    border: 2px dashed red;
+}
+  
+input[name=password]:valid {
+    border: 2px solid dodgerblue;
+}

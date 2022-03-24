@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <link rel="stylesheet" href="login.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h1 style="color:white; font-family: 'Open Sans'; text-align: center;">Enter your credentials</h1>
+    <div class="container">
+        <form id='credentials'>
+            <div class="usernameBlock">
+                <label class="basicText">Username:</label>
+                <input id="username" name="username" type="text" class="inputBox" required>
+            </div>
+            <div class="passwordBlock">
+                <label class="basicText">Password:</label>
+                <input id="password" name="password" type="text" class="inputBox" required>
+            </div>
+        </form>
+        <br>
+        <h2 style="color:black; font-family: 'Open Sans'; font-size: 15px; text-align: center;">Please indicate whether you are a Student or an Administrator</h2>
+        <div class="userType">
+            <input type="checkbox" id="checkboxID" class="checkbox">
+            <label class="studentText">Student</label>
+            <div class="switchBlock">
+                <label class="switch" for="checkboxID">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <label class="adminText">Administrator</label>
+        </div>
+        <br>
+        <button id="loginBtn" class="button3">Login</button><br/>
+    </div>
+</body>
+</html>
+
+<script>
+    const loginForm = document.getElementById("credentials");
+    const isAdminUser = document.getElementById("checkboxID");
+    const loginButton = document.getElementById("loginBtn");
+
+    loginButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        const username = loginForm.username.value;
+        const password = loginForm.password.value;
+
+        if (isAdminUser.checked == false && username === "potato" && password === "hi_there") { ///TODO: make dynamic reference to user database
+            alert("You have successfully logged in."); ///TODO: probably delete
+            location.href = "/algorithmMenu.html";
+        } else if (isAdminUser.checked == true && username === "tomato" && password === "web_dev") { ///TODO: make dynamic reference to user database
+            alert("You have successfully logged in."); ///TODO: probably delete
+            location.href = "/index.html"; ///TODO: reference admin page
+        } else {
+            loginForm.username.style.border = "2px solid red";
+            loginForm.password.style.border = "2px solid red";
+        }
+    })
+</script>

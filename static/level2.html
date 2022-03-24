@@ -17,6 +17,24 @@
 </head>
 
 <body>
+    <section class= "gameover" id = "gameovermenu">
+        
+        <div class = "gameov">
+            <div>
+                <div>
+                    <ul>
+                        <h1 style="color:white; font-family: 'Open Sans'; text-align: center; font-size:40px;"> Game Over </h1>
+                        <li onclick="javascript:restart(); reset(); resetto();"><a href="level2.html">Restart</a></li>
+                        <li><a href="mergesort.html">Menu</a></li>
+                        <li><a href="index.html">Quit</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+
+    <section id = "main">
     <div class="menu-wrap">
         <input type="checkbox" class="toggler">
         <div class="hamburger">
@@ -36,7 +54,7 @@
     </div>
 
     <h1 style="color:white; font-family: 'Open Sans'; text-align: center;">Learn Merge Sort</h1>
-    <div class="container">
+    <div class="container" >
         <div class="headerContainer">
             <form name="timer" id="time">
                 <div>
@@ -67,6 +85,8 @@
 
         <div id='av' class='num-container' hidden></div>
 
+        
+
         <!-- use this button instead for part of restart functionality -->
         <div class="actions">
             <button id='split' class='navButton' onclick="javascript:handleSplitClicked(); resetto();" disabled>Split</button>
@@ -75,10 +95,15 @@
         <form action="javascript:handleMergeClicked();" id="arrayInputForm">
             <label for="arrayInput" id="arrayInputLabel" class="text">Merged Array:</label>
             <input type="number" id="arrayInput" name="array" class="inputBox">
+<<<<<<< HEAD
             <input type="submit" value="Submit" id="mergeNum" class="navButton" onclick='javascript:resetto();'><br />
+=======
+            <input type="submit" value="Submit" id="mergeNum" class="navButton"  onclick='javascript:resetto();'><br />
+>>>>>>> 7bcd8e036cf9ac06f61d204a909cb37d0232fd10
         </form>
         <button id='restart' class='restart-button' onclick='javascript:restart();'>Restart</button>
     </div>
+    </section>
 
     <script>
         let originalArr = [];
@@ -280,6 +305,9 @@
         }
 
         function restart() {
+            $("#main").show();
+            gameover = document.getElementById("gameovermenu");
+            gameover.style.visibility = "hidden";
             document.getElementById('CheckMarkCorrect').style.visibility = "hidden";
             document.getElementById('XMarkIncorrect1').style.visibility = "hidden";
             document.getElementById('XMarkIncorrect2').style.visibility = "hidden";
@@ -294,6 +322,7 @@
 
             getArray();
             getArray2();
+
         }
 
         var soundCorrect = new Audio('audioVisual/Correct.mp3');
@@ -324,9 +353,16 @@
                 }
                 else if (isHidden(document.getElementById('XMarkIncorrect3'))) {
                     document.getElementById('XMarkIncorrect3').style.visibility = "visible";
+                    
+                    
+                    gameover = document.getElementById("gameovermenu");
+                    gameover.style.visibility = "visible";
+                    $("#main").hide();
+                    
+                    
                 }
+                //would be the 4th mistake 
                 else {
-                    ///TODO: gameover
                 }
             }
         }
@@ -344,9 +380,10 @@
 
             } else {
                 //handleIncorrect(); ///TODO: create function and check for parameters
-
-                displayFeedback(1);
                 soundIncorrect.play();
+                displayFeedback(1);
+                //soundIncorrect.play();
+                
             }
         }
 
@@ -380,7 +417,6 @@
             handleValidation((nextStepNo === 7 || nextStepNo === 8) && value === lastNonNull);
         }
 
-
         ////////////////////////DISPLAYED TIMER
 
         //initializing variables 
@@ -403,40 +439,40 @@
 
         //resets all values when reset button is pushed 
         function reset() {
-
+        
             minute = 0;
             second = 0;
             millisecond = 0;
-
+        
             document.getElementById('minute').innerText = '00';
             document.getElementById('second').innerText = '00';
 
-
+        
         }
 
         function timer() {
-            if ((millisecond += 10) == 1000) {
-                millisecond = 0;
-                second++;
-            }
-            //if 60 seconds pass then minute increments and seconds display resets
-            if (second == 60) {
-                second = 0;
-                minute++;
-            }
-
-
-            document.getElementById('minute').innerText = returnData(minute);
-            document.getElementById('second').innerText = returnData(second);
-
+        if ((millisecond += 10) == 1000) {
+            millisecond = 0;
+            second++;
+        }
+        //if 60 seconds pass then minute increments and seconds display resets
+        if (second == 60) {
+            second = 0;
+            minute++;
+        }
+        
+        
+        document.getElementById('minute').innerText = returnData(minute);
+        document.getElementById('second').innerText = returnData(second);
+        
         }
 
         function returnData(input) {
-            return input > 10 ? input : `0${input}`
+        return input > 10 ? input : `0${input}`
         }
 
-        ///////////////////////////INACTIVITY TIMER
-        //initializing variables 
+    ///////////////////////////INACTIVITY TIMER
+    //initializing variables 
         let minuteto = 0;
         let secondto = 0;
         let millisecondto = 0;
@@ -456,47 +492,50 @@
 
         //resets all values when reset button is pushed 
         function resetto() {
-
+        
             minuteto = 0;
             secondto = 0;
             millisecondto = 0;
-
+        
             document.getElementById('minuteto').innerText = '00';
             document.getElementById('secondto').innerText = '00';
 
-
+        
         }
 
         //fuction to deal with timeout 
-        function timeout() {
+        function timeout(){
             //alert("You have timed out");
             //redirect to menu page 
             window.location.replace("http://localhost:2009/index.html");
         }
 
         function timerto() {
-            if ((millisecondto += 10) == 1000) {
-                millisecondto = 0;
-                secondto++;
-            }
-            //if 60 seconds pass then minute increments and seconds display resets
-            if (secondto == 60) {
-                secondto = 0;
-                minuteto++;
-            }
-            //if 5 minutes have passed then trigger timeout 
-            if (minuteto == 5) {
-                timeout();
-            }
-
-            document.getElementById('minuteto').innerText = returnDatato(minuteto);
-            document.getElementById('secondto').innerText = returnDatato(secondto);
-
+        if ((millisecondto += 10) == 1000) {
+            millisecondto = 0;
+            secondto++;
+        }
+        //if 60 seconds pass then minute increments and seconds display resets
+        if (secondto == 60) {
+            secondto = 0;
+            minuteto++;
+        }
+        //if 5 minutes have passed then trigger timeout 
+        if (minuteto == 5) {
+            timeout();
+        }
+        
+        document.getElementById('minuteto').innerText = returnDatato(minuteto);
+        document.getElementById('secondto').innerText = returnDatato(secondto);
+        
         }
 
         function returnDatato(input) {
-            return input > 10 ? input : `0${input}`
+        return input > 10 ? input : `0${input}`
         }
+
+
+
     </script>
 
 </html>

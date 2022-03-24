@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/ShaimaaAliECE/se3350_project-group-18#readme",
   "dependencies": {
-    "express": "^4.17.2"
+    "express": "^4.17.2",
+    "mysql": "^2.18.1"
   }
 }
