@@ -150,6 +150,18 @@ app.get('/menu', (req, res) => {
 
 })
 
+app.get('/userdata' , (req, res) => {
+    let connection = newConnection();
+    connection.connect();
+    
+    connection.query(`select * from Activity`, (err,rows,fields) => {
+        for (r of rows){
+            console.log(r)
+        }
+    });
+    res.send(200)
+})
+
 app.get('/studentLogin', (req,res) => {
     let connection = newConnection();
     var formUserName = req.query.username;
@@ -189,7 +201,7 @@ app.get('/adminLogin', (req,res) => {
             dbUsername = l.username;
             dbPassword = l.password;
             if((dbUsername == formUserName) && (dbPassword == formPassword)){
-                res.redirect('index.html');
+                res.redirect('admin.html');
             }
         }
         if ((dbUsername != formUserName) || (dbPassword != formPassword)){
