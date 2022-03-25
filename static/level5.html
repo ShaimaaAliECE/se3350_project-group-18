@@ -74,17 +74,15 @@
 
         <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2(); start(); startto();'>Start</button>
 
-        
-
         <!-- <button id='sortBtn' onclick=getArray2()>Sort</button> -->
-        <button id='nextBtn' class='button'> Next </button>
+        <button id='nextBtn' class='button' onclick='javascript:resetto();'> Next </button>
 
         <div id='av' class='num-container' hidden></div>
 
         <!-- use this button instead for part of restart functionality -->
         <div class="actions">
             <button id='split' class='navButton' onclick="javascript:handleSplitClicked(); resetto();" disabled>Split</button>
-            <button id='merge' class='navButton' onclick="javascript:handleMergeForm();resetto();" disabled>Merge</button>
+            <button id='merge' class='navButton' onclick="javascript:handleMergeForm(); resetto();" disabled>Merge</button>
         </div>
         <form action="javascript:handleMergeClicked();" id="arrayInputForm">
             <label for="arrayInput" id="arrayInputLabel" class="text">Merged Array:</label>
@@ -130,6 +128,8 @@
             $("#arrayInputForm").hide();
             $(".visualFeedback").hide();
             $("#nextBtn").hide();
+            $("#time").hide();
+            $("#timeto").hide();
             $("#time").hide();
             $("#timeto").hide();
         });

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+    <link rel="stylesheet" href="mergesort.css">
+    <link rel="stylesheet" href="stats.css">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attempts per Level</title>
+</head>
+
+<body>
+    <h1 style="color:white; font-family: 'Open Sans'; text-align: center;">Attempts per Level</h1>
+    <div class="container">
+
+        <label for="user">Select a user to view: </label>
+        <select name="user" id="user" onchange="if (this.selectedIndex) handleUserSelect(this.selectedIndex)">
+            <option value="default">Select a user</option>
+        </select>
+
+        <canvas id="chart" style="width:100%"></canvas>
+
+        <div class="divider"></div>
+        <div class="options">
+            <button onclick="location.href = '/admin.html'" id="backbutton" class="button">Back</button>
+            <button onclick="location.href = '/login.html'" id="logoutbtn" class="button" disabled>Logout</button>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    let userData = [
+        { user: 'Alex', level1: 1, level2: 1, level3: 0, level4: 0, level5: 0, levelC: 0 },
+        { user: 'Elliot', level1: 1, level2: 0, level3: 0, level4: 0, level5: 0, levelC: 0 },
+        { user: 'Michael', level1: 0, level2: 2, level3: 0, level4: 0, level5: 0, levelC: 0 },
+        { user: 'Maisie', level1: 1, level2: 0, level3: 0, level4: 0, level5: 0, levelC: 0 },
+        { user: 'Christopher', level1: 0, level2: 0, level3: 0, level4: 1, level5: 0, levelC: 0 },
+        { user: 'Megan', level1: 0, level2: 0, level3: 0, level4: 0, level5: 0, levelC: 1 },
+    ]
+
+    let chart = new Chart("chart", {
+        type: "bar",
+        data: {
+            labels: ['Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5', 'Custom Level'],
+            datasets: [{
+                label: 'Total Attempts',
+                backgroundColor: ['#6AA5F4', '#558AD3', '#2F66B0', '#13468C', '#000306', '#000000'],
+                data: []
+            }]
+        },
+        options: {
+                legend: {
+                    display: false,
+                }
+        }
+    });
+
+    function handleUserSelect(index) {
+        if (index === 0) {
+
+        }
+        else {
+            let data = userData[index - 1]
+            chart.data.datasets[0].data = [data.level1, data.level2, data.level3, data.level4, data.level5, data.levelC];
+            chart.update();
+        }
+    }
+
+    dropdown = $('#user');
+    for (data of userData) {
+        dropdown.append(`<option value=${data.user}>${data.user}</option>`);
+    }
+</script>

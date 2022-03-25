@@ -3,6 +3,7 @@ const newConnection = require('./DBConnection');
 const app = express();
 
 app.use(express.static('static'));
+app.use(express.static('admin'));
 app.use(express.static('jsav'));
 
 

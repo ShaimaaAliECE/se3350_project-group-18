@@ -81,8 +81,9 @@
         <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2(); start(); startto();'>Start</button>
 
         <!-- <button id='sortBtn' onclick=getArray2()>Sort</button> -->
+        <button id='nextBtn' class='button' onclick='javascript:resetto();'> Next </button>
 
-        <div id='av' hidden></div>
+        <div id='av' class='num-container' hidden></div>
 
         <!-- use this button instead for part of restart functionality -->
         <div class="actions">
@@ -518,7 +519,6 @@
         function returnDatato(input) {
         return input > 10 ? input : `0${input}`
         }
-
     </script>
 
 </html>
