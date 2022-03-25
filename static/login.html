@@ -49,21 +49,12 @@
         const username = loginForm.username.value;
         const password = loginForm.password.value;
 
-<<<<<<< HEAD
         if (isAdminUser.checked == false) {
             document.getElementById("credentials").action = '/studentLogin';
             console.log("student checked");
         } else if (isAdminUser.checked == true) {
             document.getElementById("credentials").action = '/adminLogin';
             console.log("admin checked");
-=======
-        if (isAdminUser.checked == false && username === "potato" && password === "hi_there") { ///TODO: make dynamic reference to user database
-            alert("You have successfully logged in."); ///TODO: probably delete
-            location.href = "/index.html";
-        } else if (isAdminUser.checked == true && username === "tomato" && password === "web_dev") { ///TODO: make dynamic reference to user database
-            alert("You have successfully logged in."); ///TODO: probably delete
-            location.href = "/admin.html"; ///TODO: reference admin page
->>>>>>> 734170034d43a39c0af2888f1508a080b4d5abe7
         } else {
             loginForm.username.style.border = "2px solid red";
             loginForm.password.style.border = "2px solid red";
