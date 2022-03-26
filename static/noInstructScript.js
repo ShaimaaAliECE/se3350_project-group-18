@@ -135,7 +135,7 @@ function displayArray2() {
                     $("#merge").prop("disabled", true);
                 }
 
-                if (nextStepNo === 9){
+                if (nextStepNo === 9) {
                     $("#mergeNum").prop("disabled", true);
                 }
                 else {
@@ -199,7 +199,7 @@ function displayArray2() {
 
 function restart() {
     completeAttempt(false);
-    
+
     document.getElementById('CheckMarkCorrect').style.visibility = "hidden";
     document.getElementById('XMarkIncorrect1').style.visibility = "hidden";
     document.getElementById('XMarkIncorrect2').style.visibility = "hidden";
@@ -244,7 +244,7 @@ function displayFeedback(x) {
         }
         else if (isHidden(document.getElementById('XMarkIncorrect3'))) {
             completeAttempt(false);
-            
+
             document.getElementById('XMarkIncorrect3').style.visibility = "visible";
             gameover = document.getElementById("gameovermenu");
             gameover.style.visibility = "visible";
@@ -340,24 +340,24 @@ function reset() {
 }
 
 function timer() {
-if ((millisecond += 10) == 1000) {
-    millisecond = 0;
-    second++;
-}
-//if 60 seconds pass then minute increments and seconds display resets
-if (second == 60) {
-    second = 0;
-    minute++;
-}
+    if ((millisecond += 10) == 1000) {
+        millisecond = 0;
+        second++;
+    }
+    //if 60 seconds pass then minute increments and seconds display resets
+    if (second == 60) {
+        second = 0;
+        minute++;
+    }
 
 
-document.getElementById('minute').innerText = returnData(minute);
-document.getElementById('second').innerText = returnData(second);
+    document.getElementById('minute').innerText = returnData(minute);
+    document.getElementById('second').innerText = returnData(second);
 
 }
 
 function returnData(input) {
-return input > 10 ? input : `0${input}`
+    return input > 10 ? input : `0${input}`
 }
 
 ///////////////////////////INACTIVITY TIMER
@@ -393,7 +393,7 @@ function resetto() {
 }
 
 //fuction to deal with timeout 
-function timeout(){
+function timeout() {
     //alert("You have timed out");
     //redirect to menu page 
     completeAttempt(false);
@@ -401,34 +401,34 @@ function timeout(){
 }
 
 function timerto() {
-if ((millisecondto += 10) == 1000) {
-    millisecondto = 0;
-    secondto++;
-}
-//if 60 seconds pass then minute increments and seconds display resets
-if (secondto == 60) {
-    secondto = 0;
-    minuteto++;
-}
-//if 5 minutes have passed then trigger timeout 
-if (minuteto == 5) {
-    timeout();
-}
+    if ((millisecondto += 10) == 1000) {
+        millisecondto = 0;
+        secondto++;
+    }
+    //if 60 seconds pass then minute increments and seconds display resets
+    if (secondto == 60) {
+        secondto = 0;
+        minuteto++;
+    }
+    //if 5 minutes have passed then trigger timeout 
+    if (minuteto == 5) {
+        timeout();
+    }
 
-try {
-    document.getElementById('minuteto').innerText = returnDatato(minuteto);
-    document.getElementById('secondto').innerText = returnDatato(secondto);
-}
-catch { }
+    try {
+        document.getElementById('minuteto').innerText = returnDatato(minuteto);
+        document.getElementById('secondto').innerText = returnDatato(secondto);
+    }
+    catch { }
 
 }
 
 function returnDatato(input) {
-return input > 10 ? input : `0${input}`
+    return input > 10 ? input : `0${input}`
 }
 
 
-function registerAttempt(level){
+function registerAttempt(level) {
     let xReq = new XMLHttpRequest();
     xReq.onreadystatechange = function () {
         if (this.status == 401) {
@@ -443,7 +443,7 @@ function registerAttempt(level){
     xReq.send();
 }
 
-function completeAttempt(success){
+function completeAttempt(success) {
     let xReq = new XMLHttpRequest();
     xReq.onreadystatechange = function () {
         if (this.status == 401) {
@@ -457,3 +457,7 @@ function completeAttempt(success){
     xReq.open('GET', `/completeattempt?success=${success}`, true);
     xReq.send();
 }
+
+$(window).bind('beforeunload', function () {
+    completeAttempt(false);
+});

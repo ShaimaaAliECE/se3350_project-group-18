@@ -435,7 +435,7 @@ function returnDatato(input) {
     return input > 10 ? input : `0${input}`
 }
 
-function registerAttempt(level){
+function registerAttempt(level) {
     let xReq = new XMLHttpRequest();
     xReq.onreadystatechange = function () {
         if (this.status == 401) {
@@ -450,7 +450,7 @@ function registerAttempt(level){
     xReq.send();
 }
 
-function completeAttempt(success){
+function completeAttempt(success) {
     let xReq = new XMLHttpRequest();
     xReq.onreadystatechange = function () {
         if (this.status == 401) {
@@ -464,3 +464,7 @@ function completeAttempt(success){
     xReq.open('GET', `/completeattempt?success=${success}`, true);
     xReq.send();
 }
+
+$(window).bind('beforeunload', function () {
+    completeAttempt(false);
+});

@@ -110,6 +110,11 @@ function checkStudent(username, password, cbSuccess, cbFail){
     connection.connect();
 
     connection.query(`select * from Users where type='student'`, (err, rows, fields) => {
+        if (err) {
+            console.log(err);
+            cbFail();
+        }
+        
         let loginList = rows;
         for (l of loginList) {
             dbUsername = l.username;
@@ -200,11 +205,11 @@ app.get('/registerattempt', (req, res) => {
     let username = req.cookies.username;
     let password = req.cookies.password;
 
-    if (!checkStudent(username, password)) {
-        res.status(401).send();
+    let cbFail = () => {
+        res.sendStatus(401);
     }
 
-    else {
+    let cbSuccess = () => {
         let timestamp = new Date().getTime();
         let level = req.query.level;
 
@@ -218,8 +223,10 @@ app.get('/registerattempt', (req, res) => {
                 else
                     console.log('Registered new attempt');
             })
-        res.send(200)
+        res.send(200);
     }
+
+    checkStudent(username, password, cbSuccess, cbFail);
 })
 
 app.get('/completeattempt', (req, res) => {
@@ -227,7 +234,7 @@ app.get('/completeattempt', (req, res) => {
     let password = req.cookies.password;
 
     let cbFail = () => {
-        res.status(401).send();
+        res.sendStatus(401);
     }
 
     let cbSuccess = () => {
@@ -261,7 +268,7 @@ app.get('/timesdata', (req, res) => {
     let password = req.cookies.password;
 
     let cbFail = () => {
-        res.status(401).send();
+        res.sendStatus(401);
     }
     
     let cbSuccess = () => {
@@ -280,12 +287,12 @@ app.get('/timesdata', (req, res) => {
     checkAdmin(username, password, cbSuccess, cbFail);
 })
 
-app.get('/attempsdata', (req, res) => {
+app.get('/attemptsdata', (req, res) => {
     let username = req.cookies.username;
     let password = req.cookies.password;
 
     let cbFail = () => {
-        res.status(401).send();
+        res.sendStatus(401);
     }
     
     let cbSuccess = () => {
@@ -313,8 +320,42 @@ app.get('/studentLogin', (req, res) => {
         res.cookie('password', formPassword);
         res.redirect('algorithmMenu.html');
     }
+    
     let cbFail = () => {
-        res.redirect('login.html');
+        // if the user fails to log in, try to create a new account.
+        // first check if the username exists, and if it doesn't, create the account
+        // if it does exist, the user may not log in
+        let connection = newConnection();
+        connection.connect();
+    
+        connection.query(`select * from Users where type='student'`, (err, rows, fields) => {
+            if (err){
+                console.log(err);
+            }
+
+            else {
+                let loginList = rows;
+                for (l of loginList) {
+                    // check if the username exists
+                    if (l.username == formUserName) {
+                        console.log('Incorrect password for the given username');
+                        res.redirect('login.html');
+                        return;
+                    }
+                }
+                connection.query(`INSERT INTO Users VALUES("student", "${formUserName}", "${formPassword}")`,
+                (err, rows, fields) => {
+                    if (err){
+                        console.log(err);
+                    }
+                    else {
+                        console.log('Created new user successfully');
+                        cbSuccess();
+                    }
+                })
+            }
+        })
+        
     }
 
     checkStudent(formUserName, formPassword, cbSuccess, cbFail);

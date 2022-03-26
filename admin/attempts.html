@@ -76,7 +76,7 @@
         }
     }
 
-    xReq.open('GET', `/attempsdata`, true);
+    xReq.open('GET', `/attemptsdata`, true);
     xReq.send();
 
     let chart = new Chart("chart", {
@@ -92,6 +92,13 @@
         options: {
             legend: {
                 display: false,
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        suggestedMin: 0
+                    }
+                }]
             }
         }
     });

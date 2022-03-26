@@ -7,7 +7,7 @@
     <title>Merge Sort Level 1</title>
     <link rel="stylesheet" href="/css/JSAV.css" type="text/css" media="screen" title="no title" charset="utf-8" />
     <style>
-        .jump{
+        .jump {
             text-decoration: none;
         }
     </style>
@@ -24,7 +24,9 @@
 <body>
     <div class="menu-wrap">
         <input type="checkbox" class="toggler">
-        <div class="hamburger"><div></div></div>
+        <div class="hamburger">
+            <div></div>
+        </div>
         <div class="menu">
             <div>
                 <div>
@@ -40,8 +42,9 @@
 
     <h1 style="color:white; font-family: 'Open Sans'; text-align: center;">Learn Merge Sort</h1>
     <div class="container">
-        <br/>
-        <button id='startbtn' class='button' onclick='javascript:getArray(); getArray2();registerAttempt(1)'>Start</button>
+        <br />
+        <button id='startbtn' class='button'
+            onclick='javascript:getArray(); getArray2();registerAttempt(1)'>Start</button>
 
         <div></div>
 
@@ -53,7 +56,8 @@
         <div></div>
         <!-- use this button instead for part of restart functionality -->
         <button id='restart' class='restart-button' onclick='javascript:restart();'>Restart</button>
-        <br/></div><br/>
+        <br />
+    </div><br />
     </div>
 
     <script>
@@ -185,19 +189,19 @@
                             }
                             stepLists.push(jsav.ds.array(stepArr));
                         }
-                        if (curStepNo === 3){
+                        if (curStepNo === 3) {
                             let highlightedArr = $('.jsavarray')[2];
-                            for (let index of highlightedArr.children){
+                            for (let index of highlightedArr.children) {
                                 index.style = 'background: yellow'
                             }
                         }
-                        if (curStepNo === 4){
+                        if (curStepNo === 4) {
                             let highlightedArr = $('.jsavarray')[3];
-                            for (let index of highlightedArr.children){
+                            for (let index of highlightedArr.children) {
                                 index.style = 'background: yellow'
                             }
                         }
-                        if (curStepNo === 9){
+                        if (curStepNo === 9) {
                             let highlightedArrs = $('.jsavarray');
                             highlightedArrs[2].children[0].style = 'background: yellow';
                             highlightedArrs[3].children[0].style = 'background: yellow';
@@ -205,6 +209,8 @@
                         $("span:contains('NaN')").text('');
 
                     }
+                    completeAttempt(true);
+
                     btn.removeEventListener('click', btnResolver);
                     // alert('Finished');
                     $("#nextBtn").hide();
@@ -215,6 +221,8 @@
         }
 
         function restart() {
+            completeAttempt(false);
+
             $('.jsavarray').remove();
             $('.jsavlabel').remove();
             $('#restart').hide();
@@ -225,6 +233,40 @@
             getArray();
             getArray2();
         }
+
+        function registerAttempt(level) {
+            let xReq = new XMLHttpRequest();
+            xReq.onreadystatechange = function () {
+                if (this.status == 401) {
+                    window.location.replace('/notLoggedIn.html');
+                }
+                else if (this.readyState == 4 && this.status == 200) {
+
+                }
+            }
+
+            xReq.open('GET', `/registerattempt?level=${level}`, true);
+            xReq.send();
+        }
+
+        function completeAttempt(success) {
+            let xReq = new XMLHttpRequest();
+            xReq.onreadystatechange = function () {
+                if (this.status == 401) {
+                    window.location.replace('/notLoggedIn.html');
+                }
+                else if (this.readyState == 4 && this.status == 200) {
+
+                }
+            }
+
+            xReq.open('GET', `/completeattempt?success=${success}`, true);
+            xReq.send();
+        }
+
+        $(window).bind('beforeunload', function () {
+            completeAttempt(false);
+        });
     </script>
 
 </html>
