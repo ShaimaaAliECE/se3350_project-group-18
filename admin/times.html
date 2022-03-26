@@ -29,7 +29,7 @@
         <div class="divider"></div>
         <div class="options">
             <button onclick="location.href = '/admin.html'" id="backbutton" class="button">Back</button>
-            <button onclick="location.href = '/login.html'" id="logoutbtn" class="button" disabled>Logout</button>
+            <button onclick="location.href = '/login.html'" id="logoutbtn" class="button">Logout</button>
         </div>
     </div>
 </body>
@@ -37,14 +37,40 @@
 </html>
 
 <script>
-    let userData = [
-        { user: 'Alex', level1: 120, level2: 400, level3: 600, level4: 800, level5: 0, levelC: 0 },
-        { user: 'Elliot', level1: 100, level2: 300, level3: 900, level4: 1200, level5: 2000, levelC: 0 },
-        { user: 'Michael', level1: 140, level2: 200, level3: 800, level4: 800, level5: 1500, levelC: 1000 },
-        { user: 'Maisie', level1: 200, level2: 120, level3: 600, level4: 600, level5: 1000, levelC: 1600 },
-        { user: 'Christopher', level1: 200, level2: 100, level3: 800, level4: 1200, level5: 1400, levelC: 0 },
-        { user: 'Megan', level1: 300, level2: 120, level3: 300, level4: 800, level5: 1200, levelC: 3600 },
-    ]
+    let userData = [];
+    // get data from database
+    let xReq = new XMLHttpRequest();
+    xReq.onreadystatechange = function () {
+        if (this.status == 401) {
+            window.location.replace('/notLoggedIn.html');
+        }
+        else if (this.readyState == 4 && this.status == 200) {
+            let rawData = JSON.parse(this.responseText);
+            userData = [];
+
+            // parse the data from the database into the correct form
+            for (r of rawData){
+                let entry = userData.find(e => e.username === r.username);
+                if (entry === undefined){
+                    userData.push({username: r.username});
+                    userData[userData.length - 1]['level' + r.level] = r.time;
+                }
+                else{
+                    entry['level' + r.level] = r.time;
+                }
+            }
+
+            // add users to dropdown menu
+            dropdown = $('#user');
+            for (data of userData) {
+                dropdown.append(`<option value=${data.username}>${data.username}</option>`);
+            }
+        }
+    }
+
+    xReq.open('GET', `/timesdata`, true);
+    xReq.send();
+
 
     let chart = new Chart("chart", {
         type: "bar",
@@ -72,10 +98,5 @@
             chart.data.datasets[0].data = [data.level1, data.level2, data.level3, data.level4, data.level5, data.levelC];
             chart.update();
         }
-    }
-
-    dropdown = $('#user');
-    for (data of userData) {
-        dropdown.append(`<option value=${data.user}>${data.user}</option>`);
     }
 </script>

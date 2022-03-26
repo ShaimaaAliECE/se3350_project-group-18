@@ -187,6 +187,7 @@ function displayArray2() {
             }
             btn.removeEventListener('click', btnResolver);
             // alert('Finished');
+            completeAttempt(true);
             $('#split').hide();
             $('#merge').hide();
             $("#nextBtn").hide();
@@ -197,6 +198,8 @@ function displayArray2() {
 }
 
 function restart() {
+    completeAttempt(false);
+    
     document.getElementById('CheckMarkCorrect').style.visibility = "hidden";
     document.getElementById('XMarkIncorrect1').style.visibility = "hidden";
     document.getElementById('XMarkIncorrect2').style.visibility = "hidden";
@@ -240,6 +243,8 @@ function displayFeedback(x) {
             document.getElementById('XMarkIncorrect2').style.visibility = "visible";
         }
         else if (isHidden(document.getElementById('XMarkIncorrect3'))) {
+            completeAttempt(false);
+            
             document.getElementById('XMarkIncorrect3').style.visibility = "visible";
             gameover = document.getElementById("gameovermenu");
             gameover.style.visibility = "visible";
@@ -391,6 +396,7 @@ function resetto() {
 function timeout(){
     //alert("You have timed out");
     //redirect to menu page 
+    completeAttempt(false);
     window.location.replace("http://localhost:2009/index.html");
 }
 
@@ -409,11 +415,45 @@ if (minuteto == 5) {
     timeout();
 }
 
-document.getElementById('minuteto').innerText = returnDatato(minuteto);
-document.getElementById('secondto').innerText = returnDatato(secondto);
+try {
+    document.getElementById('minuteto').innerText = returnDatato(minuteto);
+    document.getElementById('secondto').innerText = returnDatato(secondto);
+}
+catch { }
 
 }
 
 function returnDatato(input) {
 return input > 10 ? input : `0${input}`
+}
+
+
+function registerAttempt(level){
+    let xReq = new XMLHttpRequest();
+    xReq.onreadystatechange = function () {
+        if (this.status == 401) {
+            window.location.replace('/notLoggedIn.html');
+        }
+        else if (this.readyState == 4 && this.status == 200) {
+
+        }
+    }
+
+    xReq.open('GET', `/registerattempt?level=${level}`, true);
+    xReq.send();
+}
+
+function completeAttempt(success){
+    let xReq = new XMLHttpRequest();
+    xReq.onreadystatechange = function () {
+        if (this.status == 401) {
+            window.location.replace('/notLoggedIn.html');
+        }
+        else if (this.readyState == 4 && this.status == 200) {
+
+        }
+    }
+
+    xReq.open('GET', `/completeattempt?success=${success}`, true);
+    xReq.send();
 }

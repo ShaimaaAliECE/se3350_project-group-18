@@ -1,10 +1,13 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const newConnection = require('./DBConnection');
 const app = express();
 
 app.use(express.static('static'));
 app.use(express.static('admin'));
 app.use(express.static('jsav'));
+
+app.use(cookieParser());
 
 
 
@@ -13,14 +16,14 @@ class Instruction {
     static step1 = new Instruction('This is our initial, unsorted array', 1);
     static step2 = new Instruction('Split the arrays into two equal lengths, these are the two subarrays', 2);
     static step3 = new Instruction('Now select the left subarray', 3);
-    static step4 = new Instruction('Now select the right subarray', 4); 
+    static step4 = new Instruction('Now select the right subarray', 4);
     static step5 = new Instruction('This subrray is fully broken down, so it is ready to merge', 5);
     static step6 = new Instruction('Now that we have sorted the two subarrays, we will merge them into a larger one', 6);
     static step7 = new Instruction('Push the smallest of the two values into the merged array', 7);
     static step8 = new Instruction('If there is only one subarray left, push its remaining values to the merged array', 8);
     static step9 = new Instruction('If both subarrays have values left, compare the values in the first index of each subarray', 9);
 
-    constructor(instruction, stepNo){
+    constructor(instruction, stepNo) {
         this.instruction = instruction;
         this.stepNo = stepNo;
     }
@@ -70,7 +73,7 @@ const mergeSort = (a) => {
     const a_l = a.slice(0, middle)
     const a_r = a.slice(middle, a.length)
     getDisplay(Instruction.step2, a.toString(), a_l.toString(), a_r.toString())
-    
+
     // recursively merge sort on the left and right subarrays
     getDisplay(Instruction.step3, a.toString(), a_l.toString(), a_r.toString())
     if (a_l.length === 1) getDisplay(Instruction.step5, a.toString(), a_l.toString());
@@ -97,6 +100,49 @@ function runAlgo(list, size, range) {
     // call the merge sort algorithm for the generated list
     mergeSort(list);
 
+}
+
+
+function checkStudent(username, password, cbSuccess, cbFail){   
+    let dbUsername;
+    let dbPassword;
+    let connection = newConnection();
+    connection.connect();
+
+    connection.query(`select * from Users where type='student'`, (err, rows, fields) => {
+        let loginList = rows;
+        for (l of loginList) {
+            dbUsername = l.username;
+            dbPassword = l.password;
+            if ((dbUsername == username) && (dbPassword == password)) {
+                cbSuccess();
+            }
+        }
+        if ((dbUsername != username) || (dbPassword != password)) {
+            cbFail();
+        }
+    })
+}
+
+function checkAdmin(username, password, cbSuccess, cbFail){   
+    let connection = newConnection();
+    let dbUsername;
+    let dbPassword;
+    connection.connect();
+
+    connection.query(`select * from Users where type='admin'`, (err, rows, fields) => {
+        let loginList = rows;
+        for (l of loginList) {
+            dbUsername = l.username;
+            dbPassword = l.password;
+            if ((dbUsername == username) && (dbPassword == password)) {
+                cbSuccess();
+            }
+        }
+        if ((dbUsername != username) || (dbPassword != password)) {
+            cbFail();          
+        }
+    })
 }
 
 //let length = 10;
@@ -150,66 +196,144 @@ app.get('/menu', (req, res) => {
 
 })
 
-app.get('/userdata' , (req, res) => {
-    let connection = newConnection();
-    connection.connect();
-    
-    connection.query(`select * from Activity`, (err,rows,fields) => {
-        for (r of rows){
-            console.log(r)
-        }
-    });
-    res.send(200)
+app.get('/registerattempt', (req, res) => {
+    let username = req.cookies.username;
+    let password = req.cookies.password;
+
+    if (!checkStudent(username, password)) {
+        res.status(401).send();
+    }
+
+    else {
+        let timestamp = new Date().getTime();
+        let level = req.query.level;
+
+        let connection = newConnection();
+        connection.connect();
+
+        connection.query(`insert into Activity values("${username}", ${timestamp}, ${level}, null, false)`
+            , (err, rows, fields) => {
+                if (err)
+                    console.log(err);
+                else
+                    console.log('Registered new attempt');
+            })
+        res.send(200)
+    }
 })
 
-app.get('/studentLogin', (req,res) => {
-    let connection = newConnection();
+app.get('/completeattempt', (req, res) => {
+    let username = req.cookies.username;
+    let password = req.cookies.password;
+
+    let cbFail = () => {
+        res.status(401).send();
+    }
+
+    let cbSuccess = () => {
+        let timestamp = new Date().getTime();
+        let success = req.query.success;
+
+        let connection = newConnection();
+        connection.connect();
+
+        connection.query(`
+            UPDATE Activity 
+            SET completiontime = ${timestamp}, success = ${success}
+            WHERE username = "${username}"
+            ORDER BY timestamp DESC
+            LIMIT 1
+        `
+            , (err, rows, fields) => {
+                if (err)
+                    console.log(err);
+                else
+                    console.log('Completed last attempt');
+            })
+        res.send(200)
+    }
+
+    checkStudent(username, password, cbSuccess, cbFail);
+})
+
+app.get('/timesdata', (req, res) => {
+    let username = req.cookies.username;
+    let password = req.cookies.password;
+
+    let cbFail = () => {
+        res.status(401).send();
+    }
+    
+    let cbSuccess = () => {
+        let connection = newConnection();
+        connection.connect();
+    
+        connection.query(`
+            SELECT username, level, SUM(completiontime) - SUM(timestamp) as time
+            FROM Activity
+            GROUP BY username, level`
+        , (err, rows, fields) => {
+            res.send(rows)
+        });
+    }
+
+    checkAdmin(username, password, cbSuccess, cbFail);
+})
+
+app.get('/attempsdata', (req, res) => {
+    let username = req.cookies.username;
+    let password = req.cookies.password;
+
+    let cbFail = () => {
+        res.status(401).send();
+    }
+    
+    let cbSuccess = () => {
+        let connection = newConnection();
+        connection.connect();
+    
+        connection.query(`
+            SELECT username, level, COUNT(level) as attempts
+            FROM Activity
+            GROUP BY username, level`
+        , (err, rows, fields) => {
+            res.send(rows)
+        });
+    }
+
+    checkAdmin(username, password, cbSuccess, cbFail);
+})
+
+app.get('/studentLogin', (req, res) => {
     var formUserName = req.query.username;
     let formPassword = req.query.password;
-    let dbUsername;
-    let dbPassword;
-    connection.connect();
-    
-    connection.query(`select * from Users where type='student'`, (err,rows,fields) => {
-        let loginList = rows;
-        for (l of loginList){
-            dbUsername = l.username;
-            dbPassword = l.password;
-            if((dbUsername == formUserName) && (dbPassword == formPassword)){
-                res.redirect('algorithmMenu.html');
-            }
-        }
-        if ((dbUsername != formUserName) || (dbPassword != formPassword)){
-            console.log("Invalid Cradentials");
-            res.redirect('login.html');
-        }
-    })
 
+    let cbSuccess = () => {
+        res.cookie('username', formUserName);
+        res.cookie('password', formPassword);
+        res.redirect('algorithmMenu.html');
+    }
+    let cbFail = () => {
+        res.redirect('login.html');
+    }
+
+    checkStudent(formUserName, formPassword, cbSuccess, cbFail);
 })
 
-app.get('/adminLogin', (req,res) => {
-    let connection = newConnection();
+app.get('/adminLogin', (req, res) => {
     let formUserName = req.query.username;
     let formPassword = req.query.password;
-    let dbUsername;
-    let dbPassword;
-    connection.connect();
-    
-    connection.query(`select * from Users where type='admin'`, (err,rows,fields) => {
-        let loginList = rows;
-        for (l of loginList){
-            dbUsername = l.username;
-            dbPassword = l.password;
-            if((dbUsername == formUserName) && (dbPassword == formPassword)){
-                res.redirect('admin.html');
-            }
-        }
-        if ((dbUsername != formUserName) || (dbPassword != formPassword)){
-            console.log("Invalid Cradentials");
-            res.redirect('login.html');
-        }
-    })
 
+    let cbSuccess = () => {
+        res.cookie('username', formUserName);
+        res.cookie('password', formPassword);
+        res.redirect('admin.html');
+    }
+    let cbFail = () => {
+        res.redirect('login.html');
+    }
+
+    checkAdmin(formUserName, formPassword, cbSuccess, cbFail);
 })
 
 // setting local host listen to 80

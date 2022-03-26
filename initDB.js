@@ -24,7 +24,7 @@ connection.connect();
                         else
                             console.log('Users Table Created');
                     });
-    connection.query('CREATE TABLE Activity(username VARCHAR(100), timestamp TIMESTAMP, level SMALLINT, completiontime TIME, success BOOL)'
+    connection.query('CREATE TABLE Activity(username VARCHAR(100), timestamp BIGINT, level SMALLINT, completiontime BIGINT, success BOOL)'
                     , (err, rows, fields) => {
                         if(err)
                             console.log(err);
