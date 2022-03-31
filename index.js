@@ -339,7 +339,7 @@ app.get('/studentLogin', (req, res) => {
                     // check if the username exists
                     if (l.username == formUserName) {
                         console.log('Incorrect password for the given username');
-                        res.redirect('login.html');
+                        // res.redirect('login.html');
                         return;
                     }
                 }
