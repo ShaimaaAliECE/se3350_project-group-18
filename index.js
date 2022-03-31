@@ -1,10 +1,14 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const newConnection = require('./DBConnection');
 const app = express();
 
 app.use(express.static('static'));
 app.use(express.static('admin'));
 app.use(express.static('jsav'));
+
+app.use(cookieParser());
+
 
 
 class Instruction {
@@ -117,6 +121,7 @@ function checkStudent(username, password, cbSuccess, cbFail){
             dbPassword = l.password;
             if ((dbUsername == username) && (dbPassword == password)) {
                 cbSuccess();
+                return;
             }
         }
         if ((dbUsername != username) || (dbPassword != password)) {
@@ -138,6 +143,7 @@ function checkAdmin(username, password, cbSuccess, cbFail){
             dbPassword = l.password;
             if ((dbUsername == username) && (dbPassword == password)) {
                 cbSuccess();
+                return;
             }
         }
         if ((dbUsername != username) || (dbPassword != password)) {
@@ -198,8 +204,8 @@ app.get('/menu', (req, res) => {
 })
 
 app.get('/registerattempt', (req, res) => {
-    let username = localStorage.getItem('username');
-    let password = localStorage.getItem('password');
+    let username = req.cookies.username;
+    let password = req.cookies.password;
 
     let cbFail = () => {
         res.sendStatus(401);
@@ -226,8 +232,8 @@ app.get('/registerattempt', (req, res) => {
 })
 
 app.get('/completeattempt', (req, res) => {
-    let username = localStorage.getItem('username');
-    let password = localStorage.getItem('password');
+    let username = req.cookies.username;
+    let password = req.cookies.password;
 
     let cbFail = () => {
         res.sendStatus(401);
@@ -260,8 +266,8 @@ app.get('/completeattempt', (req, res) => {
 })
 
 app.get('/timesdata', (req, res) => {
-    let username = localStorage.getItem('username');
-    let password = localStorage.getItem('password');
+    let username = req.cookies.username;
+    let password = req.cookies.password;
 
     let cbFail = () => {
         res.sendStatus(401);
@@ -284,8 +290,8 @@ app.get('/timesdata', (req, res) => {
 })
 
 app.get('/attemptsdata', (req, res) => {
-    let username = localStorage.getItem('username');
-    let password = localStorage.getItem('password');
+    let username = req.cookies.username;
+    let password = req.cookies.password;
 
     let cbFail = () => {
         res.sendStatus(401);
@@ -312,8 +318,8 @@ app.get('/studentLogin', (req, res) => {
     let formPassword = req.query.password;
 
     let cbSuccess = () => {
-        localStorage.setItem('username', formUserName);
-        localStorage.setItem('password', formPassword);
+        res.cookie('username', formUserName);
+        res.cookie('password', formPassword);
         res.redirect('algorithmMenu.html');
     }
     
@@ -330,6 +336,7 @@ app.get('/studentLogin', (req, res) => {
             }
 
             else {
+                console.log(rows)
                 let loginList = rows;
                 for (l of loginList) {
                     // check if the username exists
@@ -362,8 +369,8 @@ app.get('/adminLogin', (req, res) => {
     let formPassword = req.query.password;
 
     let cbSuccess = () => {
-        localStorage.setItem('username', formUserName);
-        localStorage.setItem('password', formPassword);
+        res.cookie('username', formUserName);
+        res.cookie('password', formPassword);
         res.redirect('admin.html');
     }
     let cbFail = () => {
