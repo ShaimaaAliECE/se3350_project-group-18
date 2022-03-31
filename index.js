@@ -5,7 +5,7 @@ const app = express();
 
 app.use(express.static('static'));
 app.use(express.static('admin'));
-app.use(express.static('JSAV'));
+app.use(express.static('jsav'));
 
 app.use(cookieParser());
 
