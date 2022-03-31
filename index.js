@@ -276,7 +276,7 @@ app.get('/timesdata', (req, res) => {
         connection.connect();
     
         connection.query(`
-            SELECT username, level, SUM(completiontime) - SUM(timestamp) as time
+            SELECT username, level, SUM(completiontime - timestamp) as time
             FROM Activity
             GROUP BY username, level`
         , (err, rows, fields) => {
@@ -378,4 +378,4 @@ app.get('/adminLogin', (req, res) => {
 })
 
 // setting local host listen to 80
-app.listen(2009);
+app.listen(80);
