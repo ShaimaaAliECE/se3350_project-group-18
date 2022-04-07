@@ -35,11 +35,11 @@ $(document).ready(function () {
 // originalList.layout();
 
 //displays unsorted array 
-function getArray() {
+function getArray(size, range) {
     let xReq = new XMLHttpRequest();
     xReq.onreadystatechange = displayArray;
 
-    xReq.open('GET', '/array?size=10&range=20', true);
+    xReq.open('GET', `/array?size=${size}&range=${range}`, true);
     xReq.send();
 }
 
